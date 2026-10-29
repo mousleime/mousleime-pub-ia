@@ -43,7 +43,6 @@
 
   <div class="min-h-screen grid lg:grid-cols-2">
     
-    <!-- CÔTÉ GAUCHE : BRANDING -->
     <div class="hidden lg:flex auth-bg relative overflow-hidden p-12 flex-col justify-between text-white">
       <div>
         <a href="index.html" class="flex items-center gap-2">
@@ -101,7 +100,6 @@
       </div>
     </div>
     
-    <!-- CÔTÉ DROIT : FORMULAIRE -->
     <div class="flex items-center justify-center p-6 sm:p-12">
       <div class="w-full max-w-md">
         
@@ -117,8 +115,7 @@
           <p class="mt-2 text-gray-600">Déjà inscrit ? <a href="connexion.html" class="font-semibold text-brand-600 hover:text-brand-700">Connectez-vous</a></p>
         </div>
         
-        <!-- Formulaire -->
-        <form id="signup-form" class="space-y-4">
+        <form id="signup-form" class="space-y-4" onsubmit="return false;">
           
           <div>
             <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Nom complet</label>
@@ -170,11 +167,11 @@
   <script>
     lucide.createIcons();
     
-    // Configuration Supabase
+    console.log(' Script inscription.html démarré');
+    
     var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
     var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
     
-    // Créer le client avec un nom différent pour éviter le conflit
     var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
       auth: {
         persistSession: true,
@@ -183,7 +180,7 @@
       }
     });
     
-    console.log('🔵 inscription.html chargé, client Supabase créé');
+    console.log(' Client Supabase créé');
     
     function togglePassword(id, btn) {
       var input = document.getElementById(id);
@@ -195,28 +192,46 @@
       lucide.createIcons();
     }
     
-    document.getElementById('signup-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
+    // Fonction de soumission du formulaire
+    async function handleSignup(event) {
+      console.log(' Formulaire soumis !');
+      
+      if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
       
       var name = document.getElementById('name').value.trim();
       var email = document.getElementById('email').value.trim();
       var password = document.getElementById('password').value;
+      var terms = document.getElementById('terms').checked;
       var submitBtn = document.getElementById('submit-btn');
       var errorDiv = document.getElementById('error-message');
       var successDiv = document.getElementById('success-message');
       
-      // Cacher les messages précédents
+      console.log('🟢 Données:', { name, email, password, terms });
+      
       errorDiv.classList.add('hidden');
       successDiv.classList.add('hidden');
       
-      // Désactiver le bouton
+      if (!name || !email || !password) {
+        errorDiv.textContent = '❌ Veuillez remplir tous les champs';
+        errorDiv.classList.remove('hidden');
+        return false;
+      }
+      
+      if (!terms) {
+        errorDiv.textContent = '❌ Veuillez accepter les conditions';
+        errorDiv.classList.remove('hidden');
+        return false;
+      }
+      
       submitBtn.disabled = true;
       submitBtn.innerHTML = 'Création en cours...';
       
       try {
-        console.log('🔵 Tentative d\'inscription avec:', email);
+        console.log('🔵 Appel à supabase.auth.signUp...');
         
-        // Inscription avec Supabase
         var result = await sb.auth.signUp({
           email: email,
           password: password,
@@ -233,34 +248,43 @@
           throw result.error;
         }
         
-        // Mettre à jour le profil avec le nom complet
         if (result.data.user) {
           console.log('🟢 User créé, ID:', result.data.user.id);
           
-          // Mettre à jour le profil avec le nom
           await sb.from('profiles').update({ full_name: name }).eq('id', result.data.user.id);
-          
-          console.log('🟢 Profil mis à jour avec le nom');
+          console.log(' Profil mis à jour');
         }
         
-        // Succès
-        successDiv.textContent = '✅ Compte créé avec succès ! 5 crédits gratuits vous ont été offerts. Redirection...';
+        successDiv.textContent = '✅ Compte créé avec succès ! 5 crédits gratuits offerts. Redirection...';
         successDiv.classList.remove('hidden');
         
-        // Redirection après 2 secondes
         setTimeout(function() {
           window.location.href = 'connexion.html';
         }, 2000);
         
       } catch (err) {
-        console.error('❌ Erreur d\'inscription:', err);
-        errorDiv.textContent = '❌ ' + (err.message || 'Une erreur est survenue. Vérifiez votre email et mot de passe.');
+        console.error('❌ Erreur:', err);
+        errorDiv.textContent = '❌ ' + (err.message || 'Une erreur est survenue');
         errorDiv.classList.remove('hidden');
         submitBtn.disabled = false;
         submitBtn.innerHTML = '<i data-lucide="arrow-right" class="w-5 h-5"></i> Créer mon compte';
         lucide.createIcons();
       }
-    });
+      
+      return false;
+    }
+    
+    // Attacher l'event listener
+    var form = document.getElementById('signup-form');
+    if (form) {
+      console.log('🟢 Formulaire trouvé, attachment de l\'event listener');
+      form.addEventListener('submit', handleSignup);
+      form.onsubmit = handleSignup;
+    } else {
+      console.error('❌ Formulaire non trouvé !');
+    }
+    
+    console.log('✅ Script inscription.html terminé');
   </script>
 </body>
 </html>
