@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Super Admin — MOUSLEIME PUB IA</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="auth.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <script>
@@ -35,7 +34,7 @@
     </div>
     <div class="flex items-center gap-3">
       <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-gray-900">← Retour au site</a>
-      <button onclick="logout()" class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm font-semibold">Déconnexion</button>
+      <button onclick="doLogout()" class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm font-semibold">Déconnexion</button>
     </div>
   </header>
 
@@ -113,17 +112,66 @@
 
   <script>
     lucide.createIcons();
+    
+    // Configuration Supabase
+    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
+    
+    // Créer le client Supabase
+    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
 
-    async function init() {
-      console.log('🔵 Initialisation admin.html...');
+    console.log('🔵 admin.html chargé, client Supabase créé');
+
+    // Vérification de l'authentification
+    async function checkAuth() {
+      console.log(' Vérification de l\'authentification...');
       
-      var isAdmin = await checkSuperAdmin(true);
-      
-      if (isAdmin) {
-        console.log('✅ Accès Super Admin confirmé');
-        loadUsers();
-      } else {
-        console.log('❌ Accès refusé');
+      try {
+        var result = await sb.auth.getUser();
+        console.log('🟢 Résultat getUser:', result);
+        
+        var user = result.data.user;
+        
+        if (!user) {
+          console.log('❌ Pas d\'utilisateur connecté, redirection vers connexion.html');
+          window.location.href = 'connexion.html';
+          return false;
+        }
+
+        console.log('🟢 Utilisateur connecté:', user.email);
+        
+        var profileResult = await sb.from('profiles').select('role').eq('id', user.id).single();
+        console.log('🟢 Résultat profil:', profileResult);
+        
+        var profile = profileResult.data;
+        
+        if (!profile) {
+          console.log('❌ Profil non trouvé, redirection vers dashboard.html');
+          window.location.href = 'dashboard.html';
+          return false;
+        }
+        
+        console.log('🟢 Rôle détecté:', profile.role);
+        
+        if (profile.role !== 'super_admin') {
+          console.log('❌ Rôle non super_admin, redirection vers dashboard.html');
+          window.location.href = 'dashboard.html';
+          return false;
+        }
+        
+        console.log('✅ Accès Super Admin confirmé !');
+        return true;
+        
+      } catch (err) {
+        console.error('❌ Erreur dans checkAuth:', err);
+        window.location.href = 'connexion.html';
+        return false;
       }
     }
 
@@ -132,7 +180,7 @@
       table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">Chargement...</td></tr>';
 
       try {
-        var result = await supabaseClient
+        var result = await sb
           .from('profiles')
           .select('id, email, full_name, role, is_active, credits(amount, subscription_type)')
           .order('created_at', { ascending: false });
@@ -214,13 +262,13 @@
       }
 
       try {
-        var currentResult = await supabaseClient.from('credits').select('amount').eq('user_id', userId).single();
+        var currentResult = await sb.from('credits').select('amount').eq('user_id', userId).single();
         var current = currentResult.data ? currentResult.data.amount : 0;
         var newAmount = current + amount;
 
-        await supabaseClient.from('credits').update({ amount: newAmount }).eq('user_id', userId);
+        await sb.from('credits').update({ amount: newAmount }).eq('user_id', userId);
 
-        await supabaseClient.from('transactions').insert({
+        await sb.from('transactions').insert({
           user_id: userId,
           type: 'bonus',
           amount: amount,
@@ -242,13 +290,23 @@
       var newStatus = !currentStatus;
       var action = newStatus ? 'activer' : 'suspendre';
       if (confirm('Voulez-vous vraiment ' + action + ' ce compte ?')) {
-        await supabaseClient.from('profiles').update({ is_active: newStatus }).eq('id', userId);
+        await sb.from('profiles').update({ is_active: newStatus }).eq('id', userId);
         loadUsers();
       }
     }
 
+    async function doLogout() {
+      await sb.auth.signOut();
+      window.location.href = 'index.html';
+    }
+
     // Démarrage
-    init();
+    (async function() {
+      var isAdmin = await checkAuth();
+      if (isAdmin) {
+        loadUsers();
+      }
+    })();
   </script>
 </body>
 </html>
