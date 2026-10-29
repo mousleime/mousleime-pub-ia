@@ -594,6 +594,26 @@
         }
       }
     });
-  </script>
+  </script>// Vérification du rôle Super Admin
+(async function() {
+  try {
+    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
+    var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    var { data: { user } } = await sb.auth.getUser();
+    
+    if (user) {
+      var { data: profile } = await sb.from('profiles').select('role').eq('id', user.id).single();
+      
+      if (profile && profile.role === 'super_admin') {
+        console.log('Super Admin détecté, redirection vers admin.html');
+        window.location.href = 'admin.html';
+      }
+    }
+  } catch (err) {
+    console.error('Erreur vérification rôle:', err);
+  }
+})();
 </body>
 </html>
