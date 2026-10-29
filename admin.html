@@ -6,6 +6,7 @@
   <title>Super Admin — MOUSLEIME PUB IA</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <script>
@@ -112,58 +113,17 @@
 
   <script>
     lucide.createIcons();
-    
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function checkAuth() {
-      try {
-        console.log('🔵 Vérification de l\'authentification...');
-        
-        var result = await client.auth.getUser();
-        var user = result.data.user;
-        
-        console.log('🟢 Utilisateur connecté:', user);
-        
-        if (!user) {
-          console.log('❌ Pas d\'utilisateur connecté, redirection vers connexion.html');
-          window.location.href = 'connexion.html';
-          return;
-        }
-
-        console.log('🔵 Récupération du profil pour user ID:', user.id);
-        
-        var profileResult = await client.from('profiles').select('role').eq('id', user.id).single();
-        
-        console.log('🟢 Résultat de la requête profil:', profileResult);
-        
-        var profile = profileResult.data;
-        
-        if (profileResult.error) {
-          console.error('❌ Erreur lors de la récupération du profil:', profileResult.error);
-        }
-        
-        if (!profile) {
-          console.log('❌ Profil non trouvé, redirection vers dashboard.html');
-          window.location.href = 'dashboard.html';
-          return;
-        }
-        
-        console.log('🟢 Rôle détecté:', profile.role);
-        
-        if (profile.role !== 'super_admin') {
-          console.log('❌ Rôle non super_admin, redirection vers dashboard.html');
-          window.location.href = 'dashboard.html';
-          return;
-        }
-        
-        console.log('✅ Accès Super Admin confirmé !');
-        
-      } catch (err) {
-        console.error('❌ Erreur dans checkAuth:', err);
-        window.location.href = 'connexion.html';
+    async function init() {
+      console.log('🔵 Initialisation admin.html...');
+      
+      var isAdmin = await checkSuperAdmin(true);
+      
+      if (isAdmin) {
+        console.log('✅ Accès Super Admin confirmé');
+        loadUsers();
+      } else {
+        console.log('❌ Accès refusé');
       }
     }
 
@@ -172,7 +132,7 @@
       table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">Chargement...</td></tr>';
 
       try {
-        var result = await client
+        var result = await supabaseClient
           .from('profiles')
           .select('id, email, full_name, role, is_active, credits(amount, subscription_type)')
           .order('created_at', { ascending: false });
@@ -254,13 +214,13 @@
       }
 
       try {
-        var currentResult = await client.from('credits').select('amount').eq('user_id', userId).single();
+        var currentResult = await supabaseClient.from('credits').select('amount').eq('user_id', userId).single();
         var current = currentResult.data ? currentResult.data.amount : 0;
         var newAmount = current + amount;
 
-        await client.from('credits').update({ amount: newAmount }).eq('user_id', userId);
+        await supabaseClient.from('credits').update({ amount: newAmount }).eq('user_id', userId);
 
-        await client.from('transactions').insert({
+        await supabaseClient.from('transactions').insert({
           user_id: userId,
           type: 'bonus',
           amount: amount,
@@ -282,19 +242,13 @@
       var newStatus = !currentStatus;
       var action = newStatus ? 'activer' : 'suspendre';
       if (confirm('Voulez-vous vraiment ' + action + ' ce compte ?')) {
-        await client.from('profiles').update({ is_active: newStatus }).eq('id', userId);
+        await supabaseClient.from('profiles').update({ is_active: newStatus }).eq('id', userId);
         loadUsers();
       }
     }
 
-    async function logout() {
-      await client.auth.signOut();
-      window.location.href = 'index.html';
-    }
-
     // Démarrage
-    checkAuth();
-    loadUsers();
+    init();
   </script>
 </body>
 </html>

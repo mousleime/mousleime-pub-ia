@@ -6,6 +6,7 @@
   <title>Connexion — MOUSLEIME PUB IA</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <script>
@@ -39,7 +40,6 @@
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
 
   <div class="min-h-screen grid lg:grid-cols-2">
-    
     <div class="hidden lg:flex auth-bg relative overflow-hidden p-12 flex-col justify-between text-white">
       <div>
         <a href="index.html" class="flex items-center gap-2">
@@ -55,12 +55,11 @@
           <p class="mt-4 text-lg text-brand-100">Accédez à votre tableau de bord et continuez à créer des publicités qui convertissent.</p>
         </div>
       </div>
-      <p class="text-sm text-brand-200">Fait avec ❤️ au Bénin 🇧🇯</p>
+      <p class="text-sm text-brand-200">Fait avec ❤️ au Bénin 🇧</p>
     </div>
     
     <div class="flex items-center justify-center p-6 sm:p-12">
       <div class="w-full max-w-md">
-        
         <a href="index.html" class="lg:hidden flex items-center gap-2 mb-8">
           <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
             <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
@@ -96,18 +95,12 @@
           <div id="error-message" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm"></div>
           <div id="success-message" class="hidden p-3 rounded-xl bg-green-50 border border-green-200 text-green-700 text-sm"></div>
         </form>
-        
       </div>
     </div>
   </div>
 
   <script>
     lucide.createIcons();
-    
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     document.getElementById('login-form').addEventListener('submit', async function(e) {
       e.preventDefault();
@@ -125,42 +118,41 @@
       submitBtn.innerHTML = 'Connexion en cours...';
       
       try {
-        var result = await client.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
+        console.log('🔵 Tentative de connexion avec:', email);
         
-        if (result.error) throw result.error;
+        var result = await login(email, password);
+        
+        if (result.error) {
+          console.error('❌ Erreur de connexion:', result.error);
+          throw result.error;
+        }
         
         var user = result.data.user;
-        console.log('User connecté:', user.id);
+        console.log('✅ Connexion réussie, user ID:', user.id);
         
-        var profileResult = await client
-          .from('profiles')
-          .select('role, is_active')
-          .eq('id', user.id)
-          .single();
+        successDiv.textContent = 'Connexion réussie ! Vérification du rôle...';
+        successDiv.classList.remove('hidden');
         
-        var profile = profileResult.data;
-        console.log('Profil:', profile);
+        var profile = await getUserProfile(user.id);
+        console.log('🟢 Profil récupéré:', profile);
         
         if (profile && !profile.is_active) {
-          await client.auth.signOut();
+          await supabaseClient.auth.signOut();
           throw new Error('Votre compte a été suspendu.');
         }
         
-        successDiv.textContent = 'Connexion réussie ! Redirection...';
-        successDiv.classList.remove('hidden');
-        
         setTimeout(function() {
           if (profile && profile.role === 'super_admin') {
+            console.log('🚀 Redirection vers admin.html');
             window.location.href = 'admin.html';
           } else {
+            console.log('🚀 Redirection vers dashboard.html');
             window.location.href = 'dashboard.html';
           }
         }, 1000);
         
       } catch (err) {
+        console.error('❌ Erreur:', err);
         errorDiv.textContent = 'Erreur : ' + (err.message || 'Erreur de connexion.');
         errorDiv.classList.remove('hidden');
         submitBtn.disabled = false;
