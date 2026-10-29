@@ -120,23 +120,49 @@
 
     async function checkAuth() {
       try {
+        console.log('🔵 Vérification de l\'authentification...');
+        
         var result = await client.auth.getUser();
         var user = result.data.user;
         
+        console.log('🟢 Utilisateur connecté:', user);
+        
         if (!user) {
+          console.log('❌ Pas d\'utilisateur connecté, redirection vers connexion.html');
           window.location.href = 'connexion.html';
           return;
         }
 
+        console.log('🔵 Récupération du profil pour user ID:', user.id);
+        
         var profileResult = await client.from('profiles').select('role').eq('id', user.id).single();
+        
+        console.log('🟢 Résultat de la requête profil:', profileResult);
+        
         var profile = profileResult.data;
         
-        if (!profile || profile.role !== 'super_admin') {
-          alert('Accès refusé. Vous devez être Super Admin.');
-          window.location.href = 'dashboard.html';
+        if (profileResult.error) {
+          console.error('❌ Erreur lors de la récupération du profil:', profileResult.error);
         }
+        
+        if (!profile) {
+          console.log('❌ Profil non trouvé, redirection vers dashboard.html');
+          window.location.href = 'dashboard.html';
+          return;
+        }
+        
+        console.log('🟢 Rôle détecté:', profile.role);
+        
+        if (profile.role !== 'super_admin') {
+          console.log('❌ Rôle non super_admin, redirection vers dashboard.html');
+          window.location.href = 'dashboard.html';
+          return;
+        }
+        
+        console.log('✅ Accès Super Admin confirmé !');
+        
       } catch (err) {
-        console.error('Erreur auth:', err);
+        console.error('❌ Erreur dans checkAuth:', err);
         window.location.href = 'connexion.html';
       }
     }
@@ -151,8 +177,10 @@
           .select('id, email, full_name, role, is_active, credits(amount, subscription_type)')
           .order('created_at', { ascending: false });
 
+        console.log('🟢 Résultat loadUsers:', result);
+
         if (result.error) {
-          console.error('Erreur:', result.error);
+          console.error('❌ Erreur:', result.error);
           table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-red-600">Erreur: ' + result.error.message + '</td></tr>';
           return;
         }
@@ -199,7 +227,7 @@
         lucide.createIcons();
         
       } catch (err) {
-        console.error('Erreur:', err);
+        console.error('❌ Erreur:', err);
         table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-red-600">Erreur: ' + err.message + '</td></tr>';
       }
     }
@@ -264,6 +292,7 @@
       window.location.href = 'index.html';
     }
 
+    // Démarrage
     checkAuth();
     loadUsers();
   </script>
