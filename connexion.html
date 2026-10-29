@@ -4,12 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Connexion — MOUSLEIME PUB IA</title>
-  
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
   <script>
     tailwind.config = {
       theme: {
@@ -23,7 +21,6 @@
       }
     }
   </script>
-  
   <style>
     .gradient-text {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
@@ -107,19 +104,19 @@
   <script>
     lucide.createIcons();
     
-    const SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
+    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
     
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    var client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
     document.getElementById('login-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const submitBtn = document.getElementById('submit-btn');
-      const errorDiv = document.getElementById('error-message');
-      const successDiv = document.getElementById('success-message');
+      var email = document.getElementById('email').value.trim();
+      var password = document.getElementById('password').value;
+      var submitBtn = document.getElementById('submit-btn');
+      var errorDiv = document.getElementById('error-message');
+      var successDiv = document.getElementById('success-message');
       
       errorDiv.classList.add('hidden');
       successDiv.classList.add('hidden');
@@ -128,53 +125,42 @@
       submitBtn.innerHTML = 'Connexion en cours...';
       
       try {
-        console.log('Tentative de connexion avec:', email);
-        
-        const { data, error } = await sb.auth.signInWithPassword({
+        var result = await client.auth.signInWithPassword({
           email: email,
           password: password
         });
         
-        if (error) {
-          console.error('Erreur de connexion:', error);
-          throw error;
-        }
+        if (result.error) throw result.error;
         
-        console.log('Connexion réussie, user ID:', data.user.id);
-        successDiv.textContent = 'Connexion réussie ! Vérification du rôle...';
-        successDiv.classList.remove('hidden');
+        var user = result.data.user;
+        console.log('User connecté:', user.id);
         
-        const { data: profile, error: profileError } = await sb
+        var profileResult = await client
           .from('profiles')
-          .select('is_active, role')
-          .eq('id', data.user.id)
+          .select('role, is_active')
+          .eq('id', user.id)
           .single();
         
-        if (profileError) {
-          console.error('Erreur profil:', profileError);
-        }
-        
-        console.log('Profil récupéré:', profile);
+        var profile = profileResult.data;
+        console.log('Profil:', profile);
         
         if (profile && !profile.is_active) {
-          await sb.auth.signOut();
+          await client.auth.signOut();
           throw new Error('Votre compte a été suspendu.');
         }
         
-        console.log('Rôle détecté:', profile ? profile.role : 'non trouvé');
+        successDiv.textContent = 'Connexion réussie ! Redirection...';
+        successDiv.classList.remove('hidden');
         
         setTimeout(function() {
           if (profile && profile.role === 'super_admin') {
-            console.log('Redirection vers admin.html');
             window.location.href = 'admin.html';
           } else {
-            console.log('Redirection vers dashboard.html');
             window.location.href = 'dashboard.html';
           }
         }, 1000);
         
       } catch (err) {
-        console.error('Erreur catch:', err);
         errorDiv.textContent = 'Erreur : ' + (err.message || 'Erreur de connexion.');
         errorDiv.classList.remove('hidden');
         submitBtn.disabled = false;
