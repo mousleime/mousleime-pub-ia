@@ -3,11 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio de création — MOUSLEIME PUB IA</title>
+  <title>Studio de Création IA — MOUSLEIME PUB IA</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   
@@ -17,18 +16,8 @@
         extend: {
           fontFamily: { sans: ['Inter', 'sans-serif'] },
           colors: {
-            brand: {
-              50:  '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              900: '#1e1b4b',
-            },
-            accent: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-            }
+            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
+            accent: { 400: '#fbbf24', 500: '#f59e0b' }
           }
         }
       }
@@ -36,28 +25,32 @@
   </script>
   
   <style>
-    html { scroll-behavior: smooth; }
     .gradient-text {
       background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
-    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
-    .loader {
-      border: 3px solid #f3f4f6;
-      border-top: 3px solid #6366f1;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
+    .type-card {
+      transition: all 0.3s ease;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .type-card:hover {
+      transform: translateY(-4px);
+    }
+    .type-card.active {
+      border-color: #6366f1;
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+      color: white;
+    }
+    .type-card.active .icon-wrapper {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .loading-pulse {
+      animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
     }
   </style>
 </head>
@@ -65,9 +58,8 @@
 
   <div class="flex min-h-screen">
     
-    <!-- ============ SIDEBAR (identique au dashboard) ============ -->
+    <!-- SIDEBAR -->
     <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
-      
       <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
         <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
           <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
@@ -92,7 +84,6 @@
         <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
           <i data-lucide="megaphone" class="w-5 h-5"></i>
           <span>Campagnes</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold">3</span>
         </a>
         
         <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
@@ -119,309 +110,236 @@
             <span class="text-xs font-medium text-brand-100">Crédits restants</span>
             <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
           </div>
-          <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-brand-200">/ 100</span></p>
+          <p class="text-2xl font-bold"><span id="sidebar-credits">0</span> <span class="text-sm font-normal text-brand-200">/ 100</span></p>
           <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div class="h-full w-[42%] bg-accent-400 rounded-full"></div>
+            <div id="sidebar-credits-bar" class="h-full w-0 bg-accent-400 rounded-full transition-all duration-500"></div>
           </div>
           <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
             Acheter des crédits
           </a>
         </div>
         
-        <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
+        <button onclick="doLogout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
           <i data-lucide="log-out" class="w-4 h-4"></i>
           <span>Déconnexion</span>
-        </a>
+        </button>
       </div>
     </aside>
-    
+
     <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
-    
-    <!-- ============ MAIN CONTENT ============ -->
+
+    <!-- MAIN CONTENT -->
     <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
       
-      <!-- Top bar -->
+      <!-- Header -->
       <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
         <div class="flex items-center gap-3">
           <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
             <i data-lucide="menu" class="w-5 h-5"></i>
           </button>
-          <h1 class="text-lg font-bold text-gray-900">Studio de création</h1>
+          <h1 class="text-xl font-bold text-gray-900">Studio de Création IA</h1>
         </div>
         
-        <div class="flex items-center gap-2 sm:gap-3">
-          <a href="facturation.html" class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-xs font-semibold">
-            <i data-lucide="coins" class="w-3.5 h-3.5"></i>
-            <span>42</span>
-          </a>
-          
-          <button class="relative p-2 rounded-lg hover:bg-gray-100 transition">
-            <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-          
-          <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">
-              AB
+        <div class="flex items-center gap-3">
+          <span class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold">
+            <i data-lucide="coins" class="w-4 h-4"></i>
+            <span id="header-credits">0 crédits</span>
+          </span>
+        </div>
+      </header>
+
+      <!-- Contenu principal -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+        
+        <!-- En-tête -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Créez votre publicité 🎨</h2>
+            <p class="mt-1 text-gray-600">Choisissez un type de contenu et laissez l'IA travailler pour vous</p>
+          </div>
+        </div>
+
+        <!-- Sélection du type -->
+        <div class="grid sm:grid-cols-3 gap-4">
+          <div onclick="selectType('image')" id="type-image" class="type-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
+            <div class="icon-wrapper w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center mb-4">
+              <i data-lucide="image" class="w-6 h-6 text-white"></i>
             </div>
-            <div class="hidden sm:block">
-              <p class="text-sm font-semibold text-gray-900 leading-tight">Amadou B.</p>
-              <p class="text-xs text-gray-500 leading-tight">Formule Starter</p>
+            <h3 class="font-bold text-lg mb-2">Image publicitaire</h3>
+            <p class="text-sm text-gray-500">Générez des visuels professionnels pour vos campagnes</p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-brand-600">
+              <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+              <span>1 crédit</span>
+            </div>
+          </div>
+
+          <div onclick="selectType('video')" id="type-video" class="type-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
+            <div class="icon-wrapper w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-4">
+              <i data-lucide="video" class="w-6 h-6 text-white"></i>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Vidéo publicitaire</h3>
+            <p class="text-sm text-gray-500">Créez des vidéos engageantes avec voix off</p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-brand-600">
+              <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+              <span>3 crédits</span>
+            </div>
+          </div>
+
+          <div onclick="selectType('texte')" id="type-texte" class="type-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
+            <div class="icon-wrapper w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-4">
+              <i data-lucide="type" class="w-6 h-6 text-white"></i>
+            </div>
+            <h3 class="font-bold text-lg mb-2">Texte marketing</h3>
+            <p class="text-sm text-gray-500">Rédigez des copies qui convertissent</p>
+            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-brand-600">
+              <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+              <span>1 crédit</span>
             </div>
           </div>
         </div>
-      </header>
-      
-      <!-- Contenu principal -->
-      <main class="flex-1 p-4 sm:p-6 lg:p-8">
-        
-        <!-- ===== HEADER ===== -->
-        <div class="mb-6">
-          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Créez votre publicité avec l'IA ✨</h2>
-          <p class="mt-1 text-gray-600">Remplissez le formulaire ci-dessous et laissez l'intelligence artificielle faire le reste.</p>
-        </div>
-        
-        <div class="grid lg:grid-cols-2 gap-6">
-          
-          <!-- ===== COLONNE GAUCHE : FORMULAIRE ===== -->
-          <div class="space-y-6">
-            
-            <!-- Type de création -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <h3 class="font-bold text-gray-900 mb-4">1. Type de création</h3>
-              <div class="grid grid-cols-3 gap-3">
-                <label class="cursor-pointer">
-                  <input type="radio" name="type" value="image" class="peer sr-only" checked>
-                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center transition">
-                    <i data-lucide="image" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-600"></i>
-                    <p class="text-sm font-semibold text-gray-900">Image</p>
-                    <p class="text-xs text-gray-500 mt-0.5">1 crédit</p>
-                  </div>
-                </label>
-                <label class="cursor-pointer">
-                  <input type="radio" name="type" value="video" class="peer sr-only">
-                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center transition">
-                    <i data-lucide="video" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-600"></i>
-                    <p class="text-sm font-semibold text-gray-900">Vidéo</p>
-                    <p class="text-xs text-gray-500 mt-0.5">5 crédits</p>
-                  </div>
-                </label>
-                <label class="cursor-pointer">
-                  <input type="radio" name="type" value="texte" class="peer sr-only">
-                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center transition">
-                    <i data-lucide="type" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-600"></i>
-                    <p class="text-sm font-semibold text-gray-900">Texte</p>
-                    <p class="text-xs text-gray-500 mt-0.5">1 crédit</p>
-                  </div>
-                </label>
-              </div>
+
+        <!-- Formulaire de création -->
+        <div id="creation-form-container" class="hidden">
+          <div class="p-6 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <h3 id="form-title" class="text-xl font-bold text-gray-900">Configuration</h3>
+              <button onclick="resetForm()" class="text-sm text-gray-500 hover:text-gray-700">
+                <i data-lucide="rotate-ccw" class="w-4 h-4 inline mr-1"></i>
+                Réinitialiser
+              </button>
             </div>
-            
-            <!-- Infos produit -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <h3 class="font-bold text-gray-900 mb-4">2. Informations sur votre produit</h3>
-              <div class="space-y-4">
+
+            <form id="creation-form" class="space-y-4" onsubmit="return false;">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-2">Description de votre publicité *</label>
+                <textarea id="prompt" rows="4" required 
+                  placeholder="Décrivez votre publicité en détail. Ex: 'Une image moderne pour promouvoir une boutique de mode à Cotonou, avec des couleurs vives et un style africain contemporain'"
+                  class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition resize-none"></textarea>
+                <p class="mt-1.5 text-xs text-gray-500">Soyez aussi précis que possible pour obtenir les meilleurs résultats</p>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label for="product-name" class="block text-sm font-medium text-gray-700 mb-1.5">Nom du produit ou entreprise *</label>
-                  <input type="text" id="product-name" required placeholder="Ex: Boutique Mode Cotonou"
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Nom du projet</label>
+                  <input type="text" id="project-name" placeholder="Ex: Collection Été 2024"
                     class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
                 </div>
-                
+
                 <div>
-                  <label for="product-desc" class="block text-sm font-medium text-gray-700 mb-1.5">Description du produit *</label>
-                  <textarea id="product-desc" rows="3" required placeholder="Décrivez votre produit, ses caractéristiques, ses avantages..."
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition resize-none"></textarea>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Plateforme cible</label>
+                  <select id="platform" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                    <option value="facebook">Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="google">Google Ads</option>
+                    <option value="autre">Autre</option>
+                  </select>
                 </div>
-                
-                <div class="grid grid-cols-2 gap-4">
+              </div>
+
+              <div id="image-options" class="hidden space-y-4">
+                <div class="grid sm:grid-cols-2 gap-4">
                   <div>
-                    <label for="price" class="block text-sm font-medium text-gray-700 mb-1.5">Prix (FCFA)</label>
-                    <input type="number" id="price" placeholder="15000"
-                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Format</label>
+                    <select id="image-format" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                      <option value="1:1">Carré (1:1) - Instagram</option>
+                      <option value="4:5">Portrait (4:5) - Facebook</option>
+                      <option value="9:16">Story (9:16) - Stories</option>
+                      <option value="16:9">Paysage (16:9) - YouTube</option>
+                    </select>
                   </div>
                   <div>
-                    <label for="country" class="block text-sm font-medium text-gray-700 mb-1.5">Pays</label>
-                    <select id="country" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                      <option value="benin" selected>Bénin</option>
-                      <option value="togo">Togo</option>
-                      <option value="senegal">Sénégal</option>
-                      <option value="ci">Côte d'Ivoire</option>
-                      <option value="cameroun">Cameroun</option>
-                      <option value="autre">Autre</option>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Style</label>
+                    <select id="image-style" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                      <option value="modern">Moderne</option>
+                      <option value="minimalist">Minimaliste</option>
+                      <option value="vibrant">Coloré & Dynamique</option>
+                      <option value="professional">Professionnel</option>
+                      <option value="creative">Créatif</option>
                     </select>
                   </div>
                 </div>
               </div>
-            </div>
-            
-            <!-- Ciblage -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <h3 class="font-bold text-gray-900 mb-4">3. Ciblage et objectif</h3>
-              <div class="space-y-4">
-                <div>
-                  <label for="audience" class="block text-sm font-medium text-gray-700 mb-1.5">Public cible *</label>
-                  <input type="text" id="audience" required placeholder="Ex: Femmes 25-40 ans, intéressées par la mode"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                </div>
-                
-                <div>
-                  <label for="objective" class="block text-sm font-medium text-gray-700 mb-1.5">Objectif publicitaire</label>
-                  <select id="objective" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                    <option value="notoriete">Notoriété (faire connaître)</option>
-                    <option value="trafic" selected>Trafic (attirer vers le site)</option>
-                    <option value="prospects">Prospects (collecter des contacts)</option>
-                    <option value="ventes">Ventes (convertir)</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label for="platform" class="block text-sm font-medium text-gray-700 mb-1.5">Plateforme cible</label>
-                  <select id="platform" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                    <option value="facebook" selected>Facebook</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="tiktok">TikTok</option>
-                    <option value="multi">Multi-plateformes</option>
-                  </select>
-                </div>
-                
-                <div>
-                  <label for="tone" class="block text-sm font-medium text-gray-700 mb-1.5">Ton de la communication</label>
-                  <select id="tone" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                    <option value="professionnel">Professionnel</option>
-                    <option value="emotionnel">Émotionnel</option>
-                    <option value="humoristique">Humoristique</option>
-                    <option value="commercial" selected>Commercial</option>
-                  </select>
-                </div>
+
+              <div class="flex items-center gap-4 pt-4">
+                <button type="button" onclick="resetForm()" class="px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">
+                  Annuler
+                </button>
+                <button type="submit" id="generate-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition shadow-lg shadow-brand-600/20">
+                  <i data-lucide="sparkles" class="w-5 h-5"></i>
+                  <span>Générer avec l'IA</span>
+                </button>
               </div>
-            </div>
-            
-            <!-- Bouton générer -->
-            <button onclick="generateAd()" id="generate-btn" class="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-lg transition shadow-lg shadow-brand-600/20">
-              <i data-lucide="sparkles" class="w-5 h-5"></i>
-              Générer ma publicité (1 crédit)
-            </button>
-            
-          </div>
-          
-          <!-- ===== COLONNE DROITE : RÉSULTATS ===== -->
-          <div class="space-y-6">
-            
-            <!-- Zone de résultat -->
-            <div id="result-zone" class="p-6 rounded-2xl bg-white border border-gray-200 min-h-[400px] flex items-center justify-center">
-              
-              <!-- État initial -->
-              <div id="initial-state" class="text-center">
-                <div class="w-20 h-20 rounded-2xl bg-brand-50 flex items-center justify-center mx-auto mb-4">
-                  <i data-lucide="wand-2" class="w-10 h-10 text-brand-600"></i>
-                </div>
-                <h3 class="text-lg font-bold text-gray-900 mb-2">Votre publicité apparaîtra ici</h3>
-                <p class="text-sm text-gray-500 max-w-sm">Remplissez le formulaire à gauche et cliquez sur "Générer" pour créer votre publicité avec l'IA.</p>
-              </div>
-              
-              <!-- État chargement (caché par défaut) -->
-              <div id="loading-state" class="text-center hidden">
-                <div class="loader mx-auto mb-4"></div>
-                <h3 class="text-lg font-bold text-gray-900 mb-2">L'IA génère votre publicité...</h3>
-                <p class="text-sm text-gray-500">Cela peut prendre 10 à 30 secondes</p>
-              </div>
-              
-              <!-- État résultat (caché par défaut) -->
-              <div id="result-state" class="w-full hidden">
-                <div class="flex items-center justify-between mb-4">
-                  <h3 class="font-bold text-gray-900">Votre publicité est prête ! 🎉</h3>
-                  <button onclick="resetForm()" class="text-sm font-semibold text-brand-600 hover:text-brand-700">
-                    Nouvelle génération
-                  </button>
-                </div>
-                
-                <!-- Résultat exemple (sera remplacé par les vraies données) -->
-                <div class="space-y-4">
-                  <!-- Texte publicitaire -->
-                  <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Texte publicitaire</p>
-                    <p class="text-gray-900">✨ Découvrez notre nouvelle collection été ! Des vêtements tendance à prix imbattables. Livraison gratuite à Cotonou. Commandez maintenant !</p>
-                  </div>
-                  
-                  <!-- Titre -->
-                  <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Titre accrocheur</p>
-                    <p class="text-gray-900 font-bold">🔥 Collection Été -50% jusqu'à dimanche !</p>
-                  </div>
-                  
-                  <!-- Appel à l'action -->
-                  <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Appel à l'action</p>
-                    <p class="text-gray-900">👉 Acheter maintenant</p>
-                  </div>
-                  
-                  <!-- Image générée (placeholder) -->
-                  <div class="aspect-video rounded-xl bg-gradient-to-br from-pink-400 via-rose-500 to-red-600 flex items-center justify-center text-white">
-                    <div class="text-center">
-                      <i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i>
-                      <p class="font-bold">Visuel publicitaire généré</p>
-                      <p class="text-sm opacity-80">Intégration IA image à venir</p>
-                    </div>
-                  </div>
-                  
-                  <!-- Actions -->
-                  <div class="flex gap-3">
-                    <button class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
-                      <i data-lucide="download" class="w-4 h-4"></i>
-                      Télécharger
-                    </button>
-                    <button onclick="generateAd()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold transition">
-                      <i data-lucide="refresh-cw" class="w-4 h-4"></i>
-                      Régénérer
-                    </button>
-                  </div>
-                </div>
-              </div>
-              
-            </div>
-            
-            <!-- Historique -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <h3 class="font-bold text-gray-900 mb-4">Historique des générations</h3>
-              <div class="space-y-3">
-                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition cursor-pointer">
-                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="image" class="w-5 h-5 text-white"></i>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="font-semibold text-gray-900 text-sm truncate">Boutique Mode - Collection été</p>
-                    <p class="text-xs text-gray-500">Image • Il y a 2h</p>
-                  </div>
-                  <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
-                </div>
-                
-                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition cursor-pointer">
-                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="type" class="w-5 h-5 text-white"></i>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="font-semibold text-gray-900 text-sm truncate">Restaurant Le Bon Goût - Menu du jour</p>
-                    <p class="text-xs text-gray-500">Texte • Il y a 5h</p>
-                  </div>
-                  <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
-                </div>
-                
-                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition cursor-pointer">
-                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center flex-shrink-0">
-                    <i data-lucide="video" class="w-5 h-5 text-white"></i>
-                  </div>
-                  <div class="flex-1 min-w-0">
-                    <p class="font-semibold text-gray-900 text-sm truncate">TechBénin - Lancement app</p>
-                    <p class="text-xs text-gray-500">Vidéo • Hier</p>
-                  </div>
-                  <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
-                </div>
-              </div>
-            </div>
-            
+            </form>
           </div>
         </div>
-        
+
+        <!-- Loading -->
+        <div id="loading" class="hidden">
+          <div class="p-12 rounded-2xl bg-white border border-gray-200 text-center">
+            <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center loading-pulse">
+              <i data-lucide="sparkles" class="w-10 h-10 text-white"></i>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">L'IA crée votre publicité...</h3>
+            <p class="text-gray-600 mb-6">Cela peut prendre quelques secondes</p>
+            <div class="max-w-md mx-auto">
+              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div class="h-full bg-gradient-to-r from-brand-600 to-accent-500 rounded-full animate-pulse" style="width: 60%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Résultat -->
+        <div id="result" class="hidden">
+          <div class="p-6 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-xl font-bold text-gray-900">Votre création est prête ! 🎉</h3>
+              <button onclick="downloadResult()" class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition">
+                <i data-lucide="download" class="w-4 h-4 inline mr-1"></i>
+                Télécharger
+              </button>
+            </div>
+            
+            <div id="result-content" class="space-y-4">
+              <!-- Le contenu sera injecté ici -->
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-gray-100 flex gap-3">
+              <button onclick="regenerate()" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">
+                <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-2"></i>
+                Régénérer
+              </button>
+              <button onclick="saveCreation()" class="flex-1 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
+                <i data-lucide="save" class="w-4 h-4 inline mr-2"></i>
+                Sauvegarder
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Créations récentes -->
+        <div class="p-6 rounded-2xl bg-white border border-gray-200">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="font-bold text-gray-900 text-lg">Vos créations récentes</h3>
+              <p class="text-sm text-gray-500 mt-0.5">Historique de vos générations IA</p>
+            </div>
+            <button onclick="loadRecentCreations()" class="px-4 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold hover:bg-brand-100 transition">
+              <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i>
+              Rafraîchir
+            </button>
+          </div>
+          
+          <div id="recent-creations" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="col-span-full text-center py-12 text-gray-500">
+              <i data-lucide="sparkles" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i>
+              <p class="font-medium">Aucune création pour le moment</p>
+              <p class="text-sm mt-1">Vos créations apparaîtront ici</p>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
   </div>
@@ -429,44 +347,328 @@
   <script>
     lucide.createIcons();
     
+    // Configuration
+    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
+    
+    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
+
+    var currentUser = null;
+    var currentCredits = 0;
+    var selectedType = null;
+    var currentCreation = null;
+
+    // Toggle sidebar
     function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebar-overlay');
+      var sidebar = document.getElementById('sidebar');
+      var overlay = document.getElementById('sidebar-overlay');
       sidebar.classList.toggle('hidden');
       sidebar.classList.toggle('fixed');
       sidebar.classList.toggle('z-40');
       overlay.classList.toggle('hidden');
     }
-    
-    function generateAd() {
-      // Vérifier que les champs obligatoires sont remplis
-      const productName = document.getElementById('product-name').value;
-      const productDesc = document.getElementById('product-desc').value;
-      const audience = document.getElementById('audience').value;
+
+    // Déconnexion
+    async function doLogout() {
+      await sb.auth.signOut();
+      window.location.href = 'index.html';
+    }
+
+    // Initialisation
+    async function initStudio() {
+      console.log('🔵 Initialisation du studio...');
       
-      if (!productName || !productDesc || !audience) {
-        alert('Veuillez remplir tous les champs obligatoires (*)');
+      try {
+        var userResult = await sb.auth.getUser();
+        currentUser = userResult.data.user;
+        
+        if (!currentUser) {
+          window.location.href = 'connexion.html';
+          return;
+        }
+
+        // Récupérer les crédits
+        var creditsResult = await sb.from('credits').select('amount').eq('user_id', currentUser.id).single();
+        currentCredits = creditsResult.data ? creditsResult.data.amount : 0;
+        
+        updateCreditsDisplay();
+        loadRecentCreations();
+        
+        // Vérifier s'il y a un paramètre type dans l'URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var typeParam = urlParams.get('type');
+        if (typeParam) {
+          selectType(typeParam);
+        }
+        
+        console.log('✅ Studio initialisé');
+      } catch (err) {
+        console.error('❌ Erreur initStudio:', err);
+      }
+    }
+
+    // Mettre à jour l'affichage des crédits
+    function updateCreditsDisplay() {
+      document.getElementById('sidebar-credits').textContent = currentCredits;
+      document.getElementById('header-credits').textContent = currentCredits + ' crédits';
+      
+      var percentage = Math.min((currentCredits / 100) * 100, 100);
+      document.getElementById('sidebar-credits-bar').style.width = percentage + '%';
+    }
+
+    // Sélection du type
+    function selectType(type) {
+      selectedType = type;
+      
+      // Reset styles
+      document.querySelectorAll('.type-card').forEach(function(card) {
+        card.classList.remove('active');
+      });
+      
+      // Active le type sélectionné
+      document.getElementById('type-' + type).classList.add('active');
+      
+      // Afficher le formulaire
+      document.getElementById('creation-form-container').classList.remove('hidden');
+      
+      // Afficher les options spécifiques
+      document.getElementById('image-options').classList.add('hidden');
+      
+      if (type === 'image') {
+        document.getElementById('form-title').textContent = 'Génération d\'image';
+        document.getElementById('image-options').classList.remove('hidden');
+      } else if (type === 'video') {
+        document.getElementById('form-title').textContent = 'Création de vidéo';
+      } else if (type === 'texte') {
+        document.getElementById('form-title').textContent = 'Rédaction de texte';
+      }
+      
+      // Scroll vers le formulaire
+      document.getElementById('creation-form-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // Reset form
+    function resetForm() {
+      document.getElementById('creation-form').reset();
+      document.getElementById('creation-form-container').classList.add('hidden');
+      document.getElementById('result').classList.add('hidden');
+      document.getElementById('loading').classList.add('hidden');
+      selectedType = null;
+      
+      document.querySelectorAll('.type-card').forEach(function(card) {
+        card.classList.remove('active');
+      });
+    }
+
+    // Soumission du formulaire
+    document.getElementById('creation-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      
+      if (!selectedType) {
+        alert('Veuillez sélectionner un type de création');
         return;
       }
       
-      // Afficher l'état de chargement
-      document.getElementById('initial-state').classList.add('hidden');
-      document.getElementById('result-state').classList.add('hidden');
-      document.getElementById('loading-state').classList.remove('hidden');
+      var prompt = document.getElementById('prompt').value.trim();
+      var projectName = document.getElementById('project-name').value.trim();
+      var platform = document.getElementById('platform').value;
       
-      // Simuler un appel API (à remplacer par le vrai backend)
-      setTimeout(() => {
-        document.getElementById('loading-state').classList.add('hidden');
-        document.getElementById('result-state').classList.remove('hidden');
-        lucide.createIcons();
-      }, 3000);
+      if (!prompt) {
+        alert('Veuillez décrire votre publicité');
+        return;
+      }
+      
+      // Vérifier les crédits
+      var creditsCost = selectedType === 'video' ? 3 : 1;
+      if (currentCredits < creditsCost) {
+        alert('Crédits insuffisants. Il vous faut ' + creditsCost + ' crédit(s) pour cette création.');
+        window.location.href = 'facturation.html';
+        return;
+      }
+      
+      // Afficher le loading
+      document.getElementById('loading').classList.remove('hidden');
+      document.getElementById('result').classList.add('hidden');
+      
+      try {
+        // Simuler la génération IA (à remplacer par un vrai appel API)
+        await simulateAIGeneration();
+        
+        // Créer la génération
+        currentCreation = {
+          user_id: currentUser.id,
+          type: selectedType,
+          prompt: prompt,
+          project_name: projectName || 'Sans titre',
+          platform: platform,
+          status: 'completed',
+          credits_used: creditsCost
+        };
+        
+        // Sauvegarder dans Supabase
+        var result = await sb.from('creations').insert(currentCreation).select().single();
+        currentCreation.id = result.data.id;
+        
+        // Décrémenter les crédits
+        var newCredits = currentCredits - creditsCost;
+        await sb.from('credits').update({ amount: newCredits }).eq('user_id', currentUser.id);
+        currentCredits = newCredits;
+        updateCreditsDisplay();
+        
+        // Afficher le résultat
+        displayResult();
+        
+      } catch (err) {
+        console.error(' Erreur génération:', err);
+        alert('Une erreur est survenue lors de la génération');
+      } finally {
+        document.getElementById('loading').classList.add('hidden');
+      }
+    });
+
+    // Simuler la génération IA (à remplacer par un vrai appel API OpenAI/Stability AI)
+    function simulateAIGeneration() {
+      return new Promise(function(resolve) {
+        setTimeout(resolve, 3000);
+      });
     }
-    
-    function resetForm() {
-      document.getElementById('result-state').classList.add('hidden');
-      document.getElementById('initial-state').classList.remove('hidden');
+
+    // Afficher le résultat
+    function displayResult() {
+      var resultContent = document.getElementById('result-content');
+      var typeLabels = {
+        'image': 'Image',
+        'video': 'Vidéo',
+        'texte': 'Texte'
+      };
+      
+      var html = '';
+      html += '<div class="grid sm:grid-cols-2 gap-4">';
+      html += '<div>';
+      html += '<p class="text-sm font-medium text-gray-700 mb-2">Type</p>';
+      html += '<p class="text-gray-900">' + typeLabels[selectedType] + '</p>';
+      html += '</div>';
+      html += '<div>';
+      html += '<p class="text-sm font-medium text-gray-700 mb-2">Projet</p>';
+      html += '<p class="text-gray-900">' + currentCreation.project_name + '</p>';
+      html += '</div>';
+      html += '<div class="sm:col-span-2">';
+      html += '<p class="text-sm font-medium text-gray-700 mb-2">Description</p>';
+      html += '<p class="text-gray-900 bg-gray-50 p-3 rounded-lg">' + currentCreation.prompt + '</p>';
+      html += '</div>';
+      html += '</div>';
+      
+      if (selectedType === 'texte') {
+        html += '<div class="mt-4">';
+        html += '<p class="text-sm font-medium text-gray-700 mb-2">Texte généré</p>';
+        html += '<div class="p-4 rounded-lg bg-gradient-to-br from-brand-50 to-accent-50 border border-brand-200">';
+        html += '<p class="text-gray-900">[Texte généré par l\'IA apparaîtra ici]</p>';
+        html += '<p class="text-xs text-gray-500 mt-2">Note: Intégrez l\'API OpenAI pour générer du vrai texte</p>';
+        html += '</div>';
+        html += '</div>';
+      } else if (selectedType === 'image') {
+        html += '<div class="mt-4">';
+        html += '<p class="text-sm font-medium text-gray-700 mb-2">Aperçu</p>';
+        html += '<div class="aspect-video rounded-lg bg-gradient-to-br from-brand-100 to-accent-100 flex items-center justify-center">';
+        html += '<div class="text-center">';
+        html += '<i data-lucide="image" class="w-16 h-16 text-brand-400 mx-auto mb-2"></i>';
+        html += '<p class="text-sm text-gray-600">Image générée par l\'IA</p>';
+        html += '<p class="text-xs text-gray-500 mt-1">Intégrez Stability AI ou DALL-E</p>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+      }
+      
+      resultContent.innerHTML = html;
       lucide.createIcons();
+      
+      document.getElementById('result').classList.remove('hidden');
+      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
+
+    // Télécharger le résultat
+    function downloadResult() {
+      alert('Fonctionnalité de téléchargement à implémenter');
+    }
+
+    // Régénérer
+    function regenerate() {
+      document.getElementById('result').classList.add('hidden');
+      document.getElementById('loading').classList.remove('hidden');
+      
+      setTimeout(function() {
+        document.getElementById('loading').classList.add('hidden');
+        displayResult();
+      }, 2000);
+    }
+
+    // Sauvegarder
+    async function saveCreation() {
+      if (!currentCreation) return;
+      
+      try {
+        await sb.from('creations').update({ saved: true }).eq('id', currentCreation.id);
+        alert('Création sauvegardée avec succès !');
+        loadRecentCreations();
+      } catch (err) {
+        console.error('❌ Erreur saveCreation:', err);
+        alert('Erreur lors de la sauvegarde');
+      }
+    }
+
+    // Charger les créations récentes
+    async function loadRecentCreations() {
+      if (!currentUser) return;
+      
+      try {
+        var result = await sb
+          .from('creations')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('created_at', { ascending: false })
+          .limit(6);
+        
+        var creations = result.data || [];
+        var container = document.getElementById('recent-creations');
+        
+        if (creations.length === 0) {
+          container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><i data-lucide="sparkles" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i><p class="font-medium">Aucune création pour le moment</p><p class="text-sm mt-1">Vos créations apparaîtront ici</p></div>';
+        } else {
+          var html = '';
+          creations.forEach(function(creation) {
+            var typeIcons = { 'image': 'image', 'video': 'video', 'texte': 'type' };
+            var typeColors = { 'image': 'from-pink-500 to-rose-600', 'video': 'from-purple-500 to-indigo-600', 'texte': 'from-blue-500 to-cyan-600' };
+            var typeLabels = { 'image': 'Image', 'video': 'Vidéo', 'texte': 'Texte' };
+            
+            html += '<div class="p-4 rounded-xl border border-gray-200 hover:border-brand-300 transition cursor-pointer">';
+            html += '<div class="flex items-start gap-3">';
+            html += '<div class="w-10 h-10 rounded-lg bg-gradient-to-br ' + typeColors[creation.type] + ' flex items-center justify-center flex-shrink-0">';
+            html += '<i data-lucide="' + typeIcons[creation.type] + '" class="w-5 h-5 text-white"></i>';
+            html += '</div>';
+            html += '<div class="flex-1 min-w-0">';
+            html += '<p class="font-semibold text-gray-900 truncate">' + creation.project_name + '</p>';
+            html += '<p class="text-xs text-gray-500">' + typeLabels[creation.type] + ' • ' + new Date(creation.created_at).toLocaleDateString('fr-FR') + '</p>';
+            html += '</div>';
+            html += '</div>';
+            html += '</div>';
+          });
+          container.innerHTML = html;
+        }
+        
+        lucide.createIcons();
+      } catch (err) {
+        console.error(' Erreur loadRecentCreations:', err);
+      }
+    }
+
+    // Démarrer
+    initStudio();
   </script>
 </body>
 </html>
