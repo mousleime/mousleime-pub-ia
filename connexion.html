@@ -128,64 +128,7 @@
       submitBtn.innerHTML = 'Connexion en cours...';
       
       try {
-        const { data, error } = await sb.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-        
-        if (error) throw error;
-        
-        successDiv.textContent = '✅ Connexion réussie ! Redirection...';
-        successDiv.classList.remove('hidden');
-        
-        const { data: profile } = await sb.from('profiles').select('is_active, role').eq('id', data.user.id).single();
-        
-        if (profile && !profile.is_active) {
-          await sb.auth.signOut();
-          throw new Error('Votre compte a été suspendu.');
-        }
-        
-        setTimeout(() => {
-          if (profile && profile.role === 'super_admin') {
-            window.location.href = 'admin.html';
-          } else {
-            window.location.href = 'dashboard.html';
-          }
-        }, 1000);
-        
-      } catch (err) {
-        errorDiv.textContent = '❌ ' + (err.message || 'Erreur de connexion.');
-        errorDiv.classList.remove('hidden');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i data-lucide="arrow-right" class="w-5 h-5"></i> Se connecter';
-        lucide.createIcons();
-      }
-    });
-  <script>
-    lucide.createIcons();
-    
-    const SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    
-    document.getElementById('login-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const submitBtn = document.getElementById('submit-btn');
-      const errorDiv = document.getElementById('error-message');
-      const successDiv = document.getElementById('success-message');
-      
-      errorDiv.classList.add('hidden');
-      successDiv.classList.add('hidden');
-      
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Connexion en cours...';
-      
-      try {
-        console.log('🔵 Tentative de connexion avec:', email);
+        console.log('Tentative de connexion avec:', email);
         
         const { data, error } = await sb.auth.signInWithPassword({
           email: email,
@@ -193,16 +136,13 @@
         });
         
         if (error) {
-          console.error('❌ Erreur de connexion:', error);
+          console.error('Erreur de connexion:', error);
           throw error;
         }
         
-        console.log('✅ Connexion réussie, user ID:', data.user.id);
-        
-        successDiv.textContent = '✅ Connexion réussie ! Vérification du rôle...';
+        console.log('Connexion réussie, user ID:', data.user.id);
+        successDiv.textContent = 'Connexion réussie ! Vérification du rôle...';
         successDiv.classList.remove('hidden');
-        
-        console.log('🔵 Requête vers profiles pour user ID:', data.user.id);
         
         const { data: profile, error: profileError } = await sb
           .from('profiles')
@@ -211,35 +151,34 @@
           .single();
         
         if (profileError) {
-          console.error('❌ Erreur lors de la récupération du profil:', profileError);
+          console.error('Erreur profil:', profileError);
         }
         
-        console.log('🟢 Profil récupéré:', profile);
+        console.log('Profil récupéré:', profile);
         
         if (profile && !profile.is_active) {
           await sb.auth.signOut();
           throw new Error('Votre compte a été suspendu.');
         }
         
-        console.log('🟢 Rôle détecté:', profile?.role);
+        console.log('Rôle détecté:', profile ? profile.role : 'non trouvé');
         
-        setTimeout(() => {
+        setTimeout(function() {
           if (profile && profile.role === 'super_admin') {
-            console.log('🚀 Redirection vers admin.html');
+            console.log('Redirection vers admin.html');
             window.location.href = 'admin.html';
           } else {
-            console.log('🚀 Redirection vers dashboard.html');
+            console.log('Redirection vers dashboard.html');
             window.location.href = 'dashboard.html';
           }
         }, 1000);
         
       } catch (err) {
-        console.error('❌ Erreur catch:', err);
-        errorDiv.textContent = '❌ ' + (err.message || 'Erreur de connexion.');
+        console.error('Erreur catch:', err);
+        errorDiv.textContent = 'Erreur : ' + (err.message || 'Erreur de connexion.');
         errorDiv.classList.remove('hidden');
         submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i data-lucide="arrow-right" class="w-5 h-5"></i> Se connecter';
-        lucide.createIcons();
+        submitBtn.innerHTML = 'Se connecter';
       }
     });
   </script>
