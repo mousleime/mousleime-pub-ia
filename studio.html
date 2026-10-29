@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Studio de création — MOUSLEIME PUB IA</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              50:  '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    .gradient-text {
+      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+    .loader {
+      border: 3px solid #f3f4f6;
+      border-top: 3px solid #6366f1;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+
+  <div class="flex min-h-screen">
+    
+    <!-- ============ SIDEBAR (identique au dashboard) ============ -->
+    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
+      
+      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+      </div>
+      
+      <nav class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-1">
+        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
+        
+        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>Tableau de bord</span>
+        </a>
+        
+        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
+          <i data-lucide="wand-2" class="w-5 h-5"></i>
+          <span>Studio de création</span>
+          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
+        </a>
+        
+        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="megaphone" class="w-5 h-5"></i>
+          <span>Campagnes</span>
+          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold">3</span>
+        </a>
+        
+        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="line-chart" class="w-5 h-5"></i>
+          <span>Analyses</span>
+        </a>
+        
+        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
+        
+        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span>Facturation</span>
+        </a>
+        
+        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          <span>Paramètres</span>
+        </a>
+      </nav>
+      
+      <div class="p-4 border-t border-gray-100 space-y-3">
+        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
+            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
+          </div>
+          <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-brand-200">/ 100</span></p>
+          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full w-[42%] bg-accent-400 rounded-full"></div>
+          </div>
+          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
+            Acheter des crédits
+          </a>
+        </div>
+        
+        <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Déconnexion</span>
+        </a>
+      </div>
+    </aside>
+    
+    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
+    
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
+      
+      <!-- Top bar -->
+      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <h1 class="text-lg font-bold text-gray-900">Studio de création</h1>
+        </div>
+        
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="facturation.html" class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-xs font-semibold">
+            <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+            <span>42</span>
+          </a>
+          
+          <button class="relative p-2 rounded-lg hover:bg-gray-100 transition">
+            <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          
+          <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">
+              AB
+            </div>
+            <div class="hidden sm:block">
+              <p class="text-sm font-semibold text-gray-900 leading-tight">Amadou B.</p>
+              <p class="text-xs text-gray-500 leading-tight">Formule Starter</p>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Contenu principal -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8">
+        
+        <!-- ===== HEADER ===== -->
+        <div class="mb-6">
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Créez votre publicité avec l'IA ✨</h2>
+          <p class="mt-1 text-gray-600">Remplissez le formulaire ci-dessous et laissez l'intelligence artificielle faire le reste.</p>
+        </div>
+        
+        <div class="grid lg:grid-cols-2 gap-6">
+          
+          <!-- ===== COLONNE GAUCHE : FORMULAIRE ===== -->
+          <div class="space-y-6">
+            
+            <!-- Type de création -->
+            <div class="p-6 rounded-2xl bg-white border border-gray-200">
+              <h3 class="font-bold text-gray-900 mb-4">1. Type de création</h3>
+              <div class="grid grid-cols-3 gap-3">
+                <label class="cursor-pointer">
+                  <input type="radio" name="type" value="image" class="peer sr-only" checked>
+                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center transition">
+                    <i data-lucide="image" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-600"></i>
+                    <p class="text-sm font-semibold text-gray-900">Image</p>
+                    <p class="text-xs text-gray-500 mt-0.5">1 crédit</p>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="type" value="video" class="peer sr-only">
+                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center transition">
+                    <i data-lucide="video" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-600"></i>
+                    <p class="text-sm font-semibold text-gray-900">Vidéo</p>
+                    <p class="text-xs text-gray-500 mt-0.5">5 crédits</p>
+                  </div>
+                </label>
+                <label class="cursor-pointer">
+                  <input type="radio" name="type" value="texte" class="peer sr-only">
+                  <div class="p-4 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 text-center transition">
+                    <i data-lucide="type" class="w-6 h-6 mx-auto mb-2 text-gray-600 peer-checked:text-brand-600"></i>
+                    <p class="text-sm font-semibold text-gray-900">Texte</p>
+                    <p class="text-xs text-gray-500 mt-0.5">1 crédit</p>
+                  </div>
+                </label>
+              </div>
+            </div>
+            
+            <!-- Infos produit -->
+            <div class="p-6 rounded-2xl bg-white border border-gray-200">
+              <h3 class="font-bold text-gray-900 mb-4">2. Informations sur votre produit</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="product-name" class="block text-sm font-medium text-gray-700 mb-1.5">Nom du produit ou entreprise *</label>
+                  <input type="text" id="product-name" required placeholder="Ex: Boutique Mode Cotonou"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                </div>
+                
+                <div>
+                  <label for="product-desc" class="block text-sm font-medium text-gray-700 mb-1.5">Description du produit *</label>
+                  <textarea id="product-desc" rows="3" required placeholder="Décrivez votre produit, ses caractéristiques, ses avantages..."
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition resize-none"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <label for="price" class="block text-sm font-medium text-gray-700 mb-1.5">Prix (FCFA)</label>
+                    <input type="number" id="price" placeholder="15000"
+                      class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                  </div>
+                  <div>
+                    <label for="country" class="block text-sm font-medium text-gray-700 mb-1.5">Pays</label>
+                    <select id="country" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                      <option value="benin" selected>Bénin</option>
+                      <option value="togo">Togo</option>
+                      <option value="senegal">Sénégal</option>
+                      <option value="ci">Côte d'Ivoire</option>
+                      <option value="cameroun">Cameroun</option>
+                      <option value="autre">Autre</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Ciblage -->
+            <div class="p-6 rounded-2xl bg-white border border-gray-200">
+              <h3 class="font-bold text-gray-900 mb-4">3. Ciblage et objectif</h3>
+              <div class="space-y-4">
+                <div>
+                  <label for="audience" class="block text-sm font-medium text-gray-700 mb-1.5">Public cible *</label>
+                  <input type="text" id="audience" required placeholder="Ex: Femmes 25-40 ans, intéressées par la mode"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                </div>
+                
+                <div>
+                  <label for="objective" class="block text-sm font-medium text-gray-700 mb-1.5">Objectif publicitaire</label>
+                  <select id="objective" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                    <option value="notoriete">Notoriété (faire connaître)</option>
+                    <option value="trafic" selected>Trafic (attirer vers le site)</option>
+                    <option value="prospects">Prospects (collecter des contacts)</option>
+                    <option value="ventes">Ventes (convertir)</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label for="platform" class="block text-sm font-medium text-gray-700 mb-1.5">Plateforme cible</label>
+                  <select id="platform" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                    <option value="facebook" selected>Facebook</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="tiktok">TikTok</option>
+                    <option value="multi">Multi-plateformes</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label for="tone" class="block text-sm font-medium text-gray-700 mb-1.5">Ton de la communication</label>
+                  <select id="tone" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+                    <option value="professionnel">Professionnel</option>
+                    <option value="emotionnel">Émotionnel</option>
+                    <option value="humoristique">Humoristique</option>
+                    <option value="commercial" selected>Commercial</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Bouton générer -->
+            <button onclick="generateAd()" id="generate-btn" class="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-lg transition shadow-lg shadow-brand-600/20">
+              <i data-lucide="sparkles" class="w-5 h-5"></i>
+              Générer ma publicité (1 crédit)
+            </button>
+            
+          </div>
+          
+          <!-- ===== COLONNE DROITE : RÉSULTATS ===== -->
+          <div class="space-y-6">
+            
+            <!-- Zone de résultat -->
+            <div id="result-zone" class="p-6 rounded-2xl bg-white border border-gray-200 min-h-[400px] flex items-center justify-center">
+              
+              <!-- État initial -->
+              <div id="initial-state" class="text-center">
+                <div class="w-20 h-20 rounded-2xl bg-brand-50 flex items-center justify-center mx-auto mb-4">
+                  <i data-lucide="wand-2" class="w-10 h-10 text-brand-600"></i>
+                </div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">Votre publicité apparaîtra ici</h3>
+                <p class="text-sm text-gray-500 max-w-sm">Remplissez le formulaire à gauche et cliquez sur "Générer" pour créer votre publicité avec l'IA.</p>
+              </div>
+              
+              <!-- État chargement (caché par défaut) -->
+              <div id="loading-state" class="text-center hidden">
+                <div class="loader mx-auto mb-4"></div>
+                <h3 class="text-lg font-bold text-gray-900 mb-2">L'IA génère votre publicité...</h3>
+                <p class="text-sm text-gray-500">Cela peut prendre 10 à 30 secondes</p>
+              </div>
+              
+              <!-- État résultat (caché par défaut) -->
+              <div id="result-state" class="w-full hidden">
+                <div class="flex items-center justify-between mb-4">
+                  <h3 class="font-bold text-gray-900">Votre publicité est prête ! 🎉</h3>
+                  <button onclick="resetForm()" class="text-sm font-semibold text-brand-600 hover:text-brand-700">
+                    Nouvelle génération
+                  </button>
+                </div>
+                
+                <!-- Résultat exemple (sera remplacé par les vraies données) -->
+                <div class="space-y-4">
+                  <!-- Texte publicitaire -->
+                  <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Texte publicitaire</p>
+                    <p class="text-gray-900">✨ Découvrez notre nouvelle collection été ! Des vêtements tendance à prix imbattables. Livraison gratuite à Cotonou. Commandez maintenant !</p>
+                  </div>
+                  
+                  <!-- Titre -->
+                  <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Titre accrocheur</p>
+                    <p class="text-gray-900 font-bold">🔥 Collection Été -50% jusqu'à dimanche !</p>
+                  </div>
+                  
+                  <!-- Appel à l'action -->
+                  <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                    <p class="text-xs font-semibold text-gray-500 uppercase mb-2">Appel à l'action</p>
+                    <p class="text-gray-900">👉 Acheter maintenant</p>
+                  </div>
+                  
+                  <!-- Image générée (placeholder) -->
+                  <div class="aspect-video rounded-xl bg-gradient-to-br from-pink-400 via-rose-500 to-red-600 flex items-center justify-center text-white">
+                    <div class="text-center">
+                      <i data-lucide="image" class="w-12 h-12 mx-auto mb-2"></i>
+                      <p class="font-bold">Visuel publicitaire généré</p>
+                      <p class="text-sm opacity-80">Intégration IA image à venir</p>
+                    </div>
+                  </div>
+                  
+                  <!-- Actions -->
+                  <div class="flex gap-3">
+                    <button class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
+                      <i data-lucide="download" class="w-4 h-4"></i>
+                      Télécharger
+                    </button>
+                    <button onclick="generateAd()" class="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold transition">
+                      <i data-lucide="refresh-cw" class="w-4 h-4"></i>
+                      Régénérer
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            
+            <!-- Historique -->
+            <div class="p-6 rounded-2xl bg-white border border-gray-200">
+              <h3 class="font-bold text-gray-900 mb-4">Historique des générations</h3>
+              <div class="space-y-3">
+                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="image" class="w-5 h-5 text-white"></i>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-gray-900 text-sm truncate">Boutique Mode - Collection été</p>
+                    <p class="text-xs text-gray-500">Image • Il y a 2h</p>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="type" class="w-5 h-5 text-white"></i>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-gray-900 text-sm truncate">Restaurant Le Bon Goût - Menu du jour</p>
+                    <p class="text-xs text-gray-500">Texte • Il y a 5h</p>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                </div>
+                
+                <div class="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 transition cursor-pointer">
+                  <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                    <i data-lucide="video" class="w-5 h-5 text-white"></i>
+                  </div>
+                  <div class="flex-1 min-w-0">
+                    <p class="font-semibold text-gray-900 text-sm truncate">TechBénin - Lancement app</p>
+                    <p class="text-xs text-gray-500">Vidéo • Hier</p>
+                  </div>
+                  <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+      </main>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.toggle('hidden');
+      sidebar.classList.toggle('fixed');
+      sidebar.classList.toggle('z-40');
+      overlay.classList.toggle('hidden');
+    }
+    
+    function generateAd() {
+      // Vérifier que les champs obligatoires sont remplis
+      const productName = document.getElementById('product-name').value;
+      const productDesc = document.getElementById('product-desc').value;
+      const audience = document.getElementById('audience').value;
+      
+      if (!productName || !productDesc || !audience) {
+        alert('Veuillez remplir tous les champs obligatoires (*)');
+        return;
+      }
+      
+      // Afficher l'état de chargement
+      document.getElementById('initial-state').classList.add('hidden');
+      document.getElementById('result-state').classList.add('hidden');
+      document.getElementById('loading-state').classList.remove('hidden');
+      
+      // Simuler un appel API (à remplacer par le vrai backend)
+      setTimeout(() => {
+        document.getElementById('loading-state').classList.add('hidden');
+        document.getElementById('result-state').classList.remove('hidden');
+        lucide.createIcons();
+      }, 3000);
+    }
+    
+    function resetForm() {
+      document.getElementById('result-state').classList.add('hidden');
+      document.getElementById('initial-state').classList.remove('hidden');
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

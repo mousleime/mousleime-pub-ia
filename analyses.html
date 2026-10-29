@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Analyses — MOUSLEIME PUB IA</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              50:  '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+
+  <div class="flex min-h-screen">
+    
+    <!-- ============ SIDEBAR ============ -->
+    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
+      
+      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+      </div>
+      
+      <nav class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-1">
+        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
+        
+        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>Tableau de bord</span>
+        </a>
+        
+        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="wand-2" class="w-5 h-5"></i>
+          <span>Studio de création</span>
+          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
+        </a>
+        
+        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="megaphone" class="w-5 h-5"></i>
+          <span>Campagnes</span>
+          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold">3</span>
+        </a>
+        
+        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
+          <i data-lucide="line-chart" class="w-5 h-5"></i>
+          <span>Analyses</span>
+        </a>
+        
+        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
+        
+        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span>Facturation</span>
+        </a>
+        
+        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          <span>Paramètres</span>
+        </a>
+      </nav>
+      
+      <div class="p-4 border-t border-gray-100 space-y-3">
+        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
+            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
+          </div>
+          <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-brand-200">/ 100</span></p>
+          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full w-[42%] bg-accent-400 rounded-full"></div>
+          </div>
+          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
+            Acheter des crédits
+          </a>
+        </div>
+        
+        <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Déconnexion</span>
+        </a>
+      </div>
+    </aside>
+    
+    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
+    
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
+      
+      <!-- Top bar -->
+      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <h1 class="text-lg font-bold text-gray-900">Analyses</h1>
+        </div>
+        
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="facturation.html" class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-xs font-semibold">
+            <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+            <span>42</span>
+          </a>
+          
+          <button class="relative p-2 rounded-lg hover:bg-gray-100 transition">
+            <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          
+          <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">AB</div>
+            <div class="hidden sm:block">
+              <p class="text-sm font-semibold text-gray-900 leading-tight">Amadou B.</p>
+              <p class="text-xs text-gray-500 leading-tight">Formule Starter</p>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Contenu principal -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+        
+        <!-- ===== HEADER ===== -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Performances de vos campagnes 📊</h2>
+            <p class="mt-1 text-gray-600">Analysez vos résultats et optimisez vos publicités grâce à l'IA.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <select class="px-4 py-2 rounded-lg border border-gray-200 text-sm font-medium text-gray-700 bg-white">
+              <option>7 derniers jours</option>
+              <option>30 derniers jours</option>
+              <option>90 derniers jours</option>
+              <option>Personnalisé</option>
+            </select>
+            <button class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+              <i data-lucide="download" class="w-4 h-4 text-gray-600"></i>
+            </button>
+          </div>
+        </div>
+        
+        <!-- ===== BANDEAU TRANSPARENCE ===== -->
+        <div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-3">
+          <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="info" class="w-5 h-5 text-blue-600"></i>
+          </div>
+          <div class="flex-1">
+            <p class="font-semibold text-blue-900">Données issues des API officielles</p>
+            <p class="text-sm text-blue-800 mt-0.5">Les statistiques affichées proviennent directement de Facebook, Instagram et TikTok via leurs API officielles. Dernière mise à jour : il y a 5 minutes.</p>
+          </div>
+        </div>
+        
+        <!-- ===== STATS PRINCIPALES ===== -->
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          <!-- Impressions -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
+                <i data-lucide="eye" class="w-5 h-5 text-blue-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+18%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">45 820</p>
+            <p class="text-sm text-gray-500 mt-0.5">Impressions</p>
+          </div>
+          
+          <!-- Portée -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
+                <i data-lucide="users" class="w-5 h-5 text-purple-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+12%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">32 150</p>
+            <p class="text-sm text-gray-500 mt-0.5">Personnes touchées</p>
+          </div>
+          
+          <!-- Clics -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
+                <i data-lucide="mouse-pointer-click" class="w-5 h-5 text-green-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+28%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">1 847</p>
+            <p class="text-sm text-gray-500 mt-0.5">Clics totaux</p>
+          </div>
+          
+          <!-- CTR -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-accent-500/10 flex items-center justify-center">
+                <i data-lucide="trending-up" class="w-5 h-5 text-accent-500"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+0.5%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">4.03%</p>
+            <p class="text-sm text-gray-500 mt-0.5">Taux de clic (CTR)</p>
+          </div>
+          
+          <!-- CPC -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center">
+                <i data-lucide="coins" class="w-5 h-5 text-red-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">-15%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">24 FCFA</p>
+            <p class="text-sm text-gray-500 mt-0.5">Coût par clic</p>
+          </div>
+          
+          <!-- Conversions -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center">
+                <i data-lucide="check-circle" class="w-5 h-5 text-indigo-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+35%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">142</p>
+            <p class="text-sm text-gray-500 mt-0.5">Conversions</p>
+          </div>
+          
+          <!-- CPA -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center">
+                <i data-lucide="target" class="w-5 h-5 text-orange-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">-8%</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">317 FCFA</p>
+            <p class="text-sm text-gray-500 mt-0.5">Coût par conversion</p>
+          </div>
+          
+          <!-- ROAS -->
+          <div class="p-5 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-3">
+              <div class="w-10 h-10 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <i data-lucide="trending-up" class="w-5 h-5 text-emerald-600"></i>
+              </div>
+              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+0.8x</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">3.2x</p>
+            <p class="text-sm text-gray-500 mt-0.5">ROAS</p>
+          </div>
+          
+        </div>
+        
+        <!-- ===== GRAPHIQUES ===== -->
+        <div class="grid lg:grid-cols-2 gap-6">
+          
+          <!-- Évolution des performances -->
+          <div class="p-6 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-bold text-gray-900">Évolution des clics</h3>
+                <p class="text-sm text-gray-500 mt-0.5">7 derniers jours</p>
+              </div>
+            </div>
+            <div class="h-64">
+              <canvas id="clicksChart"></canvas>
+            </div>
+          </div>
+          
+          <!-- Répartition par plateforme -->
+          <div class="p-6 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <h3 class="font-bold text-gray-900">Répartition par plateforme</h3>
+                <p class="text-sm text-gray-500 mt-0.5">Budget dépensé</p>
+              </div>
+            </div>
+            <div class="h-64">
+              <canvas id="platformChart"></canvas>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- ===== TOP CAMPAGNES ===== -->
+        <div class="p-6 rounded-2xl bg-white border border-gray-200">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h3 class="font-bold text-gray-900">Top 3 des campagnes les plus performantes</h3>
+              <p class="text-sm text-gray-500 mt-0.5">Classées par ROAS</p>
+            </div>
+          </div>
+          
+          <div class="space-y-4">
+            
+            <!-- Campagne 1 -->
+            <div class="p-4 rounded-xl border border-gray-200 hover:border-brand-200 transition">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">1</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 mb-2">
+                    <div>
+                      <p class="font-semibold text-gray-900">Promo Collection Été</p>
+                      <p class="text-xs text-gray-500">Facebook • Boutique Mode Cotonou</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-lg font-bold text-green-600">4.8x</p>
+                      <p class="text-xs text-gray-500">ROAS</p>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                    <div>
+                      <p class="text-gray-500 text-xs">Impressions</p>
+                      <p class="font-semibold text-gray-900">18 420</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">Clics</p>
+                      <p class="font-semibold text-gray-900">847</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">CTR</p>
+                      <p class="font-semibold text-gray-900">4.6%</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">Conversions</p>
+                      <p class="font-semibold text-gray-900">72</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Campagne 2 -->
+            <div class="p-4 rounded-xl border border-gray-200 hover:border-brand-200 transition">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">2</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 mb-2">
+                    <div>
+                      <p class="font-semibold text-gray-900">Menu du jour - Le Bon Goût</p>
+                      <p class="text-xs text-gray-500">Instagram • Restaurant Le Bon Goût</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-lg font-bold text-green-600">3.5x</p>
+                      <p class="text-xs text-gray-500">ROAS</p>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                    <div>
+                      <p class="text-gray-500 text-xs">Impressions</p>
+                      <p class="font-semibold text-gray-900">15 200</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">Clics</p>
+                      <p class="font-semibold text-gray-900">612</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">CTR</p>
+                      <p class="font-semibold text-gray-900">4.0%</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">Conversions</p>
+                      <p class="font-semibold text-gray-900">45</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Campagne 3 -->
+            <div class="p-4 rounded-xl border border-gray-200 hover:border-brand-200 transition">
+              <div class="flex items-start gap-4">
+                <div class="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-400 to-indigo-500 flex items-center justify-center flex-shrink-0">
+                  <span class="text-white font-bold">3</span>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-start justify-between gap-3 mb-2">
+                    <div>
+                      <p class="font-semibold text-gray-900">Lancement App Mobile</p>
+                      <p class="text-xs text-gray-500">TikTok • TechBénin</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="text-lg font-bold text-green-600">2.1x</p>
+                      <p class="text-xs text-gray-500">ROAS</p>
+                    </div>
+                  </div>
+                  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+                    <div>
+                      <p class="text-gray-500 text-xs">Impressions</p>
+                      <p class="font-semibold text-gray-900">12 200</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">Clics</p>
+                      <p class="font-semibold text-gray-900">388</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">CTR</p>
+                      <p class="font-semibold text-gray-900">3.2%</p>
+                    </div>
+                    <div>
+                      <p class="text-gray-500 text-xs">Conversions</p>
+                      <p class="font-semibold text-gray-900">25</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        
+        <!-- ===== RECOMMANDATIONS IA ===== -->
+        <div class="p-6 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+          
+          <div class="relative">
+            <div class="flex items-center gap-2 mb-4">
+              <div class="w-10 h-10 rounded-xl bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center">
+                <i data-lucide="sparkles" class="w-5 h-5 text-accent-400"></i>
+              </div>
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-accent-400">Recommandations IA</span>
+                <p class="text-sm text-brand-100">Basées sur l'analyse de vos performances</p>
+              </div>
+            </div>
+            
+            <div class="space-y-3">
+              <div class="p-4 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                <div class="flex items-start gap-3">
+                  <i data-lucide="trending-up" class="w-5 h-5 text-accent-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1">
+                    <p class="font-semibold">Augmentez le budget de "Promo Collection Été"</p>
+                    <p class="text-sm text-brand-100 mt-0.5">Cette campagne a un ROAS de 4.8x. Augmenter son budget de 30% pourrait générer +45 000 FCFA de CA supplémentaire.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="p-4 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                <div class="flex items-start gap-3">
+                  <i data-lucide="target" class="w-5 h-5 text-accent-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1">
+                    <p class="font-semibold">Optimisez le ciblage de "Lancement App Mobile"</p>
+                    <p class="text-sm text-brand-100 mt-0.5">Le CTR est inférieur à la moyenne. Testez un ciblage sur les 18-35 ans au lieu de 18-45 ans pour améliorer la pertinence.</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="p-4 rounded-xl bg-white/10 backdrop-blur border border-white/20">
+                <div class="flex items-start gap-3">
+                  <i data-lucide="refresh-cw" class="w-5 h-5 text-accent-400 flex-shrink-0 mt-0.5"></i>
+                  <div class="flex-1">
+                    <p class="font-semibold">Renouvelez les visuels de "Menu du jour"</p>
+                    <p class="text-sm text-brand-100 mt-0.5">Cette campagne dure depuis 10 jours. Les performances baissent après 7 jours. Générez de nouveaux visuels dans le Studio IA.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </main>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.toggle('hidden');
+      sidebar.classList.toggle('fixed');
+      sidebar.classList.toggle('z-40');
+      overlay.classList.toggle('hidden');
+    }
+    
+    // Graphique 1 : Évolution des clics
+    const ctx1 = document.getElementById('clicksChart').getContext('2d');
+    const gradient1 = ctx1.createLinearGradient(0, 0, 0, 250);
+    gradient1.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
+    gradient1.addColorStop(1, 'rgba(99, 102, 241, 0)');
+    
+    new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
+        datasets: [{
+          label: 'Clics',
+          data: [120, 190, 170, 280, 250, 340, 310],
+          borderColor: '#6366f1',
+          backgroundColor: gradient1,
+          fill: true,
+          tension: 0.4,
+          borderWidth: 2.5,
+          pointBackgroundColor: '#6366f1',
+          pointBorderColor: '#fff',
+          pointBorderWidth: 2,
+          pointRadius: 0,
+          pointHoverRadius: 6,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: '#1e1b4b',
+            padding: 12,
+            cornerRadius: 8,
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: '#9ca3af', font: { size: 12 } }
+          },
+          y: {
+            grid: { color: '#f3f4f6' },
+            ticks: { color: '#9ca3af', font: { size: 12 } },
+            beginAtZero: true
+          }
+        }
+      }
+    });
+    
+    // Graphique 2 : Répartition par plateforme
+    const ctx2 = document.getElementById('platformChart').getContext('2d');
+    new Chart(ctx2, {
+      type: 'doughnut',
+      data: {
+        labels: ['Facebook', 'Instagram', 'TikTok'],
+        datasets: [{
+          data: [45, 35, 20],
+          backgroundColor: ['#3b82f6', '#ec4899', '#1f2937'],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '65%',
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              padding: 20,
+              font: { size: 12, weight: '500' }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

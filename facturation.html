@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facturation — MOUSLEIME PUB IA</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          colors: {
+            brand: {
+              50:  '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#1e1b4b',
+            },
+            accent: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+    .scrollbar-thin::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
+    .modal-backdrop {
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+    }
+  </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+
+  <div class="flex min-h-screen">
+    
+    <!-- ============ SIDEBAR ============ -->
+    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
+      
+      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
+        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
+          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
+        </div>
+        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+      </div>
+      
+      <nav class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-1">
+        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
+        
+        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
+          <span>Tableau de bord</span>
+        </a>
+        
+        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="wand-2" class="w-5 h-5"></i>
+          <span>Studio de création</span>
+          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
+        </a>
+        
+        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="megaphone" class="w-5 h-5"></i>
+          <span>Campagnes</span>
+          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold">3</span>
+        </a>
+        
+        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="line-chart" class="w-5 h-5"></i>
+          <span>Analyses</span>
+        </a>
+        
+        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
+        
+        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
+          <i data-lucide="credit-card" class="w-5 h-5"></i>
+          <span>Facturation</span>
+        </a>
+        
+        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
+          <i data-lucide="settings" class="w-5 h-5"></i>
+          <span>Paramètres</span>
+        </a>
+      </nav>
+      
+      <div class="p-4 border-t border-gray-100 space-y-3">
+        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
+          <div class="flex items-center justify-between mb-2">
+            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
+            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
+          </div>
+          <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-brand-200">/ 100</span></p>
+          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
+            <div class="h-full w-[42%] bg-accent-400 rounded-full"></div>
+          </div>
+          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
+            Acheter des crédits
+          </a>
+        </div>
+        
+        <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
+          <i data-lucide="log-out" class="w-4 h-4"></i>
+          <span>Déconnexion</span>
+        </a>
+      </div>
+    </aside>
+    
+    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black-50 z-30 hidden" onclick="toggleSidebar()"></div>
+    
+    <!-- ============ MAIN CONTENT ============ -->
+    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
+      
+      <!-- Top bar -->
+      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
+        <div class="flex items-center gap-3">
+          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
+            <i data-lucide="menu" class="w-5 h-5"></i>
+          </button>
+          <h1 class="text-lg font-bold text-gray-900">Facturation</h1>
+        </div>
+        
+        <div class="flex items-center gap-2 sm:gap-3">
+          <a href="facturation.html" class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-xs font-semibold">
+            <i data-lucide="coins" class="w-3.5 h-3.5"></i>
+            <span>42</span>
+          </a>
+          
+          <button class="relative p-2 rounded-lg hover:bg-gray-100 transition">
+            <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+          
+          <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">AB</div>
+            <div class="hidden sm:block">
+              <p class="text-sm font-semibold text-gray-900 leading-tight">Amadou B.</p>
+              <p class="text-xs text-gray-500 leading-tight">Formule Starter</p>
+            </div>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Contenu principal -->
+      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
+        
+        <!-- ===== HEADER ===== -->
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Facturation et crédits 💰</h2>
+          <p class="mt-1 text-gray-600">Gérez votre abonnement, achetez des crédits et consultez vos factures.</p>
+        </div>
+        
+        <!-- ===== CARTE SOLDE ACTUEL ===== -->
+        <div class="grid md:grid-cols-3 gap-4">
+          
+          <!-- Crédits IA -->
+          <div class="p-6 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 text-white relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-accent-500/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+            <div class="relative">
+              <div class="flex items-center gap-2 mb-2">
+                <i data-lucide="coins" class="w-5 h-5 text-accent-400"></i>
+                <span class="text-sm font-medium text-brand-100">Crédits IA</span>
+              </div>
+              <p class="text-4xl font-bold">42</p>
+              <p class="text-sm text-brand-200 mt-1">sur 100 inclus dans Starter</p>
+              <button onclick="openCreditsModal()" class="mt-4 w-full py-2.5 rounded-xl bg-white hover:bg-gray-100 text-brand-700 font-semibold text-sm transition">
+                + Acheter des crédits
+              </button>
+            </div>
+          </div>
+          
+          <!-- Abonnement actuel -->
+          <div class="p-6 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="crown" class="w-5 h-5 text-accent-500"></i>
+              <span class="text-sm font-medium text-gray-500">Abonnement actuel</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">Starter</p>
+            <p class="text-sm text-gray-500 mt-1">9 900 FCFA / mois</p>
+            <div class="mt-3 pt-3 border-t border-gray-100">
+              <p class="text-xs text-gray-500">Prochain renouvellement</p>
+              <p class="text-sm font-semibold text-gray-900">29 novembre 2026</p>
+            </div>
+          </div>
+          
+          <!-- Méthode de paiement -->
+          <div class="p-6 rounded-2xl bg-white border border-gray-200">
+            <div class="flex items-center gap-2 mb-2">
+              <i data-lucide="smartphone" class="w-5 h-5 text-green-600"></i>
+              <span class="text-sm font-medium text-gray-500">Méthode de paiement</span>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">MTN MoMo</p>
+            <p class="text-sm text-gray-500 mt-1">•••• •••• •••• 7845</p>
+            <button class="mt-3 text-sm font-semibold text-brand-600 hover:text-brand-700">
+              Modifier →
+            </button>
+          </div>
+          
+        </div>
+        
+        <!-- ===== BANDEAU INFO ===== -->
+        <div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-3">
+          <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
+            <i data-lucide="info" class="w-5 h-5 text-blue-600"></i>
+          </div>
+          <div class="flex-1">
+            <p class="font-semibold text-blue-900">À savoir</p>
+            <p class="text-sm text-blue-800 mt-0.5">
+              <strong>Votre abonnement</strong> couvre l'accès à la plateforme et les crédits IA. 
+              <strong>Le budget publicitaire</strong> (payé à Facebook, Instagram, TikTok) est séparé et directement débité par ces plateformes.
+            </p>
+          </div>
+        </div>
+        
+        <!-- ===== FORMULES D'ABONNEMENT ===== -->
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold text-gray-900">Changez de formule</h3>
+            <div class="flex items-center gap-1 p-1 rounded-lg bg-gray-100">
+              <button class="px-3 py-1.5 text-xs font-semibold rounded-md bg-white text-gray-900 shadow-sm">Mensuel</button>
+              <button class="px-3 py-1.5 text-xs font-semibold rounded-md text-gray-500 hover:text-gray-900">Annuel <span class="text-green-600">-20%</span></button>
+            </div>
+          </div>
+          
+          <div class="grid md:grid-cols-3 gap-4">
+            
+            <!-- Gratuit -->
+            <div class="p-6 rounded-2xl bg-white border border-gray-200">
+              <h4 class="font-bold text-gray-900">Découverte</h4>
+              <p class="text-sm text-gray-500 mt-1">Pour tester la plateforme</p>
+              <div class="mt-4">
+                <span class="text-3xl font-extrabold text-gray-900">0</span>
+                <span class="text-gray-500 ml-1">FCFA</span>
+                <div class="text-xs text-gray-400 mt-1">pour toujours</div>
+              </div>
+              <ul class="mt-5 space-y-2.5 text-sm">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> 5 générations IA gratuites</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Textes publicitaires</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> 1 campagne active</li>
+                <li class="flex items-start gap-2 text-gray-400"><i data-lucide="x" class="w-4 h-4 mt-0.5 flex-shrink-0"></i> Génération d'images</li>
+                <li class="flex items-start gap-2 text-gray-400"><i data-lucide="x" class="w-4 h-4 mt-0.5 flex-shrink-0"></i> Analyses avancées</li>
+              </ul>
+              <button class="mt-6 w-full py-2.5 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition text-sm">
+                Formule actuelle : Starter
+              </button>
+            </div>
+            
+            <!-- Starter (actuel) -->
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 text-white shadow-xl shadow-brand-600/20 relative">
+              <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent-500 text-xs font-bold text-gray-900">⭐ ACTUEL</div>
+              <h4 class="font-bold">Starter</h4>
+              <p class="text-sm text-brand-100 mt-1">Pour les entrepreneurs</p>
+              <div class="mt-4">
+                <span class="text-3xl font-extrabold">9 900</span>
+                <span class="text-brand-100 ml-1">FCFA</span>
+                <div class="text-xs text-brand-200 mt-1">par mois</div>
+              </div>
+              <ul class="mt-5 space-y-2.5 text-sm">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> 100 générations IA / mois</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> Images IA illimitées</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> 5 campagnes actives</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> Analyses de base</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> Support par email</li>
+              </ul>
+              <button class="mt-6 w-full py-2.5 rounded-xl bg-white/20 backdrop-blur border border-white/30 font-semibold text-white text-sm cursor-default">
+                ✓ Formule actuelle
+              </button>
+            </div>
+            
+            <!-- Pro -->
+            <div class="p-6 rounded-2xl bg-white border-2 border-brand-200">
+              <h4 class="font-bold text-gray-900">Pro</h4>
+              <p class="text-sm text-gray-500 mt-1">Pour les agences & équipes</p>
+              <div class="mt-4">
+                <span class="text-3xl font-extrabold text-gray-900">29 900</span>
+                <span class="text-gray-500 ml-1">FCFA</span>
+                <div class="text-xs text-gray-400 mt-1">par mois</div>
+              </div>
+              <ul class="mt-5 space-y-2.5 text-sm">
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Générations IA illimitées</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Vidéos IA + voix off</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Campagnes illimitées</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Analyses avancées + ROAS</li>
+                <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Support prioritaire</li>
+              </ul>
+              <button onclick="upgradeToPro()" class="mt-6 w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition text-sm">
+                Passer à Pro →
+              </button>
+            </div>
+            
+          </div>
+        </div>
+        
+        <!-- ===== PACKS DE CRÉDITS ===== -->
+        <div>
+          <h3 class="text-xl font-bold text-gray-900 mb-4">Acheter des crédits supplémentaires</h3>
+          <p class="text-sm text-gray-600 mb-4">Les crédits n'expirent pas. 1 crédit = 1 génération de texte ou d'image. 5 crédits = 1 vidéo.</p>
+          
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 hover:border-brand-300 hover:shadow-md transition cursor-pointer" onclick="buyCredits(20, 2500)">
+              <p class="text-xs font-semibold text-gray-500 uppercase">Pack Découverte</p>
+              <div class="mt-2 flex items-baseline gap-1">
+                <span class="text-3xl font-extrabold text-gray-900">20</span>
+                <span class="text-sm text-gray-500">crédits</span>
+              </div>
+              <p class="mt-3 text-lg font-bold text-brand-600">2 500 FCFA</p>
+              <p class="text-xs text-gray-500 mt-1">125 FCFA / crédit</p>
+            </div>
+            
+            <div class="p-5 rounded-2xl bg-white border-2 border-brand-500 relative cursor-pointer hover:shadow-md transition" onclick="buyCredits(50, 5000)">
+              <div class="absolute -top-2.5 right-3 px-2 py-0.5 rounded-full bg-accent-500 text-[10px] font-bold text-gray-900">POPULAIRE</div>
+              <p class="text-xs font-semibold text-brand-600 uppercase">Pack Starter</p>
+              <div class="mt-2 flex items-baseline gap-1">
+                <span class="text-3xl font-extrabold text-gray-900">50</span>
+                <span class="text-sm text-gray-500">crédits</span>
+              </div>
+              <p class="mt-3 text-lg font-bold text-brand-600">5 000 FCFA</p>
+              <p class="text-xs text-gray-500 mt-1">100 FCFA / crédit</p>
+            </div>
+            
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 hover:border-brand-300 hover:shadow-md transition cursor-pointer" onclick="buyCredits(150, 12000)">
+              <p class="text-xs font-semibold text-gray-500 uppercase">Pack Pro</p>
+              <div class="mt-2 flex items-baseline gap-1">
+                <span class="text-3xl font-extrabold text-gray-900">150</span>
+                <span class="text-sm text-gray-500">crédits</span>
+              </div>
+              <p class="mt-3 text-lg font-bold text-brand-600">12 000 FCFA</p>
+              <p class="text-xs text-green-600 font-semibold mt-1">-20% 🎉</p>
+            </div>
+            
+            <div class="p-5 rounded-2xl bg-white border border-gray-200 hover:border-brand-300 hover:shadow-md transition cursor-pointer" onclick="buyCredits(500, 35000)">
+              <p class="text-xs font-semibold text-gray-500 uppercase">Pack Agence</p>
+              <div class="mt-2 flex items-baseline gap-1">
+                <span class="text-3xl font-extrabold text-gray-900">500</span>
+                <span class="text-sm text-gray-500">crédits</span>
+              </div>
+              <p class="mt-3 text-lg font-bold text-brand-600">35 000 FCFA</p>
+              <p class="text-xs text-green-600 font-semibold mt-1">-30% 🔥</p>
+            </div>
+            
+          </div>
+        </div>
+        
+        <!-- ===== HISTORIQUE DES TRANSACTIONS ===== -->
+        <div class="rounded-2xl bg-white border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+            <div>
+              <h3 class="font-bold text-gray-900">Historique des transactions</h3>
+              <p class="text-sm text-gray-500 mt-0.5">Vos paiements et consommations récents</p>
+            </div>
+            <button class="p-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition">
+              <i data-lucide="download" class="w-4 h-4 text-gray-600"></i>
+            </button>
+          </div>
+          
+          <div class="divide-y divide-gray-100">
+            
+            <!-- Transaction 1 -->
+            <div class="p-4 sm:px-6 flex items-center gap-4 hover:bg-gray-50 transition">
+              <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="coins" class="w-5 h-5 text-green-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-gray-900 text-sm">Achat Pack Starter (50 crédits)</p>
+                <p class="text-xs text-gray-500">28 oct. 2026 • MTN Mobile Money</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-green-600 text-sm">+50 crédits</p>
+                <p class="text-xs text-gray-500">5 000 FCFA</p>
+              </div>
+            </div>
+            
+            <!-- Transaction 2 -->
+            <div class="p-4 sm:px-6 flex items-center gap-4 hover:bg-gray-50 transition">
+              <div class="w-10 h-10 rounded-lg bg-brand-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="crown" class="w-5 h-5 text-brand-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-gray-900 text-sm">Abonnement Starter - Octobre</p>
+                <p class="text-xs text-gray-500">29 sept. 2026 • MTN Mobile Money</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-gray-900 text-sm">Renouvellement</p>
+                <p class="text-xs text-gray-500">9 900 FCFA</p>
+              </div>
+            </div>
+            
+            <!-- Transaction 3 -->
+            <div class="p-4 sm:px-6 flex items-center gap-4 hover:bg-gray-50 transition">
+              <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="wand-2" class="w-5 h-5 text-orange-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-gray-900 text-sm">Consommation IA - 8 crédits</p>
+                <p class="text-xs text-gray-500">27 oct. 2026 • Studio de création</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-orange-600 text-sm">-8 crédits</p>
+                <p class="text-xs text-gray-500">Générations</p>
+              </div>
+            </div>
+            
+            <!-- Transaction 4 -->
+            <div class="p-4 sm:px-6 flex items-center gap-4 hover:bg-gray-50 transition">
+              <div class="w-10 h-10 rounded-lg bg-orange-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="wand-2" class="w-5 h-5 text-orange-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-gray-900 text-sm">Consommation IA - 5 crédits</p>
+                <p class="text-xs text-gray-500">25 oct. 2026 • Vidéo TechBénin</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-orange-600 text-sm">-5 crédits</p>
+                <p class="text-xs text-gray-500">1 vidéo</p>
+              </div>
+            </div>
+            
+            <!-- Transaction 5 -->
+            <div class="p-4 sm:px-6 flex items-center gap-4 hover:bg-gray-50 transition">
+              <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="gift" class="w-5 h-5 text-green-600"></i>
+              </div>
+              <div class="flex-1 min-w-0">
+                <p class="font-semibold text-gray-900 text-sm">Crédits bonus de bienvenue</p>
+                <p class="text-xs text-gray-500">15 oct. 2026 • Offre de lancement</p>
+              </div>
+              <div class="text-right">
+                <p class="font-bold text-green-600 text-sm">+10 crédits</p>
+                <p class="text-xs text-gray-500">Bonus</p>
+              </div>
+            </div>
+            
+          </div>
+          
+          <div class="p-4 text-center border-t border-gray-100">
+            <button class="text-sm font-semibold text-brand-600 hover:text-brand-700">Voir tout l'historique →</button>
+          </div>
+        </div>
+        
+        <!-- ===== FACTURES ===== -->
+        <div class="rounded-2xl bg-white border border-gray-200 overflow-hidden">
+          <div class="p-6 border-b border-gray-100">
+            <h3 class="font-bold text-gray-900">Factures</h3>
+            <p class="text-sm text-gray-500 mt-0.5">Téléchargez vos factures pour votre comptabilité.</p>
+          </div>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full min-w-[600px]">
+              <thead>
+                <tr class="text-left text-xs font-semibold text-gray-500 uppercase tracking-wider bg-gray-50 border-b border-gray-200">
+                  <th class="px-6 py-3">Date</th>
+                  <th class="px-6 py-3">Description</th>
+                  <th class="px-6 py-3">Montant</th>
+                  <th class="px-6 py-3">Statut</th>
+                  <th class="px-6 py-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                <tr class="hover:bg-gray-50 transition">
+                  <td class="px-6 py-4 text-sm text-gray-700">28 oct. 2026</td>
+                  <td class="px-6 py-4 text-sm font-semibold text-gray-900">Pack Starter (50 crédits)</td>
+                  <td class="px-6 py-4 text-sm font-semibold text-gray-900">5 000 FCFA</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                      Payée
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="p-2 rounded-lg hover:bg-gray-100 transition" title="Télécharger">
+                      <i data-lucide="download" class="w-4 h-4 text-gray-600"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition">
+                  <td class="px-6 py-4 text-sm text-gray-700">29 sept. 2026</td>
+                  <td class="px-6 py-4 text-sm font-semibold text-gray-900">Abonnement Starter - Octobre</td>
+                  <td class="px-6 py-4 text-sm font-semibold text-gray-900">9 900 FCFA</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                      Payée
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="p-2 rounded-lg hover:bg-gray-100 transition">
+                      <i data-lucide="download" class="w-4 h-4 text-gray-600"></i>
+                    </button>
+                  </td>
+                </tr>
+                <tr class="hover:bg-gray-50 transition">
+                  <td class="px-6 py-4 text-sm text-gray-700">15 oct. 2026</td>
+                  <td class="px-6 py-4 text-sm font-semibold text-gray-900">Abonnement Starter - Septembre</td>
+                  <td class="px-6 py-4 text-sm font-semibold text-gray-900">9 900 FCFA</td>
+                  <td class="px-6 py-4">
+                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-50 text-green-700 text-xs font-semibold">
+                      <span class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                      Payée
+                    </span>
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <button class="p-2 rounded-lg hover:bg-gray-100 transition">
+                      <i data-lucide="download" class="w-4 h-4 text-gray-600"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+      </main>
+    </div>
+  </div>
+
+  <!-- ============ MODAL ACHAT CRÉDITS ============ -->
+  <div id="credits-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-2xl w-full max-w-md shadow-2xl">
+      
+      <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+        <h3 class="font-bold text-gray-900">Acheter des crédits</h3>
+        <button onclick="closeCreditsModal()" class="p-2 rounded-lg hover:bg-gray-100 transition">
+          <i data-lucide="x" class="w-5 h-5 text-gray-500"></i>
+        </button>
+      </div>
+      
+      <div class="p-6 space-y-4">
+        
+        <div>
+          <label class="block text-sm font-semibold text-gray-900 mb-2">Nombre de crédits</label>
+          <input type="number" id="credits-amount" value="50" min="10" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+        </div>
+        
+        <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
+          <div class="flex items-center justify-between text-sm">
+            <span class="text-gray-600">Prix unitaire</span>
+            <span class="font-semibold text-gray-900">100 FCFA</span>
+          </div>
+          <div class="flex items-center justify-between text-sm mt-2">
+            <span class="text-gray-600">Quantité</span>
+            <span class="font-semibold text-gray-900" id="credits-qty">50</span>
+          </div>
+          <div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-200">
+            <span class="font-bold text-gray-900">Total</span>
+            <span class="text-xl font-bold text-brand-600" id="credits-total">5 000 FCFA</span>
+          </div>
+        </div>
+        
+        <div>
+          <label class="block text-sm font-semibold text-gray-900 mb-3">Moyen de paiement</label>
+          <div class="space-y-2">
+            
+            <label class="cursor-pointer">
+              <input type="radio" name="payment" value="mtn" class="peer sr-only" checked>
+              <div class="p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 flex items-center gap-3 transition">
+                <div class="w-10 h-10 rounded-lg bg-yellow-400 flex items-center justify-center text-white font-bold text-xs">MTN</div>
+                <div class="flex-1">
+                  <p class="font-semibold text-gray-900 text-sm">MTN Mobile Money</p>
+                  <p class="text-xs text-gray-500">•••• 7845</p>
+                </div>
+                <i data-lucide="check-circle" class="w-5 h-5 text-brand-600 opacity-0 peer-checked:opacity-100"></i>
+              </div>
+            </label>
+            
+            <label class="cursor-pointer">
+              <input type="radio" name="payment" value="moov" class="peer sr-only">
+              <div class="p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 flex items-center gap-3 transition">
+                <div class="w-10 h-10 rounded-lg bg-blue-500 flex items-center justify-center text-white font-bold text-xs">Moov</div>
+                <div class="flex-1">
+                  <p class="font-semibold text-gray-900 text-sm">Moov Money</p>
+                  <p class="text-xs text-gray-500">Ajouter un numéro</p>
+                </div>
+              </div>
+            </label>
+            
+            <label class="cursor-pointer">
+              <input type="radio" name="payment" value="celtiis" class="peer sr-only">
+              <div class="p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 flex items-center gap-3 transition">
+                <div class="w-10 h-10 rounded-lg bg-green-600 flex items-center justify-center text-white font-bold text-xs">Cel</div>
+                <div class="flex-1">
+                  <p class="font-semibold text-gray-900 text-sm">Celtiis Money</p>
+                  <p class="text-xs text-gray-500">Ajouter un numéro</p>
+                </div>
+              </div>
+            </label>
+            
+            <label class="cursor-pointer">
+              <input type="radio" name="payment" value="card" class="peer sr-only">
+              <div class="p-3 rounded-xl border-2 border-gray-200 peer-checked:border-brand-600 peer-checked:bg-brand-50 flex items-center gap-3 transition">
+                <div class="w-10 h-10 rounded-lg bg-gray-800 flex items-center justify-center">
+                  <i data-lucide="credit-card" class="w-5 h-5 text-white"></i>
+                </div>
+                <div class="flex-1">
+                  <p class="font-semibold text-gray-900 text-sm">Carte bancaire</p>
+                  <p class="text-xs text-gray-500">Visa, Mastercard</p>
+                </div>
+              </div>
+            </label>
+            
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="p-6 border-t border-gray-100 flex gap-3">
+        <button onclick="closeCreditsModal()" class="flex-1 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">
+          Annuler
+        </button>
+        <button onclick="confirmPurchase()" class="flex-1 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
+          Payer maintenant
+        </button>
+      </div>
+      
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+    
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.toggle('hidden');
+      sidebar.classList.toggle('fixed');
+      sidebar.classList.toggle('z-40');
+      overlay.classList.toggle('hidden');
+    }
+    
+    function openCreditsModal() {
+      const modal = document.getElementById('credits-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      lucide.createIcons();
+    }
+    
+    function closeCreditsModal() {
+      const modal = document.getElementById('credits-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+    
+    function buyCredits(amount, price) {
+      document.getElementById('credits-amount').value = amount;
+      updateTotal();
+      openCreditsModal();
+    }
+    
+    function updateTotal() {
+      const amount = parseInt(document.getElementById('credits-amount').value) || 0;
+      const pricePerCredit = 100;
+      const total = amount * pricePerCredit;
+      document.getElementById('credits-qty').textContent = amount;
+      document.getElementById('credits-total').textContent = total.toLocaleString('fr-FR') + ' FCFA';
+    }
+    
+    document.getElementById('credits-amount').addEventListener('input', updateTotal);
+    
+    function confirmPurchase() {
+      alert('✅ Paiement initié !\n\nVous allez recevoir une notification sur votre téléphone pour confirmer le paiement Mobile Money.\n\n(Une vraie intégration avec CinetPay ou KKiaPay sera nécessaire en production)');
+      closeCreditsModal();
+    }
+    
+    function upgradeToPro() {
+      if (confirm('Passer à la formule Pro à 29 900 FCFA/mois ?\n\nVous serez facturé immédiatement et votre prochaine échéance sera décalée.')) {
+        alert('✅ Redirection vers le paiement...\n\n(Intégration Mobile Money à venir)');
+      }
+    }
+  </script>
+</body>
+</html>
