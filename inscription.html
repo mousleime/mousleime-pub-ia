@@ -6,7 +6,7 @@
   <title>Inscription — MOUSLEIME PUB IA</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   
@@ -170,14 +170,24 @@
   <script>
     lucide.createIcons();
     
-    // ⚙️ CONFIGURATION SUPABASE
-    const SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Configuration Supabase
+    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
+    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
+    
+    // Créer le client avec un nom différent pour éviter le conflit
+    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        storage: window.localStorage
+      }
+    });
+    
+    console.log('🔵 inscription.html chargé, client Supabase créé');
     
     function togglePassword(id, btn) {
-      const input = document.getElementById(id);
-      const isPassword = input.type === 'password';
+      var input = document.getElementById(id);
+      var isPassword = input.type === 'password';
       input.type = isPassword ? 'text' : 'password';
       btn.innerHTML = isPassword 
         ? '<i data-lucide="eye-off" class="w-5 h-5"></i>'
@@ -188,12 +198,12 @@
     document.getElementById('signup-form').addEventListener('submit', async function(e) {
       e.preventDefault();
       
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const submitBtn = document.getElementById('submit-btn');
-      const errorDiv = document.getElementById('error-message');
-      const successDiv = document.getElementById('success-message');
+      var name = document.getElementById('name').value.trim();
+      var email = document.getElementById('email').value.trim();
+      var password = document.getElementById('password').value;
+      var submitBtn = document.getElementById('submit-btn');
+      var errorDiv = document.getElementById('error-message');
+      var successDiv = document.getElementById('success-message');
       
       // Cacher les messages précédents
       errorDiv.classList.add('hidden');
@@ -201,11 +211,13 @@
       
       // Désactiver le bouton
       submitBtn.disabled = true;
-      submitBtn.innerHTML = '<div class="loader w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div> Création en cours...';
+      submitBtn.innerHTML = 'Création en cours...';
       
       try {
+        console.log('🔵 Tentative d\'inscription avec:', email);
+        
         // Inscription avec Supabase
-        const { data, error } = await supabase.auth.signUp({
+        var result = await sb.auth.signUp({
           email: email,
           password: password,
           options: {
@@ -215,13 +227,20 @@
           }
         });
         
-        if (error) {
-          throw error;
+        console.log('🟢 Résultat signUp:', result);
+        
+        if (result.error) {
+          throw result.error;
         }
         
         // Mettre à jour le profil avec le nom complet
-        if (data.user) {
-          await supabase.from('profiles').update({ full_name: name }).eq('id', data.user.id);
+        if (result.data.user) {
+          console.log('🟢 User créé, ID:', result.data.user.id);
+          
+          // Mettre à jour le profil avec le nom
+          await sb.from('profiles').update({ full_name: name }).eq('id', result.data.user.id);
+          
+          console.log('🟢 Profil mis à jour avec le nom');
         }
         
         // Succès
@@ -229,11 +248,12 @@
         successDiv.classList.remove('hidden');
         
         // Redirection après 2 secondes
-        setTimeout(() => {
+        setTimeout(function() {
           window.location.href = 'connexion.html';
         }, 2000);
         
       } catch (err) {
+        console.error('❌ Erreur d\'inscription:', err);
         errorDiv.textContent = '❌ ' + (err.message || 'Une erreur est survenue. Vérifiez votre email et mot de passe.');
         errorDiv.classList.remove('hidden');
         submitBtn.disabled = false;
