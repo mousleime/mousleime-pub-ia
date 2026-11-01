@@ -13,7 +13,7 @@ window.APP_CONFIG = {
     status: '',         // Ex. « Entreprise individuelle », « SARL »
     registration: '',   // Ex. IFU / RCCM
     address: '',        // Adresse postale
-    email: '',          // Email de contact public
-    phone: ''           // Téléphone / WhatsApp
+    email: 'moussasouleimane@gmail.com',          // Email de contact public
+    phone: '+229 01 95 48 61 53'           // Téléphone / WhatsApp
   }
 };
