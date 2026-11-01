@@ -59,6 +59,12 @@
       <textarea id="instructions" rows="3" maxlength="1000" class="input resize-none"></textarea>
       <div class="flex justify-end mt-3"><button type="button" id="save-instructions" class="btn-primary">Enregistrer</button></div>
     </section>
+
+    <section class="card" aria-labelledby="a5">
+      <h2 id="a5" class="font-bold text-gray-900 mb-1">Paiement automatique (FedaPay)</h2>
+      <p class="text-sm text-gray-500 mb-3">Une fois vos clés FedaPay enregistrées côté serveur, activez-le : les clients paient en ligne et reçoivent leurs crédits automatiquement. Désactivé, ils envoient une demande que vous validez à la main.</p>
+      <label class="inline-flex items-center gap-3 cursor-pointer"><input type="checkbox" id="auto-payment" class="w-5 h-5 rounded border-gray-300 text-brand-600" /><span class="font-medium text-gray-900">Activer le paiement automatique</span></label>
+    </section>
   </main>
 
   <div id="credits-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black/50" role="dialog" aria-modal="true" aria-labelledby="m-title">
@@ -148,6 +154,8 @@
       async function loadInstructions() {
         var r = await sb.from('app_settings').select('value').eq('key', 'payment_instructions').maybeSingle();
         el('instructions').value = (r.data && r.data.value) || '';
+        var ap = await sb.from('app_settings').select('value').eq('key', 'auto_payment').maybeSingle();
+        el('auto-payment').checked = !!(ap.data && ap.data.value === 'on');
       }
       function refreshAll() { return Promise.all([loadStats(), loadPurchases(), loadUsers(), loadMessages(), loadInstructions()]); }
 
@@ -195,6 +203,12 @@
 
       el('save-instructions').addEventListener('click', function () {
         run(sb.rpc('admin_set_setting', { p_key: 'payment_instructions', p_value: el('instructions').value }), 'Instructions enregistrées.');
+      });
+
+      el('auto-payment').addEventListener('change', async function () {
+        var box = el('auto-payment'), want = box.checked;
+        var ok = await run(sb.rpc('admin_set_setting', { p_key: 'auto_payment', p_value: want ? 'on' : 'off' }), want ? 'Paiement automatique activé.' : 'Paiement automatique désactivé.');
+        if (!ok) box.checked = !want;
       });
 
       await refreshAll();

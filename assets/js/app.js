@@ -27,6 +27,8 @@
     ['insufficient_credits', 'Crédits insuffisants. Rechargez votre compte pour continuer.'],
     ['account_suspended', 'Votre compte est suspendu. Contactez-nous pour plus d’informations.'],
     ['not_authenticated', 'Votre session a expiré. Reconnectez-vous.'],
+    ['checkout_failed', 'Le paiement n’a pas pu démarrer. Réessayez dans un instant.'],
+    ['payments_not_configured', 'Le paiement en ligne n’est pas encore activé.'],
     ['invalid_pack', 'Ce pack de crédits n’est pas disponible.'],
     ['invalid_method', 'Méthode de paiement invalide.'],
     ['invalid_phone', 'Numéro de téléphone invalide.'],
