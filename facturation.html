@@ -42,7 +42,7 @@
         <div class="text-right"><p class="text-sm text-gray-600">Total à payer</p><p class="text-2xl font-bold text-gray-900"><span id="sel-price">0</span> FCFA</p></div>
       </div>
 
-      <fieldset class="mb-6">
+      <fieldset id="manual-methods" class="mb-6">
         <legend class="text-sm font-medium text-gray-700 mb-3">Opérateur Mobile Money</legend>
         <div class="grid sm:grid-cols-3 gap-3" id="methods">
           <label class="cursor-pointer"><input type="radio" name="method" value="mtn" class="sr-only peer" /><span class="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 bg-white peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500"><span class="w-10 h-10 rounded-lg bg-mtn flex items-center justify-center font-bold text-xs text-gray-900">MTN</span><span class="font-semibold text-gray-900 text-sm">MTN Mobile Money</span></span></label>
@@ -51,7 +51,7 @@
         </div>
       </fieldset>
 
-      <div class="mb-4">
+      <div id="manual-phone" class="mb-4">
         <label for="phone" class="label">Numéro Mobile Money</label>
         <input type="tel" id="phone" class="input" placeholder="+229 01 XX XX XX XX" autocomplete="tel" maxlength="20" />
         <p class="mt-1.5 text-xs text-gray-500">Notre équipe vous contactera à ce numéro pour finaliser le paiement.</p>
@@ -90,15 +90,23 @@
         failed: ['Refusée', 'bg-red-100 text-red-700'],
         cancelled: ['Annulée', 'bg-gray-100 text-gray-600']
       };
-      var METHOD = { mtn: ['MTN', 'bg-mtn text-gray-900'], moov: ['Moov', 'bg-moov text-white'], celtiis: ['Celtiis', 'bg-celtiis text-white'] };
+      var METHOD = { fedapay: ['Mobile Money', 'bg-brand-600 text-white'], mtn: ['MTN', 'bg-mtn text-gray-900'], moov: ['Moov', 'bg-moov text-white'], celtiis: ['Celtiis', 'bg-celtiis text-white'] };
 
       /* Packs + instructions de paiement */
       var res = await Promise.all([
         sb.from('credit_packs').select('credits, price_fcfa').eq('active', true).order('credits'),
-        sb.from('app_settings').select('value').eq('key', 'payment_instructions').maybeSingle()
+        sb.from('app_settings').select('value').eq('key', 'payment_instructions').maybeSingle(),
+        sb.from('app_settings').select('value').eq('key', 'auto_payment').maybeSingle()
       ]);
       var packs = res[0].data || [];
-      el('instructions').textContent = (res[1].data && res[1].data.value) || 'Notre équipe vous contacte pour finaliser le paiement par Mobile Money.';
+      var autoPay = !!(res[2].data && res[2].data.value === 'on');
+      if (autoPay) {
+        el('manual-methods').classList.add('hidden'); el('manual-phone').classList.add('hidden');
+        el('instructions').textContent = 'Vous serez redirigé vers la page de paiement sécurisée (MTN, Moov, Celtiis…). Vos crédits sont ajoutés automatiquement dès la confirmation du paiement.';
+        el('pay-btn').textContent = 'Payer maintenant';
+        el('pay-title').textContent = 'Finaliser l’achat';
+      }
+      if (!autoPay) el('instructions').textContent = (res[1].data && res[1].data.value) || 'Notre équipe vous contacte pour finaliser le paiement par Mobile Money.';
       var popular = packs.length > 2 ? packs[2].credits : null;
 
       el('packs').innerHTML = packs.length ? packs.map(function (p) {
@@ -132,9 +140,23 @@
       el('pay-btn').addEventListener('click', async function () {
         var err = el('pay-error'); err.classList.add('hidden');
         function fail(m) { err.textContent = m; err.classList.remove('hidden'); }
+        if (!selected) return fail('Choisissez un pack.');
+        if (autoPay) {
+          el('pay-btn').disabled = true;
+          var c = await sb.functions.invoke('fedapay-checkout', { body: { credits: selected.credits } });
+          var data = c.data, code = null;
+          if (c.error) {
+            try { var body = await c.error.context.json(); code = body && body.error; } catch (e) { /* réponse illisible */ }
+          }
+          if (c.error || !data || !data.url) {
+            el('pay-btn').disabled = false;
+            return fail(App.errMsg({ message: code || 'checkout_failed' }));
+          }
+          window.location.href = data.url;
+          return;
+        }
         var m = document.querySelector('input[name="method"]:checked');
         var phone = el('phone').value.trim();
-        if (!selected) return fail('Choisissez un pack.');
         if (!m) return fail('Choisissez votre opérateur Mobile Money.');
         if (!/^\+?[0-9 ]{8,16}$/.test(phone)) return fail('Numéro de téléphone invalide (8 à 16 chiffres).');
         el('pay-btn').disabled = true;
@@ -177,6 +199,14 @@
 
       App.setCredits(ctx.credits);
       loadHistory();
+      if (new URLSearchParams(window.location.search).get('paiement') === 'retour') {
+        App.toast('Paiement en cours de confirmation… vos crédits arrivent dans un instant.', 'info');
+        var tries = 0, timer = setInterval(async function () {
+          tries++; await App.refreshCredits(); loadHistory();
+          if (tries >= 15) clearInterval(timer);
+        }, 4000);
+        history.replaceState(null, '', 'facturation.html');
+      }
     })();
   </script>
 </body>
