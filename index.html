@@ -3,445 +3,303 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MOUSLEIME PUB IA — Créez vos publicités avec l'IA en Afrique</title>
-  <meta name="description" content="Plateforme SaaS d'intelligence artificielle pour créer, diffuser et analyser vos publicités sur Facebook, Instagram et TikTok. Conçue pour l'Afrique francophone." />
+  <title>MOUSLEIME PUB IA — Créez vos publicités avec l’IA en Afrique francophone</title>
+  <meta name="description" content="Générez des textes et des visuels publicitaires avec l’IA, organisez vos campagnes et suivez vos résultats. Prix en FCFA, paiement par Mobile Money (MTN, Moov, Celtiis)." />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="canonical" href="https://mousleime-pub-ia.vercel.app/" />
+  <meta property="og:url" content="https://mousleime-pub-ia.vercel.app/" />
   
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: {
-              50:  '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              900: '#1e1b4b',
-            },
-            accent: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-            }
-          },
-          animation: {
-            'fade-in': 'fadeIn 0.8s ease-out',
-            'slide-up': 'slideUp 0.6s ease-out',
-          },
-          keyframes: {
-            fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-            slideUp: { '0%': { transform: 'translateY(20px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
-          }
-        }
-      }
-    }
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="fr_FR" />
+  <meta property="og:title" content="MOUSLEIME PUB IA — Vos publicités créées avec l’IA" />
+  <meta property="og:description" content="Textes et visuels publicitaires générés par l’IA, suivi de campagnes, paiement Mobile Money en FCFA." />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"MOUSLEIME PUB IA","applicationCategory":"BusinessApplication","operatingSystem":"Web","inLanguage":"fr","description":"Plateforme de création de publicités par intelligence artificielle pour l’Afrique francophone.","offers":{"@type":"Offer","price":"0","priceCurrency":"XOF"}}
   </script>
-  
-  <style>
-    html { scroll-behavior: smooth; }
-    .gradient-text {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .hero-bg {
-      background-image: 
-        radial-gradient(circle at 20% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 80%, rgba(245, 158, 11, 0.1) 0%, transparent 50%);
-    }
-  </style>
 </head>
 <body class="font-sans text-gray-800 bg-white antialiased">
+  <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:px-3 focus:py-2 focus:rounded-lg">Aller au contenu</a>
 
-  <!-- ================= NAVIGATION ================= -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-100">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="#" class="flex items-center gap-2">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-bold text-lg text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+  <header class="fixed top-0 inset-x-0 z-50 bg-white/85 backdrop-blur-md border-b border-gray-100">
+    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between" aria-label="Navigation principale">
+      <a href="index.html" class="flex items-center gap-2">
+        <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center"><i data-lucide="sparkles" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+        <span class="font-bold text-base sm:text-lg text-gray-900 whitespace-nowrap">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
       </a>
-      
       <div class="hidden md:flex items-center gap-8">
         <a href="#fonctionnalites" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Fonctionnalités</a>
         <a href="#comment" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Comment ça marche</a>
         <a href="#tarifs" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">Tarifs</a>
         <a href="#faq" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">FAQ</a>
+        <a href="a-propos.html" class="text-sm font-medium text-gray-600 hover:text-brand-600 transition">À propos</a>
       </div>
-      
       <div class="flex items-center gap-3">
         <a href="connexion.html" class="hidden sm:inline-flex text-sm font-medium text-gray-700 hover:text-brand-600 transition">Connexion</a>
-        <a href="inscription.html" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition shadow-sm">
-          Commencer <i data-lucide="arrow-right" class="w-4 h-4"></i>
-        </a>
+        <a href="inscription.html" class="btn-primary py-2 px-4">Commencer <i data-lucide="arrow-right" class="w-4 h-4" aria-hidden="true"></i></a>
+        <button type="button" id="menu-toggle" class="md:hidden p-2 -mr-2 rounded-lg hover:bg-gray-100" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-menu"><i data-lucide="menu" class="w-5 h-5" aria-hidden="true"></i></button>
       </div>
     </nav>
+    <div id="mobile-menu" class="hidden md:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-1">
+      <a href="#fonctionnalites" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Fonctionnalités</a>
+      <a href="#comment" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Comment ça marche</a>
+      <a href="#tarifs" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Tarifs</a>
+      <a href="#faq" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">FAQ</a>
+      <a href="a-propos.html" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">À propos</a>
+      <a href="connexion.html" class="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50">Connexion</a>
+    </div>
   </header>
 
-  <!-- ================= HERO ================= -->
-  <section class="hero-bg pt-32 pb-20 lg:pt-40 lg:pb-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-4xl mx-auto text-center">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-sm font-medium mb-6 animate-fade-in">
-          <i data-lucide="sparkles" class="w-4 h-4"></i>
-          <span>La 1ère plateforme IA publicitaire conçue pour l'Afrique</span>
+  <main id="contenu">
+    <!-- HERO -->
+    <section class="hero-bg pt-32 pb-20 lg:pt-40 lg:pb-28">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-50 border border-brand-100 text-brand-700 text-sm font-medium mb-6 animate-fade-in">
+            <i data-lucide="sparkles" class="w-4 h-4" aria-hidden="true"></i>
+            <span>Conçu pour les entrepreneurs d’Afrique francophone</span>
+          </div>
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight animate-slide-up">
+            Créez des publicités <span class="gradient-text">qui donnent envie</span> en quelques clics
+          </h1>
+          <p class="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto animate-slide-up">
+            Générez des textes et des visuels publicitaires grâce à l’intelligence artificielle, organisez vos campagnes et suivez vos résultats. Le tout en <strong>FCFA</strong>, avec paiement par Mobile Money.
+          </p>
+          <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up">
+            <a href="inscription.html" class="btn-primary w-full sm:w-auto px-8 py-4 text-base shadow-lg shadow-brand-600/20">Essayer gratuitement <i data-lucide="arrow-right" class="w-5 h-5" aria-hidden="true"></i></a>
+            <a href="#comment" class="btn-secondary w-full sm:w-auto px-8 py-4 text-base"><i data-lucide="circle-help" class="w-5 h-5" aria-hidden="true"></i> Comment ça marche</a>
+          </div>
+          <ul class="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-gray-500">
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500" aria-hidden="true"></i> 5 crédits offerts à l’inscription</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500" aria-hidden="true"></i> Aucune carte bancaire requise</li>
+            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500" aria-hidden="true"></i> Interface en français</li>
+          </ul>
         </div>
-        
-        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-tight animate-slide-up">
-          Créez des publicités <span class="gradient-text">qui convertissent</span> en quelques clics
-        </h1>
-        
-        <p class="mt-6 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto animate-slide-up">
-          Générez des visuels, vidéos et textes publicitaires grâce à l'intelligence artificielle. Diffusez sur Facebook, Instagram et TikTok. Analysez vos performances. Le tout en <strong>FCFA</strong>.
-        </p>
-        
-        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 animate-slide-up">
-          <a href="inscription.html" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition shadow-lg shadow-brand-600/20">
-            Essayer gratuitement <i data-lucide="arrow-right" class="w-5 h-5"></i>
-          </a>
-          <a href="#comment" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-gray-50 text-gray-900 font-semibold transition border border-gray-200">
-            <i data-lucide="play-circle" class="w-5 h-5"></i> Voir la démo
-          </a>
-        </div>
-        
-        <div class="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-gray-500">
-          <div class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Aucune carte bancaire requise</div>
-          <div class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Paiement Mobile Money</div>
-          <div class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500"></i> Support en français</div>
-        </div>
-      </div>
-      
-      <!-- Mockup -->
-      <div class="mt-16 max-w-5xl mx-auto">
-        <div class="relative rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-2 shadow-2xl shadow-brand-900/20">
-          <div class="rounded-xl bg-white p-4 sm:p-6">
-            <div class="flex items-center gap-2 mb-4">
-              <div class="w-3 h-3 rounded-full bg-red-400"></div>
-              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-              <div class="w-3 h-3 rounded-full bg-green-400"></div>
-              <span class="ml-3 text-xs text-gray-400">Studio MOUSLEIME PUB IA</span>
-            </div>
-            <div class="grid md:grid-cols-3 gap-4">
-              <div class="md:col-span-1 space-y-3">
-                <div class="h-3 bg-gray-100 rounded w-3/4"></div>
-                <div class="h-10 bg-gray-50 rounded border border-gray-200"></div>
-                <div class="h-3 bg-gray-100 rounded w-1/2"></div>
-                <div class="h-10 bg-gray-50 rounded border border-gray-200"></div>
-                <div class="h-3 bg-gray-100 rounded w-2/3"></div>
-                <div class="h-10 bg-gray-50 rounded border border-gray-200"></div>
-                <button class="w-full h-10 bg-brand-600 rounded text-white text-sm font-semibold">✨ Générer</button>
+
+        <div class="mt-16 max-w-5xl mx-auto" aria-hidden="true">
+          <div class="rounded-2xl bg-gradient-to-br from-gray-900 to-gray-800 p-2 shadow-2xl shadow-brand-900/20">
+            <div class="rounded-xl bg-white p-4 sm:p-6">
+              <div class="flex items-center gap-2 mb-4">
+                <span class="w-3 h-3 rounded-full bg-red-400"></span><span class="w-3 h-3 rounded-full bg-yellow-400"></span><span class="w-3 h-3 rounded-full bg-green-400"></span>
+                <span class="ml-3 text-xs text-gray-400">Studio de création · aperçu</span>
               </div>
-              <div class="md:col-span-2 grid grid-cols-2 gap-3">
-                <div class="aspect-square rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center text-white text-xs font-semibold">Pub 1</div>
-                <div class="aspect-square rounded-lg bg-gradient-to-br from-accent-400 to-pink-500 flex items-center justify-center text-white text-xs font-semibold">Pub 2</div>
-                <div class="aspect-square rounded-lg bg-gradient-to-br from-green-400 to-teal-600 flex items-center justify-center text-white text-xs font-semibold">Pub 3</div>
-                <div class="aspect-square rounded-lg bg-gradient-to-br from-blue-500 to-indigo-700 flex items-center justify-center text-white text-xs font-semibold">Pub 4</div>
+              <div class="grid md:grid-cols-3 gap-4">
+                <div class="space-y-3">
+                  <div class="h-3 bg-gray-100 rounded w-3/4"></div><div class="h-10 bg-gray-50 rounded border border-gray-200"></div>
+                  <div class="h-3 bg-gray-100 rounded w-1/2"></div><div class="h-10 bg-gray-50 rounded border border-gray-200"></div>
+                  <div class="h-10 bg-brand-600 rounded text-white text-sm font-semibold flex items-center justify-center">Générer</div>
+                </div>
+                <div class="md:col-span-2 grid grid-cols-2 gap-3">
+                  <div class="aspect-square rounded-lg bg-gradient-to-br from-brand-500 to-purple-600"></div>
+                  <div class="aspect-square rounded-lg bg-gradient-to-br from-accent-400 to-pink-500"></div>
+                  <div class="aspect-square rounded-lg bg-gradient-to-br from-green-400 to-teal-600"></div>
+                  <div class="aspect-square rounded-lg bg-gradient-to-br from-blue-500 to-indigo-700"></div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= LOGOS / CONFIANCE ================= -->
-  <section class="py-12 border-y border-gray-100 bg-gray-50/50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <p class="text-center text-sm font-medium text-gray-500 mb-8">Compatible avec les plateformes que vous utilisez déjà</p>
-      <div class="flex flex-wrap items-center justify-center gap-x-12 gap-y-6 opacity-70">
-        <div class="flex items-center gap-2 text-gray-700 font-bold text-lg"><i data-lucide="facebook" class="w-6 h-6"></i> Facebook</div>
-        <div class="flex items-center gap-2 text-gray-700 font-bold text-lg"><i data-lucide="instagram" class="w-6 h-6"></i> Instagram</div>
-        <div class="flex items-center gap-2 text-gray-700 font-bold text-lg"><i data-lucide="music" class="w-6 h-6"></i> TikTok</div>
-        <div class="flex items-center gap-2 text-gray-700 font-bold text-lg"><i data-lucide="image" class="w-6 h-6"></i> Images IA</div>
-        <div class="flex items-center gap-2 text-gray-700 font-bold text-lg"><i data-lucide="video" class="w-6 h-6"></i> Vidéos IA</div>
+    <!-- PLATEFORMES -->
+    <section class="py-10 border-y border-gray-100 bg-gray-50/50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <p class="text-center text-sm font-medium text-gray-500 mb-6">Des contenus pensés pour les plateformes où se trouvent vos clients</p>
+        <ul class="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-gray-600 font-bold text-lg">
+          <li class="flex items-center gap-2"><i data-lucide="facebook" class="w-6 h-6" aria-hidden="true"></i> Facebook</li>
+          <li class="flex items-center gap-2"><i data-lucide="instagram" class="w-6 h-6" aria-hidden="true"></i> Instagram</li>
+          <li class="flex items-center gap-2"><i data-lucide="music" class="w-6 h-6" aria-hidden="true"></i> TikTok</li>
+          <li class="flex items-center gap-2"><i data-lucide="search" class="w-6 h-6" aria-hidden="true"></i> Google</li>
+        </ul>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= FONCTIONNALITÉS ================= -->
-  <section id="fonctionnalites" class="py-20 lg:py-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl mx-auto text-center mb-16">
-        <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">Fonctionnalités</span>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Tout ce qu'il faut pour réussir vos pubs</h2>
-        <p class="mt-4 text-lg text-gray-600">De l'idée à la diffusion, une plateforme unique qui remplace 5 outils.</p>
+    <!-- FONCTIONNALITÉS -->
+    <section id="fonctionnalites" class="py-20 lg:py-28">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+          <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">Fonctionnalités</span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Tout pour préparer et suivre vos pubs</h2>
+          <p class="mt-4 text-lg text-gray-600">De l’idée au suivi des résultats, dans un seul outil simple.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <article class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
+            <span class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center mb-4"><i data-lucide="type" class="w-6 h-6 text-brand-600" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Textes publicitaires</h3>
+            <p class="text-gray-600 text-sm">Titre accrocheur, argumentaire et appel à l’action rédigés pour votre produit et votre plateforme cible.</p>
+          </article>
+          <article class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
+            <span class="w-12 h-12 rounded-xl bg-pink-50 flex items-center justify-center mb-4"><i data-lucide="image" class="w-6 h-6 text-pink-600" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Visuels générés par IA</h3>
+            <p class="text-gray-600 text-sm">Décrivez l’image souhaitée, obtenez un visuel prêt à retoucher et à publier.</p>
+          </article>
+          <article class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
+            <span class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center mb-4"><i data-lucide="megaphone" class="w-6 h-6 text-accent-500" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Gestion des campagnes</h3>
+            <p class="text-gray-600 text-sm">Centralisez vos campagnes Facebook, Instagram, TikTok et Google : budget, dates, statut.</p>
+          </article>
+          <article class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
+            <span class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mb-4"><i data-lucide="chart-line" class="w-6 h-6 text-green-600" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Analyses claires</h3>
+            <p class="text-gray-600 text-sm">Vues, clics, conversions, taux de clic et coût par résultat, calculés à partir de vos chiffres.</p>
+          </article>
+          <article class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
+            <span class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4"><i data-lucide="languages" class="w-6 h-6 text-blue-600" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Adapté à l’Afrique</h3>
+            <p class="text-gray-600 text-sm">Interface en français, prix en FCFA, paiement par Mobile Money (MTN, Moov, Celtiis).</p>
+          </article>
+          <article class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
+            <span class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center mb-4"><i data-lucide="shield-check" class="w-6 h-6 text-red-600" aria-hidden="true"></i></span>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Transparent</h3>
+            <p class="text-gray-600 text-sm">Aucune statistique inventée : vous voyez uniquement les résultats que vous avez saisis.</p>
+          </article>
+        </div>
+        <p class="mt-8 text-center text-sm text-gray-500">Bientôt : génération de vidéos et connexion directe aux comptes publicitaires.</p>
       </div>
-      
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Feature 1 -->
-        <div class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
-          <div class="w-12 h-12 rounded-xl bg-brand-50 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-            <i data-lucide="wand-2" class="w-6 h-6 text-brand-600"></i>
-          </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Génération IA de publicités</h3>
-          <p class="text-gray-600 text-sm">Textes, visuels, vidéos et scripts générés automatiquement à partir de votre produit.</p>
-        </div>
-        
-        <!-- Feature 2 -->
-        <div class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
-          <div class="w-12 h-12 rounded-xl bg-accent-500/10 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-            <i data-lucide="megaphone" class="w-6 h-6 text-accent-500"></i>
-          </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Diffusion multi-plateformes</h3>
-          <p class="text-gray-600 text-sm">Publiez en un clic sur Facebook, Instagram et TikTok via les API officielles.</p>
-        </div>
-        
-        <!-- Feature 3 -->
-        <div class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
-          <div class="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-            <i data-lucide="line-chart" class="w-6 h-6 text-green-600"></i>
-          </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Analyse des performances</h3>
-          <p class="text-gray-600 text-sm">Suivez vos impressions, clics, conversions et ROAS en temps réel.</p>
-        </div>
-        
-        <!-- Feature 4 -->
-        <div class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
-          <div class="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-            <i data-lucide="split" class="w-6 h-6 text-purple-600"></i>
-          </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Tests A/B automatiques</h3>
-          <p class="text-gray-600 text-sm">L'IA crée plusieurs variantes pour identifier la pub la plus performante.</p>
-        </div>
-        
-        <!-- Feature 5 -->
-        <div class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
-          <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-            <i data-lucide="languages" class="w-6 h-6 text-blue-600"></i>
-          </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Adapté à l'Afrique</h3>
-          <p class="text-gray-600 text-sm">Interface en français, prix en FCFA, paiement Mobile Money (MTN, Moov, Celtiis).</p>
-        </div>
-        
-        <!-- Feature 6 -->
-        <div class="group p-6 rounded-2xl bg-white border border-gray-100 hover:border-brand-200 hover:shadow-lg transition">
-          <div class="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center mb-4 group-hover:scale-110 transition">
-            <i data-lucide="shield-check" class="w-6 h-6 text-red-600"></i>
-          </div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">100% transparent</h3>
-          <p class="text-gray-600 text-sm">Aucune donnée inventée. Seules les vraies statistiques de vos plateformes s'affichent.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= COMMENT ÇA MARCHE ================= -->
-  <section id="comment" class="py-20 lg:py-28 bg-gray-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl mx-auto text-center mb-16">
-        <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">Comment ça marche</span>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">3 étapes pour lancer votre campagne</h2>
+    <!-- COMMENT -->
+    <section id="comment" class="py-20 lg:py-28 bg-gray-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+          <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">Comment ça marche</span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">3 étapes pour lancer votre campagne</h2>
+        </div>
+        <ol class="grid md:grid-cols-3 gap-8">
+          <li class="text-center"><span class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</span><h3 class="text-lg font-bold text-gray-900 mb-2">Décrivez votre produit</h3><p class="text-gray-600 text-sm">Produit, public, ton, plateforme : quelques lignes suffisent.</p></li>
+          <li class="text-center"><span class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</span><h3 class="text-lg font-bold text-gray-900 mb-2">L’IA génère vos contenus</h3><p class="text-gray-600 text-sm">Texte ou visuel en quelques secondes. 1 crédit par génération.</p></li>
+          <li class="text-center"><span class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</span><h3 class="text-lg font-bold text-gray-900 mb-2">Publiez et suivez</h3><p class="text-gray-600 text-sm">Diffusez sur vos réseaux, saisissez vos résultats et analysez-les.</p></li>
+        </ol>
       </div>
-      
-      <div class="grid md:grid-cols-3 gap-8">
-        <div class="text-center">
-          <div class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">1</div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Décrivez votre produit</h3>
-          <p class="text-gray-600 text-sm">Nom, prix, public cible, objectif, ton… L'IA comprend tout.</p>
-        </div>
-        <div class="text-center">
-          <div class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">2</div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">L'IA génère vos pubs</h3>
-          <p class="text-gray-600 text-sm">Textes, visuels, vidéos, scripts : plusieurs variantes en quelques secondes.</p>
-        </div>
-        <div class="text-center">
-          <div class="w-16 h-16 rounded-2xl bg-brand-600 text-white flex items-center justify-center text-2xl font-bold mx-auto mb-4">3</div>
-          <h3 class="text-lg font-bold text-gray-900 mb-2">Diffusez et analysez</h3>
-          <p class="text-gray-600 text-sm">Publiez sur vos réseaux et suivez les performances en un coup d'œil.</p>
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= TARIFS ================= -->
-  <section id="tarifs" class="py-20 lg:py-28">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="max-w-3xl mx-auto text-center mb-16">
-        <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">Tarifs</span>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Des formules adaptées à chaque budget</h2>
-        <p class="mt-4 text-lg text-gray-600">Prix en FCFA. Paiement par Mobile Money ou carte bancaire.</p>
+    <!-- TARIFS -->
+    <section id="tarifs" class="py-20 lg:py-28">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center mb-16">
+          <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">Tarifs</span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Payez uniquement ce que vous utilisez</h2>
+          <p class="mt-4 text-lg text-gray-600">Pas d’abonnement : achetez des crédits quand vous en avez besoin. 1 génération = 1 crédit.</p>
+        </div>
+        <p class="text-center mb-8"><span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-50 text-green-700 text-sm font-semibold"><i data-lucide="gift" class="w-4 h-4" aria-hidden="true"></i> 5 crédits offerts à l’inscription</span></p>
+        <div id="packs" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
+          <div class="card text-center"><p class="text-3xl font-extrabold text-gray-900">10</p><p class="text-sm text-gray-500">crédits</p><p class="mt-3 text-2xl font-bold text-brand-600">2 000 FCFA</p></div>
+          <div class="card text-center"><p class="text-3xl font-extrabold text-gray-900">50</p><p class="text-sm text-gray-500">crédits</p><p class="mt-3 text-2xl font-bold text-brand-600">8 000 FCFA</p></div>
+          <div class="card text-center border-2 border-brand-500"><p class="text-3xl font-extrabold text-gray-900">100</p><p class="text-sm text-gray-500">crédits</p><p class="mt-3 text-2xl font-bold text-brand-600">15 000 FCFA</p></div>
+          <div class="card text-center"><p class="text-3xl font-extrabold text-gray-900">500</p><p class="text-sm text-gray-500">crédits</p><p class="mt-3 text-2xl font-bold text-brand-600">60 000 FCFA</p></div>
+        </div>
+        <p class="text-center text-sm text-gray-500 mt-8">Paiement par Mobile Money. Les budgets versés à Facebook, TikTok, etc. sont séparés de vos crédits.</p>
+        <div class="text-center mt-8"><a href="inscription.html" class="btn-primary px-8 py-3">Créer mon compte gratuit</a></div>
       </div>
-      
-      <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-        <!-- Gratuit -->
-        <div class="p-8 rounded-2xl bg-white border border-gray-200">
-          <h3 class="text-lg font-bold text-gray-900">Découverte</h3>
-          <p class="text-sm text-gray-500 mt-1">Pour tester la plateforme</p>
-          <div class="mt-6">
-            <span class="text-4xl font-extrabold text-gray-900">0</span>
-            <span class="text-gray-500 ml-1">FCFA</span>
-            <div class="text-xs text-gray-400 mt-1">pour toujours</div>
-          </div>
-          <ul class="mt-6 space-y-3 text-sm">
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> 5 générations IA gratuites</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Textes publicitaires</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> 1 campagne active</li>
-            <li class="flex items-start gap-2 text-gray-400"><i data-lucide="x" class="w-4 h-4 mt-0.5 flex-shrink-0"></i> Génération d'images</li>
-            <li class="flex items-start gap-2 text-gray-400"><i data-lucide="x" class="w-4 h-4 mt-0.5 flex-shrink-0"></i> Analyses avancées</li>
-          </ul>
-          <a href="inscription.html" class="mt-8 block text-center py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-900 transition">Commencer</a>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-20 lg:py-28 bg-gray-50">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">FAQ</span>
+          <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Questions fréquentes</h2>
         </div>
-        
-        <!-- Starter -->
-        <div class="p-8 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 text-white shadow-xl shadow-brand-600/20 relative">
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-accent-500 text-xs font-bold text-gray-900">⭐ POPULAIRE</div>
-          <h3 class="text-lg font-bold">Starter</h3>
-          <p class="text-sm text-brand-100 mt-1">Pour les entrepreneurs</p>
-          <div class="mt-6">
-            <span class="text-4xl font-extrabold">9 900</span>
-            <span class="text-brand-100 ml-1">FCFA</span>
-            <div class="text-xs text-brand-200 mt-1">par mois</div>
-          </div>
-          <ul class="mt-6 space-y-3 text-sm">
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> 100 générations IA / mois</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> Images IA illimitées</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> 5 campagnes actives</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> Analyses de base</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-accent-400 mt-0.5 flex-shrink-0"></i> Support par email</li>
-          </ul>
-          <a href="inscription.html" class="mt-8 block text-center py-3 rounded-xl bg-white hover:bg-gray-100 font-semibold text-brand-700 transition">Choisir Starter</a>
-        </div>
-        
-        <!-- Pro -->
-        <div class="p-8 rounded-2xl bg-white border border-gray-200">
-          <h3 class="text-lg font-bold text-gray-900">Pro</h3>
-          <p class="text-sm text-gray-500 mt-1">Pour les agences & équipes</p>
-          <div class="mt-6">
-            <span class="text-4xl font-extrabold text-gray-900">29 900</span>
-            <span class="text-gray-500 ml-1">FCFA</span>
-            <div class="text-xs text-gray-400 mt-1">par mois</div>
-          </div>
-          <ul class="mt-6 space-y-3 text-sm">
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Générations IA illimitées</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Vidéos IA + voix off</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Campagnes illimitées</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Analyses avancées + ROAS</li>
-            <li class="flex items-start gap-2"><i data-lucide="check" class="w-4 h-4 text-green-500 mt-0.5 flex-shrink-0"></i> Support prioritaire</li>
-          </ul>
-          <a href="inscription.html" class="mt-8 block text-center py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-900 transition">Choisir Pro</a>
+        <div class="space-y-4">
+          <details class="group bg-white rounded-xl border border-gray-200 p-5">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">La plateforme publie-t-elle mes annonces à ma place ?<i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition" aria-hidden="true"></i></summary>
+            <p class="mt-3 text-gray-600 text-sm">Pas encore. Vous générez vos textes et visuels ici, puis vous les publiez vous-même sur vos comptes. La connexion directe aux plateformes publicitaires est prévue ultérieurement.</p>
+          </details>
+          <details class="group bg-white rounded-xl border border-gray-200 p-5">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">Comment fonctionne le paiement ?<i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition" aria-hidden="true"></i></summary>
+            <p class="mt-3 text-gray-600 text-sm">Choisissez un pack et votre opérateur (MTN, Moov ou Celtiis) depuis la page Facturation. Notre équipe vous contacte pour finaliser le paiement par Mobile Money, puis vos crédits sont ajoutés.</p>
+          </details>
+          <details class="group bg-white rounded-xl border border-gray-200 p-5">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">Puis-je utiliser les contenus générés pour mon activité ?<i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition" aria-hidden="true"></i></summary>
+            <p class="mt-3 text-gray-600 text-sm">Oui, pour vos besoins commerciaux, sous réserve des conditions des fournisseurs d’IA. Relisez toujours un contenu avant de le diffuser. Détails dans nos <a href="cgu.html" class="text-brand-600 hover:underline">conditions d’utilisation</a>.</p>
+          </details>
+          <details class="group bg-white rounded-xl border border-gray-200 p-5">
+            <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">Y a-t-il un abonnement ou un engagement ?<i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition" aria-hidden="true"></i></summary>
+            <p class="mt-3 text-gray-600 text-sm">Non. Vous achetez des crédits à la demande, sans engagement. Si une génération échoue, le crédit est automatiquement recrédité.</p>
+          </details>
         </div>
       </div>
-      
-      <p class="text-center text-sm text-gray-500 mt-8">💡 Les budgets publicitaires payés à Facebook / TikTok sont séparés de votre abonnement.</p>
-    </div>
-  </section>
+    </section>
 
-  <!-- ================= FAQ ================= -->
-  <section id="faq" class="py-20 lg:py-28 bg-gray-50">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <span class="text-sm font-semibold text-brand-600 uppercase tracking-wider">FAQ</span>
-        <h2 class="mt-3 text-3xl sm:text-4xl font-bold text-gray-900">Questions fréquentes</h2>
+    <!-- CTA -->
+    <section class="py-20">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-10 sm:p-16 text-center text-white shadow-2xl">
+          <h2 class="text-3xl sm:text-4xl font-bold">Prêt à créer votre première publicité ?</h2>
+          <p class="mt-4 text-lg text-brand-100 max-w-2xl mx-auto">Inscrivez-vous gratuitement et testez avec 5 crédits offerts.</p>
+          <a href="inscription.html" class="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-gray-100 text-brand-700 font-bold transition shadow-lg">Créer mon compte gratuit <i data-lucide="arrow-right" class="w-5 h-5" aria-hidden="true"></i></a>
+        </div>
       </div>
-      
-      <div class="space-y-4">
-        <details class="group bg-white rounded-xl border border-gray-200 p-5">
-          <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
-            Est-ce que MOUSLEIME PUB IA publie réellement mes annonces ?
-            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition"></i>
-          </summary>
-          <p class="mt-3 text-gray-600 text-sm">Oui, via les API officielles de Meta (Facebook/Instagram) et TikTok. Vous devez autoriser la connexion à votre compte publicitaire. Si l'API n'est pas configurée, vous pouvez exporter manuellement vos créations.</p>
-        </details>
-        
-        <details class="group bg-white rounded-xl border border-gray-200 p-5">
-          <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
-            Comment fonctionne le paiement au Bénin ?
-            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition"></i>
-          </summary>
-          <p class="mt-3 text-gray-600 text-sm">Nous acceptons Mobile Money (MTN, Moov, Celtiis) via CinetPay et KKiaPay, ainsi que les cartes bancaires Visa/Mastercard via Stripe.</p>
-        </details>
-        
-        <details class="group bg-white rounded-xl border border-gray-200 p-5">
-          <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
-            Les images et vidéos générées m'appartiennent-elles ?
-            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition"></i>
-          </summary>
-          <p class="mt-3 text-gray-600 text-sm">Oui, vous disposez de tous les droits commerciaux sur les contenus générés depuis votre compte. Vous pouvez les utiliser librement pour vos campagnes.</p>
-        </details>
-        
-        <details class="group bg-white rounded-xl border border-gray-200 p-5">
-          <summary class="flex items-center justify-between cursor-pointer font-semibold text-gray-900">
-            Puis-je annuler mon abonnement à tout moment ?
-            <i data-lucide="chevron-down" class="w-5 h-5 text-gray-400 group-open:rotate-180 transition"></i>
-          </summary>
-          <p class="mt-3 text-gray-600 text-sm">Absolument. Pas d'engagement, pas de frais cachés. Vous pouvez passer à la formule gratuite quand vous le souhaitez depuis votre tableau de bord.</p>
-        </details>
-      </div>
-    </div>
-  </section>
+    </section>
+  </main>
 
-  <!-- ================= CTA FINAL ================= -->
-  <section class="py-20">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="rounded-3xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-10 sm:p-16 text-center text-white shadow-2xl">
-        <h2 class="text-3xl sm:text-4xl font-bold">Prêt à booster vos publicités ?</h2>
-        <p class="mt-4 text-lg text-brand-100 max-w-2xl mx-auto">Rejoignez les entrepreneurs africains qui utilisent l'IA pour créer des campagnes qui convertissent.</p>
-        <a href="inscription.html" class="mt-8 inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white hover:bg-gray-100 text-brand-700 font-bold transition shadow-lg">
-          Créer mon compte gratuit <i data-lucide="arrow-right" class="w-5 h-5"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================= FOOTER ================= -->
   <footer class="bg-gray-900 text-gray-400 py-12">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-4 gap-8 mb-8">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
         <div>
-          <div class="flex items-center gap-2 mb-4">
-            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-              <i data-lucide="sparkles" class="w-4 h-4 text-white"></i>
-            </div>
-            <span class="font-bold text-white">MOUSLEIME PUB IA</span>
-          </div>
-          <p class="text-sm">La plateforme IA publicitaire conçue pour l'Afrique francophone.</p>
+          <div class="flex items-center gap-2 mb-4"><span class="w-8 h-8 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center"><i data-lucide="sparkles" class="w-4 h-4 text-white" aria-hidden="true"></i></span><span class="font-bold text-white">MOUSLEIME PUB IA</span></div>
+          <p class="text-sm">La plateforme de publicité par IA pensée pour l’Afrique francophone.</p>
         </div>
         <div>
-          <h4 class="text-white font-semibold mb-4">Produit</h4>
+          <h2 class="text-white font-semibold mb-4">Produit</h2>
           <ul class="space-y-2 text-sm">
             <li><a href="#fonctionnalites" class="hover:text-white transition">Fonctionnalités</a></li>
             <li><a href="#tarifs" class="hover:text-white transition">Tarifs</a></li>
-            <li><a href="#" class="hover:text-white transition">Démo</a></li>
+            <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="a-propos.html" class="hover:text-white transition">À propos</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="text-white font-semibold mb-4">Entreprise</h4>
+          <h2 class="text-white font-semibold mb-4">Légal</h2>
           <ul class="space-y-2 text-sm">
-            <li><a href="#" class="hover:text-white transition">À propos</a></li>
-            <li><a href="#" class="hover:text-white transition">Contact</a></li>
-            <li><a href="#" class="hover:text-white transition">Blog</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4">Légal</h4>
-          <ul class="space-y-2 text-sm">
-            <li><a href="#" class="hover:text-white transition">CGU</a></li>
-            <li><a href="#" class="hover:text-white transition">Confidentialité</a></li>
-            <li><a href="#" class="hover:text-white transition">Mentions légales</a></li>
+            <li><a href="cgu.html" class="hover:text-white transition">Conditions d’utilisation</a></li>
+            <li><a href="confidentialite.html" class="hover:text-white transition">Confidentialité</a></li>
+            <li><a href="mentions-legales.html" class="hover:text-white transition">Mentions légales</a></li>
           </ul>
         </div>
       </div>
       <div class="pt-8 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm">
-        <p>© 2026 MOUSLEIME PUB IA. Tous droits réservés.</p>
-        <p>Fait avec ❤️ au Bénin 🇧🇯</p>
+        <p>© <span id="year"></span> MOUSLEIME PUB IA. Tous droits réservés.</p>
+        <p>Fait au Bénin 🇧🇯</p>
       </div>
     </div>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script>
+    (function () {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      var btn = document.getElementById('menu-toggle'), menu = document.getElementById('mobile-menu');
+      btn.addEventListener('click', function () {
+        var open = menu.classList.toggle('hidden') === false;
+        btn.setAttribute('aria-expanded', String(open));
+      });
+      menu.addEventListener('click', function (e) { if (e.target.tagName === 'A') { menu.classList.add('hidden'); btn.setAttribute('aria-expanded', 'false'); } });
+      lucide.createIcons();
+
+      // Tarifs : synchronisés avec la base (repli sur les valeurs ci-dessus en cas d'échec).
+      var C = window.APP_CONFIG || {};
+      fetch(C.SUPABASE_URL + '/rest/v1/credit_packs?select=credits,price_fcfa&active=eq.true&order=credits.asc', {
+        headers: { apikey: C.SUPABASE_ANON_KEY }
+      }).then(function (r) { return r.ok ? r.json() : Promise.reject(); }).then(function (rows) {
+        if (!Array.isArray(rows) || !rows.length) return;
+        var best = rows.length > 2 ? 2 : -1;
+        document.getElementById('packs').innerHTML = rows.map(function (p, i) {
+          return '<div class="card text-center' + (i === best ? ' border-2 border-brand-500' : '') + '">' +
+            '<p class="text-3xl font-extrabold text-gray-900">' + Number(p.credits).toLocaleString('fr-FR') + '</p>' +
+            '<p class="text-sm text-gray-500">crédits</p>' +
+            '<p class="mt-3 text-2xl font-bold text-brand-600">' + Number(p.price_fcfa).toLocaleString('fr-FR') + ' FCFA</p></div>';
+        }).join('');
+      }).catch(function () { /* on garde l'affichage statique */ });
+    })();
+  </script>
 </body>
 </html>

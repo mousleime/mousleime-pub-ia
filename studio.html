@@ -3,559 +3,417 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Studio de Création IA — MOUSLEIME PUB IA</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
-            accent: { 400: '#fbbf24', 500: '#f59e0b' }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    .gradient-text {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .type-card { transition: all 0.3s ease; }
-    .type-card:hover { transform: translateY(-4px); }
-    .type-card.active {
-      border-color: #6366f1;
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-      color: white;
-    }
-    .type-card.active .icon-wrapper { background: rgba(255, 255, 255, 0.2); }
-    .loading-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-    .generated-image { animation: fadeIn 1s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-  </style>
+  <title>Studio de création — MOUSLEIME PUB IA</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+  <div id="boot" class="min-h-screen flex items-center justify-center text-gray-500">Chargement…</div>
 
-  <div class="flex min-h-screen">
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
-      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
-      </div>
-      
-      <nav class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-1">
-        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
-        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i><span>Tableau de bord</span>
-        </a>
-        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
-          <i data-lucide="wand-2" class="w-5 h-5"></i><span>Studio de création</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
-        </a>
-        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="megaphone" class="w-5 h-5"></i><span>Campagnes</span>
-        </a>
-        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="line-chart" class="w-5 h-5"></i><span>Analyses</span>
-        </a>
-        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
-        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="credit-card" class="w-5 h-5"></i><span>Facturation</span>
-        </a>
-        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="settings" class="w-5 h-5"></i><span>Paramètres</span>
-        </a>
-      </nav>
-      
-      <div class="p-4 border-t border-gray-100 space-y-3">
-        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
-            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
-          </div>
-          <p class="text-2xl font-bold"><span id="sidebar-credits">0</span> <span class="text-sm font-normal text-brand-200">/ 100</span></p>
-          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div id="sidebar-credits-bar" class="h-full w-0 bg-accent-400 rounded-full transition-all duration-500"></div>
-          </div>
-          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">Acheter des crédits</a>
-        </div>
-        <button onclick="doLogout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
-          <i data-lucide="log-out" class="w-4 h-4"></i><span>Déconnexion</span>
-        </button>
-      </div>
-    </aside>
-
-    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
-
-    <!-- MAIN CONTENT -->
-    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
-      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
-        <div class="flex items-center gap-3">
-          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100"><i data-lucide="menu" class="w-5 h-5"></i></button>
-          <h1 class="text-xl font-bold text-gray-900">Studio de Création IA</h1>
-        </div>
-        <div class="flex items-center gap-3">
-          <span class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold">
-            <i data-lucide="coins" class="w-4 h-4"></i><span id="header-credits">0 crédits</span>
-          </span>
-        </div>
-      </header>
-
-      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Créez votre publicité 🎨</h2>
-            <p class="mt-1 text-gray-600">Choisissez un type de contenu et laissez l'IA travailler pour vous</p>
-          </div>
-        </div>
-
-        <!-- Sélection du type -->
-        <div class="grid sm:grid-cols-3 gap-4">
-          <div onclick="selectType('image')" id="type-image" class="type-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-            <div class="icon-wrapper w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center mb-4">
-              <i data-lucide="image" class="w-6 h-6 text-white"></i>
-            </div>
-            <h3 class="font-bold text-lg mb-2">Image publicitaire</h3>
-            <p class="text-sm text-gray-500">Générez des visuels professionnels (Pollinations AI)</p>
-            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-brand-600">
-              <i data-lucide="coins" class="w-3.5 h-3.5"></i><span>1 crédit</span>
-            </div>
-          </div>
-
-          <div onclick="selectType('video')" id="type-video" class="type-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-            <div class="icon-wrapper w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center mb-4">
-              <i data-lucide="video" class="w-6 h-6 text-white"></i>
-            </div>
-            <h3 class="font-bold text-lg mb-2">Vidéo publicitaire</h3>
-            <p class="text-sm text-gray-500">Créez des vidéos engageantes (Simulation démo)</p>
-            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-brand-600">
-              <i data-lucide="coins" class="w-3.5 h-3.5"></i><span>3 crédits</span>
-            </div>
-          </div>
-
-          <div onclick="selectType('texte')" id="type-texte" class="type-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-            <div class="icon-wrapper w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-4">
-              <i data-lucide="type" class="w-6 h-6 text-white"></i>
-            </div>
-            <h3 class="font-bold text-lg mb-2">Texte marketing</h3>
-            <p class="text-sm text-gray-500">Rédigez des copies qui convertissent (Google Gemini)</p>
-            <div class="mt-4 flex items-center gap-2 text-xs font-semibold text-brand-600">
-              <i data-lucide="coins" class="w-3.5 h-3.5"></i><span>1 crédit</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Formulaire de création -->
-        <div id="creation-form-container" class="hidden">
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-6">
-              <h3 id="form-title" class="text-xl font-bold text-gray-900">Configuration</h3>
-              <button onclick="resetForm()" class="text-sm text-gray-500 hover:text-gray-700">
-                <i data-lucide="rotate-ccw" class="w-4 h-4 inline mr-1"></i>Réinitialiser
-              </button>
-            </div>
-
-            <form id="creation-form" class="space-y-4" onsubmit="return false;">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-2">Description de votre publicité *</label>
-                <textarea id="prompt" rows="4" required 
-                  placeholder="Décrivez votre publicité en détail. Ex: 'Une image moderne pour promouvoir une boutique de mode à Cotonou, avec des couleurs vives et un style africain contemporain'"
-                  class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition resize-none"></textarea>
-                <p class="mt-1.5 text-xs text-gray-500">Soyez aussi précis que possible pour obtenir les meilleurs résultats de l'IA</p>
-              </div>
-
-              <div class="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Nom du projet</label>
-                  <input type="text" id="project-name" placeholder="Ex: Collection Été 2024"
-                    class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-2">Plateforme cible</label>
-                  <select id="platform" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                    <option value="facebook">Facebook</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="tiktok">TikTok</option>
-                    <option value="google">Google Ads</option>
-                    <option value="autre">Autre</option>
-                  </select>
-                </div>
-              </div>
-
-              <div id="image-options" class="hidden space-y-4">
-                <div class="grid sm:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Format</label>
-                    <select id="image-format" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                      <option value="1024x1024">Carré (1:1) - Instagram/Facebook</option>
-                      <option value="768x1024">Portrait (3:4) - Stories/Reels</option>
-                      <option value="1024x768">Paysage (4:3) - Bannières</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Style</label>
-                    <select id="image-style" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                      <option value="photorealistic, 8k, highly detailed">Réaliste & Professionnel</option>
-                      <option value="vibrant colors, modern, dynamic">Coloré & Dynamique</option>
-                      <option value="minimalist, clean, elegant">Minimaliste & Élégant</option>
-                      <option value="3d render, octane render, creative">Créatif & 3D</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <div class="flex items-center gap-4 pt-4">
-                <button type="button" onclick="resetForm()" class="px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">Annuler</button>
-                <button type="submit" id="generate-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition shadow-lg shadow-brand-600/20">
-                  <i data-lucide="sparkles" class="w-5 h-5"></i>
-                  <span>Générer avec l'IA</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Loading -->
-        <div id="loading" class="hidden">
-          <div class="p-12 rounded-2xl bg-white border border-gray-200 text-center">
-            <div class="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center loading-pulse">
-              <i data-lucide="sparkles" class="w-10 h-10 text-white"></i>
-            </div>
-            <h3 id="loading-text" class="text-xl font-bold text-gray-900 mb-2">L'IA crée votre contenu...</h3>
-            <p class="text-gray-600 mb-6">Cela peut prendre 5 à 15 secondes selon la complexité</p>
-            <div class="max-w-md mx-auto">
-              <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
-                <div class="h-full bg-gradient-to-r from-brand-600 to-accent-500 rounded-full animate-pulse" style="width: 70%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Résultat -->
-        <div id="result" class="hidden">
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-6">
-              <h3 class="text-xl font-bold text-gray-900">Votre création est prête ! 🎉</h3>
-              <button onclick="downloadResult()" class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition">
-                <i data-lucide="download" class="w-4 h-4 inline mr-1"></i>Télécharger
-              </button>
-            </div>
-            <div id="result-content" class="space-y-4"></div>
-            <div class="mt-6 pt-6 border-t border-gray-100 flex gap-3">
-              <button onclick="resetForm()" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">
-                <i data-lucide="plus" class="w-4 h-4 inline mr-2"></i>Nouvelle création
-              </button>
-              <button onclick="saveCreation()" class="flex-1 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
-                <i data-lucide="save" class="w-4 h-4 inline mr-2"></i>Sauvegarder
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Créations récentes -->
-        <div class="p-6 rounded-2xl bg-white border border-gray-200">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-              <h3 class="font-bold text-gray-900 text-lg">Vos créations récentes</h3>
-              <p class="text-sm text-gray-500 mt-0.5">Historique de vos générations IA</p>
-            </div>
-            <button onclick="loadRecentCreations()" class="px-4 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold hover:bg-brand-100 transition">
-              <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i>Rafraîchir
-            </button>
-          </div>
-          <div id="recent-creations" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <div class="col-span-full text-center py-12 text-gray-500">
-              <i data-lucide="sparkles" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i>
-              <p class="font-medium">Aucune création pour le moment</p>
-            </div>
-          </div>
-        </div>
-      </main>
+  <main id="page-content" class="hidden p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Studio de création</h1>
+      <p class="mt-1 text-gray-600">Choisissez un type de contenu, décrivez votre publicité, l’IA fait le reste.</p>
     </div>
-  </div>
 
+    <!-- Type de contenu -->
+    <div class="grid sm:grid-cols-3 gap-4" role="radiogroup" aria-label="Type de contenu">
+      <button type="button" data-type="image" role="radio" aria-checked="false" class="type-card text-left p-5 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300 transition">
+        <span class="w-11 h-11 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center mb-3"><i data-lucide="image" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+        <span class="block font-bold text-gray-900">Image publicitaire</span>
+        <span class="block text-sm text-gray-500 mt-1">Visuels générés par IA</span>
+        <span class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600"><i data-lucide="coins" class="w-3.5 h-3.5" aria-hidden="true"></i>1 crédit</span>
+      </button>
+      <button type="button" data-type="texte" role="radio" aria-checked="false" class="type-card text-left p-5 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300 transition">
+        <span class="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center mb-3"><i data-lucide="type" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+        <span class="block font-bold text-gray-900">Texte publicitaire</span>
+        <span class="block text-sm text-gray-500 mt-1">Titre, argumentaire et appel à l’action</span>
+        <span class="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-brand-600"><i data-lucide="coins" class="w-3.5 h-3.5" aria-hidden="true"></i>1 crédit</span>
+      </button>
+      <div class="p-5 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 opacity-80" aria-disabled="true">
+        <span class="w-11 h-11 rounded-xl bg-gray-300 flex items-center justify-center mb-3"><i data-lucide="video" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+        <span class="block font-bold text-gray-700">Vidéo publicitaire</span>
+        <span class="block text-sm text-gray-500 mt-1">En cours de développement</span>
+        <span class="mt-3 badge bg-gray-200 text-gray-600">Bientôt disponible</span>
+      </div>
+    </div>
+
+    <!-- Formulaire -->
+    <section id="form-section" class="hidden card" aria-labelledby="form-title">
+      <h2 id="form-title" class="text-lg font-bold text-gray-900 mb-5">Configuration</h2>
+      <form id="creation-form" class="space-y-4" novalidate>
+        <div>
+          <label for="prompt" class="label">Description de votre publicité *</label>
+          <textarea id="prompt" rows="4" maxlength="2000" required class="input resize-none"
+            placeholder="Ex. : Promotion d’une boutique de mode à Cotonou, couleurs vives, style africain contemporain, offre -20 % ce week-end"></textarea>
+          <p class="mt-1.5 text-xs text-gray-500">Plus votre description est précise (produit, cible, ton, offre), meilleur est le résultat.</p>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="project-name" class="label">Nom du projet</label>
+            <input type="text" id="project-name" maxlength="120" placeholder="Ex. : Collection été" class="input" />
+          </div>
+          <div>
+            <label for="platform" class="label">Plateforme cible</label>
+            <select id="platform" class="input">
+              <option value="facebook">Facebook</option>
+              <option value="instagram">Instagram</option>
+              <option value="tiktok">TikTok</option>
+              <option value="google">Google Ads</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="image-options" class="hidden space-y-3">
+          <div class="grid sm:grid-cols-2 gap-4">
+            <div>
+              <label for="image-format" class="label">Format</label>
+              <select id="image-format" class="input">
+                <option value="768x768">Carré (1:1) — Instagram / Facebook</option>
+                <option value="576x768">Portrait (3:4) — Stories / Reels</option>
+                <option value="768x576">Paysage (4:3) — Bannières</option>
+              </select>
+            </div>
+            <div>
+              <label for="image-style" class="label">Style</label>
+              <select id="image-style" class="input">
+                <option value="photorealistic, highly detailed">Réaliste et professionnel</option>
+                <option value="vibrant colors, modern, dynamic">Coloré et dynamique</option>
+                <option value="minimalist, clean, elegant">Minimaliste et élégant</option>
+                <option value="3d render, creative">Créatif / 3D</option>
+              </select>
+            </div>
+          </div>
+          <p class="text-xs text-gray-500 flex items-start gap-2"><i data-lucide="info" class="w-4 h-4 flex-shrink-0 mt-0.5" aria-hidden="true"></i><span>Les images sont limitées à 768 px et la génération peut prendre jusqu’à 30 secondes. Patientez environ 45 secondes entre deux images.</span></p>
+        </div>
+
+        <div class="flex items-center gap-3 pt-2">
+          <button type="button" id="reset-btn" class="btn-secondary">Réinitialiser</button>
+          <button type="submit" id="generate-btn" class="btn-primary flex-1 py-3">
+            <i data-lucide="sparkles" class="w-5 h-5" aria-hidden="true"></i><span>Générer (<span id="cost-label">1</span> crédit)</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- Chargement -->
+    <section id="loading" class="hidden card text-center py-12" role="status" aria-live="polite">
+      <div class="w-16 h-16 mx-auto mb-5 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center animate-pulse"><i data-lucide="sparkles" class="w-8 h-8 text-white" aria-hidden="true"></i></div>
+      <h2 class="text-lg font-bold text-gray-900">L’IA travaille sur votre demande…</h2>
+      <p class="text-gray-600 mt-1">Cela prend généralement 5 à 30 secondes. Ne fermez pas cette page.</p>
+    </section>
+
+    <!-- Résultat -->
+    <section id="result" class="hidden card" aria-labelledby="result-title">
+      <div class="flex flex-wrap items-center justify-between gap-3 mb-5">
+        <h2 id="result-title" class="text-lg font-bold text-gray-900">Votre création est prête</h2>
+        <div class="flex gap-2" id="result-actions"></div>
+      </div>
+      <div id="result-content"></div>
+      <p class="mt-4 text-xs text-gray-500">Cette création est enregistrée automatiquement dans votre historique ci-dessous.</p>
+    </section>
+
+    <!-- Historique -->
+    <section class="card" aria-labelledby="history-title">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h2 id="history-title" class="font-bold text-gray-900 text-lg">Vos créations récentes</h2>
+          <p class="text-sm text-gray-500 mt-0.5">Cliquez sur une création pour la consulter.</p>
+        </div>
+      </div>
+      <div id="history" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </section>
+  </main>
+
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    // ==========================================
-    // CONFIGURATION
-    // ==========================================
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    // ⚠️ REMPLACE CECI PAR TA VRAIE CLÉ API GEMINI ⚠️
-    var GEMINI_API_KEY = 'AQ.Ab8RN6JtwA9bg1nUnxejTYp13eDt20dAHbyd42WM23eulocy3w'; 
-    // ==========================================
+    (async function () {
+      var ctx = await App.init({ active: 'studio' });
+      if (!ctx) return;
 
-    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: { persistSession: true, autoRefreshToken: true, storage: window.localStorage }
-    });
+      var sb = App.sb, esc = App.esc;
+      var COST = { image: 1, texte: 1 };
+      var IMAGE_HOST = 'https://image.pollinations.ai/';
+      var selectedType = null;
+      var current = null;
+      var busy = false;
+      var creationsById = {};
 
-    var currentUser = null;
-    var currentCredits = 0;
-    var selectedType = null;
-    var currentCreation = null;
+      var el = function (id) { return document.getElementById(id); };
 
-    function toggleSidebar() {
-      var sidebar = document.getElementById('sidebar');
-      var overlay = document.getElementById('sidebar-overlay');
-      sidebar.classList.toggle('hidden');
-      sidebar.classList.toggle('fixed');
-      sidebar.classList.toggle('z-40');
-      overlay.classList.toggle('hidden');
-    }
-
-    async function doLogout() {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    }
-
-    async function initStudio() {
-      try {
-        var userResult = await sb.auth.getUser();
-        currentUser = userResult.data.user;
-        if (!currentUser) { window.location.href = 'connexion.html'; return; }
-
-        var creditsResult = await sb.from('credits').select('amount').eq('user_id', currentUser.id).single();
-        currentCredits = creditsResult.data ? creditsResult.data.amount : 0;
-        updateCreditsDisplay();
-        loadRecentCreations();
-        
-        var urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('type')) selectType(urlParams.get('type'));
-      } catch (err) { console.error('❌ Erreur initStudio:', err); }
-    }
-
-    function updateCreditsDisplay() {
-      document.getElementById('sidebar-credits').textContent = currentCredits;
-      document.getElementById('header-credits').textContent = currentCredits + ' crédits';
-      document.getElementById('sidebar-credits-bar').style.width = Math.min((currentCredits / 100) * 100, 100) + '%';
-    }
-
-    function selectType(type) {
-      selectedType = type;
-      document.querySelectorAll('.type-card').forEach(c => c.classList.remove('active'));
-      document.getElementById('type-' + type).classList.add('active');
-      document.getElementById('creation-form-container').classList.remove('hidden');
-      document.getElementById('image-options').classList.add('hidden');
-      
-      if (type === 'image') {
-        document.getElementById('form-title').textContent = 'Génération d\'image (Pollinations AI)';
-        document.getElementById('image-options').classList.remove('hidden');
-      } else if (type === 'video') {
-        document.getElementById('form-title').textContent = 'Création de vidéo (Mode Démo)';
-      } else if (type === 'texte') {
-        document.getElementById('form-title').textContent = 'Rédaction de texte (Google Gemini)';
+      /* ---------- Sélection du type ---------- */
+      function selectType(type) {
+        selectedType = type;
+        document.querySelectorAll('.type-card').forEach(function (c) {
+          var on = c.getAttribute('data-type') === type;
+          c.setAttribute('aria-checked', on ? 'true' : 'false');
+          c.classList.toggle('border-brand-600', on);
+          c.classList.toggle('bg-brand-50', on);
+        });
+        el('form-section').classList.remove('hidden');
+        el('image-options').classList.toggle('hidden', type !== 'image');
+        el('form-title').textContent = type === 'image' ? 'Générer une image publicitaire' : 'Rédiger un texte publicitaire';
+        el('cost-label').textContent = COST[type];
+        el('form-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       }
-      document.getElementById('creation-form-container').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
+      document.querySelectorAll('.type-card').forEach(function (c) {
+        c.addEventListener('click', function () { selectType(c.getAttribute('data-type')); });
+      });
+      var urlType = new URLSearchParams(window.location.search).get('type');
+      if (urlType === 'image' || urlType === 'texte') selectType(urlType);
 
-    function resetForm() {
-      document.getElementById('creation-form').reset();
-      document.getElementById('creation-form-container').classList.remove('hidden');
-      document.getElementById('result').classList.add('hidden');
-      document.getElementById('loading').classList.add('hidden');
-    }
-
-    // ==========================================
-    // LOGIQUE DE GÉNÉRATION IA RÉELLE
-    // ==========================================
-    document.getElementById('creation-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      if (!selectedType) { alert('Veuillez sélectionner un type de création'); return; }
-      
-      var prompt = document.getElementById('prompt').value.trim();
-      var projectName = document.getElementById('project-name').value.trim() || 'Sans titre';
-      var platform = document.getElementById('platform').value;
-      
-      if (!prompt) { alert('Veuillez décrire votre publicité'); return; }
-      
-      var creditsCost = selectedType === 'video' ? 3 : 1;
-      if (currentCredits < creditsCost) {
-        alert('Crédits insuffisants. Il vous faut ' + creditsCost + ' crédit(s).');
-        window.location.href = 'facturation.html';
-        return;
+      function resetForm() {
+        el('creation-form').reset();
+        el('result').classList.add('hidden');
+        el('loading').classList.add('hidden');
       }
-      
-      document.getElementById('loading').classList.remove('hidden');
-      document.getElementById('result').classList.add('hidden');
-      document.getElementById('loading-text').textContent = 'L\'IA travaille sur votre demande...';
+      el('reset-btn').addEventListener('click', resetForm);
 
-      try {
-        var resultUrl = '';
-        var generatedContent = '';
+      /* ---------- Génération ---------- */
+      function setBusy(on) {
+        busy = on;
+        el('generate-btn').disabled = on;
+        el('loading').classList.toggle('hidden', !on);
+        if (on) el('result').classList.add('hidden');
+      }
 
-        if (selectedType === 'image') {
-          var style = document.getElementById('image-style').value;
-          var format = document.getElementById('image-format').value;
-          var [width, height] = format.split('x');
-          var fullPrompt = encodeURIComponent(prompt + ', ' + style + ', publicité professionnelle, haute qualité, 4k');
-          var seed = Math.floor(Math.random() * 100000);
-          resultUrl = `https://image.pollinations.ai/prompt/${fullPrompt}?width=${width}&height=${height}&seed=${seed}&nologo=true`;
-          generatedContent = resultUrl;
-          
-        } else if (selectedType === 'texte') {
-          if (GEMINI_API_KEY === 'TA_CLE_API_GEMINI_ICI') {
-            throw new Error('Veuillez ajouter votre clé API Gemini dans le code (ligne ~230)');
+      function preload(url, ms) {
+        return new Promise(function (resolve, reject) {
+          var img = new Image();
+          var timer = setTimeout(function () { img.src = ''; reject(new Error('timeout')); }, ms);
+          img.onload = function () { clearTimeout(timer); resolve(); };
+          img.onerror = function () { clearTimeout(timer); reject(new Error('load_failed')); };
+          img.src = url;
+        });
+      }
+
+      async function fnError(error) {
+        try { var body = await error.context.json(); return new Error(body.error || 'generation_failed'); }
+        catch (e) { return error; }
+      }
+
+      el('creation-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        if (busy) return;
+        if (!selectedType) { App.toast('Choisissez d’abord un type de création.', 'error'); return; }
+
+        var prompt = el('prompt').value.trim();
+        var project = el('project-name').value.trim() || 'Sans titre';
+        var platform = el('platform').value;
+        if (prompt.length < 3) { App.toast('Décrivez votre publicité (3 caractères minimum).', 'error'); el('prompt').focus(); return; }
+        if (App.state.credits < COST[selectedType]) {
+          App.toast('Crédits insuffisants. Rechargez votre compte pour continuer.', 'error');
+          return;
+        }
+
+        setBusy(true);
+        var creationId = null;
+        try {
+          if (selectedType === 'texte') {
+            var r = await sb.functions.invoke('generate-text', { body: { prompt: prompt, project: project, platform: platform } });
+            if (r.error) throw await fnError(r.error);
+            current = { id: r.data.id, type: 'texte', prompt: prompt, project_name: project, platform: platform, result_url: r.data.text, created_at: new Date().toISOString() };
+          } else {
+            var start = await sb.rpc('start_creation', { p_type: 'image', p_prompt: prompt, p_project: project, p_platform: platform });
+            if (start.error) throw start.error;
+            creationId = start.data;
+            await App.refreshCredits(true);
+
+            var size = el('image-format').value.split('x');
+            var style = el('image-style').value;
+            var url = IMAGE_HOST + 'prompt/' + encodeURIComponent(prompt + ', ' + style + ', professional advertisement, high quality') +
+              '?width=' + size[0] + '&height=' + size[1] + '&seed=' + Math.floor(Math.random() * 1000000) + '&safe=true';
+
+            try {
+              await preload(url, 90000);
+            } catch (loadErr) {
+              await sb.rpc('fail_creation', { p_id: creationId });
+              creationId = null;
+              await App.refreshCredits(true);
+              throw new Error('generation_failed');
+            }
+            var done = await sb.rpc('complete_creation', { p_id: creationId, p_result: url });
+            if (done.error) throw done.error;
+            creationId = null;
+            current = { id: start.data, type: 'image', prompt: prompt, project_name: project, platform: platform, result_url: url, created_at: new Date().toISOString() };
           }
-          document.getElementById('loading-text').textContent = 'Google Gemini rédige votre texte...';
-          var geminiPrompt = `Agis comme un expert en copywriting publicitaire. Rédige un texte publicitaire percutant et engageant pour : "${prompt}". Plateforme cible : ${platform}. Format souhaité : Un titre accrocheur, un corps de texte persuasif, et un appel à l'action clair. Utilise des émojis de manière professionnelle.`;
-          
-          var response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contents: [{ parts: [{ text: geminiPrompt }] }] })
+          await App.refreshCredits(true);
+          showResult();
+          loadHistory();
+        } catch (err) {
+          App.toast(App.errMsg(err), 'error');
+          App.refreshCredits(true);
+        } finally {
+          setBusy(false);
+        }
+      });
+
+      /* ---------- Affichage ---------- */
+      function isSafeImage(url) { return typeof url === 'string' && url.indexOf(IMAGE_HOST) === 0; }
+
+      function contentHtml(c) {
+        if (c.type === 'image') {
+          return isSafeImage(c.result_url)
+            ? '<img src="' + esc(c.result_url) + '" alt="Image publicitaire générée : ' + esc(c.project_name) + '" class="w-full max-w-xl h-auto rounded-xl border border-gray-200" />'
+            : '<p class="text-gray-500">Image indisponible.</p>';
+        }
+        return '<div class="p-5 rounded-xl bg-brand-50 border border-brand-100"><pre class="whitespace-pre-wrap font-sans text-gray-800 text-sm leading-relaxed">' + esc(c.result_url) + '</pre></div>';
+      }
+
+      function actionsHtml(c) {
+        return c.type === 'image'
+          ? '<button type="button" data-act="download" class="btn-primary"><i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>Télécharger</button>'
+          : '<button type="button" data-act="copy" class="btn-secondary"><i data-lucide="copy" class="w-4 h-4" aria-hidden="true"></i>Copier</button>' +
+            '<button type="button" data-act="download" class="btn-primary"><i data-lucide="download" class="w-4 h-4" aria-hidden="true"></i>Télécharger</button>';
+      }
+
+      function bindActions(root, c) {
+        root.querySelectorAll('[data-act]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            var act = b.getAttribute('data-act');
+            if (act === 'copy') copyText(c.result_url);
+            if (act === 'download') downloadCreation(c);
           });
-          var data = await response.json();
-          if (data.error) throw new Error(data.error.message);
-          generatedContent = data.candidates[0].content.parts[0].text;
-          
-        } else if (selectedType === 'video') {
-          // Simulation réaliste pour la vidéo (les API vidéo gratuites sont inexistantes ou très limitées)
-          await new Promise(r => setTimeout(r, 4000));
-          generatedContent = 'https://media.istockphoto.com/id/1455088651/video/abstract-technology-background-with-digital-particles.mp4?s=mp4-640x640-is&k=20&c=6c6k6k6k6k6k6k6k6k6k6k6k6k6k6k6k6k6k6k6k='; // Placeholder vidéo
-          alert('Note : La génération vidéo réelle nécessite une API payante (ex: RunwayML). Ceci est une simulation pour la démo.');
+        });
+      }
+
+      function showResult() {
+        el('result-content').innerHTML = contentHtml(current);
+        el('result-actions').innerHTML = actionsHtml(current);
+        bindActions(el('result-actions'), current);
+        el('result').classList.remove('hidden');
+        App.icons();
+        el('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+
+      function copyText(text) {
+        (navigator.clipboard ? navigator.clipboard.writeText(text) : Promise.reject())
+          .then(function () { App.toast('Texte copié.', 'success'); })
+          .catch(function () { App.toast('Copie impossible. Sélectionnez le texte manuellement.', 'error'); });
+      }
+
+      function safeName(name) { return String(name || 'creation').replace(/[^\w\-]+/g, '_').slice(0, 60) || 'creation'; }
+
+      async function downloadCreation(c) {
+        if (c.type === 'texte') {
+          var blob = new Blob([c.result_url], { type: 'text/plain;charset=utf-8' });
+          var a = document.createElement('a');
+          a.href = URL.createObjectURL(blob);
+          a.download = safeName(c.project_name) + '.txt';
+          a.click();
+          setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+          return;
+        }
+        if (!isSafeImage(c.result_url)) return;
+        try {
+          var res = await fetch(c.result_url);
+          if (!res.ok) throw new Error('fetch');
+          var b = await res.blob();
+          var link = document.createElement('a');
+          link.href = URL.createObjectURL(b);
+          link.download = safeName(c.project_name) + '.jpg';
+          link.click();
+          setTimeout(function () { URL.revokeObjectURL(link.href); }, 2000);
+        } catch (e) {
+          window.open(c.result_url, '_blank', 'noopener');
+        }
+      }
+
+      /* ---------- Historique ---------- */
+      var TYPE_LABEL = { image: 'Image', texte: 'Texte', video: 'Vidéo' };
+      var TYPE_ICON = { image: 'image', texte: 'type', video: 'video' };
+      var TYPE_BG = { image: 'from-pink-500 to-rose-600', texte: 'from-blue-500 to-cyan-600', video: 'from-purple-500 to-indigo-600' };
+
+      async function loadHistory() {
+        var r = await sb.from('creations')
+          .select('id, type, prompt, project_name, platform, status, result_url, created_at')
+          .order('created_at', { ascending: false }).limit(12);
+        var rows = r.data || [];
+
+        // Rembourse automatiquement les générations interrompues (page fermée en cours de route).
+        var stale = rows.filter(function (c) { return c.status === 'processing' && Date.now() - new Date(c.created_at).getTime() > 5 * 60 * 1000; });
+        if (stale.length) {
+          await Promise.all(stale.map(function (c) { return sb.rpc('fail_creation', { p_id: c.id }); }));
+          App.refreshCredits(true);
+          stale.forEach(function (c) { c.status = 'failed'; });
         }
 
-        // Sauvegarder dans Supabase
-        var dbResult = await sb.from('creations').insert({
-          user_id: currentUser.id,
-          type: selectedType,
-          prompt: prompt,
-          project_name: projectName,
-          platform: platform,
-          status: 'completed',
-          credits_used: creditsCost,
-          result_url: generatedContent
-        }).select().single();
+        creationsById = {};
+        rows.forEach(function (c) { creationsById[c.id] = c; });
 
-        currentCreation = dbResult.data;
-
-        // Décrémenter les crédits
-        var newCredits = currentCredits - creditsCost;
-        await sb.from('credits').update({ amount: newCredits }).eq('user_id', currentUser.id);
-        currentCredits = newCredits;
-        updateCreditsDisplay();
-
-        displayResult(generatedContent);
-        loadRecentCreations();
-
-      } catch (err) {
-        console.error('❌ Erreur génération:', err);
-        alert('❌ Erreur : ' + err.message);
-      } finally {
-        document.getElementById('loading').classList.add('hidden');
-      }
-    });
-
-    function displayResult(content) {
-      var resultContent = document.getElementById('result-content');
-      var html = '';
-
-      if (selectedType === 'image') {
-        html += `<div class="generated-image rounded-xl overflow-hidden border border-gray-200">
-                   <img src="${content}" alt="Generated Image" class="w-full h-auto object-cover">
-                 </div>`;
-        html += `<p class="text-sm text-gray-600 mt-2"><strong>Prompt utilisé :</strong> ${escapeHtml(currentCreation.prompt)}</p>`;
-      } 
-      else if (selectedType === 'texte') {
-        html += `<div class="p-6 rounded-xl bg-gradient-to-br from-brand-50 to-accent-50 border border-brand-200">
-                   <div class="prose prose-sm max-w-none text-gray-800 whitespace-pre-wrap">${escapeHtml(content).replace(/\n/g, '<br>')}</div>
-                 </div>`;
-      }
-      else if (selectedType === 'video') {
-        html += `<div class="aspect-video rounded-xl bg-gray-900 flex items-center justify-center overflow-hidden">
-                   <p class="text-white text-center p-4">🎬 Vidéo de démonstration<br><span class="text-sm text-gray-400">(Intégration API vidéo en cours)</span></p>
-                 </div>`;
-      }
-
-      resultContent.innerHTML = html;
-      document.getElementById('result').classList.remove('hidden');
-      document.getElementById('result').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    function downloadResult() {
-      if (selectedType === 'image' && currentCreation.result_url) {
-        window.open(currentCreation.result_url, '_blank');
-      } else if (selectedType === 'texte') {
-        var blob = new Blob([currentCreation.result_url], { type: 'text/plain' });
-        var url = window.URL.createObjectURL(blob);
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = currentCreation.project_name + '.txt';
-        a.click();
-      } else {
-        alert('Téléchargement vidéo indisponible en mode démo.');
-      }
-    }
-
-    async function saveCreation() {
-      if (!currentCreation) return;
-      try {
-        await sb.from('creations').update({ saved: true }).eq('id', currentCreation.id);
-        alert('✅ Création sauvegardée avec succès !');
-        loadRecentCreations();
-      } catch (err) {
-        alert('❌ Erreur lors de la sauvegarde');
-      }
-    }
-
-    async function loadRecentCreations() {
-      if (!currentUser) return;
-      try {
-        var result = await sb.from('creations').select('*').eq('user_id', currentUser.id).order('created_at', { ascending: false }).limit(6);
-        var creations = result.data || [];
-        var container = document.getElementById('recent-creations');
-        
-        if (creations.length === 0) {
-          container.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><i data-lucide="sparkles" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i><p class="font-medium">Aucune création pour le moment</p></div>';
-        } else {
-          var html = '';
-          creations.forEach(function(c) {
-            var typeIcons = { 'image': 'image', 'video': 'video', 'texte': 'type' };
-            var typeColors = { 'image': 'from-pink-500 to-rose-600', 'video': 'from-purple-500 to-indigo-600', 'texte': 'from-blue-500 to-cyan-600' };
-            var typeLabels = { 'image': 'Image', 'video': 'Vidéo', 'texte': 'Texte' };
-            
-            html += `<div class="p-4 rounded-xl border border-gray-200 hover:border-brand-300 transition cursor-pointer" onclick="viewCreation('${c.id}')">
-              <div class="flex items-start gap-3">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br ${typeColors[c.type]} flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="${typeIcons[c.type]}" class="w-5 h-5 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-gray-900 truncate">${escapeHtml(c.project_name)}</p>
-                  <p class="text-xs text-gray-500">${typeLabels[c.type]} • ${new Date(c.created_at).toLocaleDateString('fr-FR')}</p>
-                </div>
-              </div>
-            </div>`;
-          });
-          container.innerHTML = html;
+        var box = el('history');
+        if (!rows.length) {
+          box.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500"><i data-lucide="sparkles" class="w-10 h-10 mx-auto mb-3 text-gray-300" aria-hidden="true"></i><p class="font-medium">Aucune création pour le moment</p><p class="text-sm mt-1">Choisissez un type de contenu ci-dessus pour commencer.</p></div>';
+          App.icons();
+          return;
         }
-        lucide.createIcons();
-      } catch (err) { console.error('❌ Erreur loadRecentCreations:', err); }
-    }
+        box.innerHTML = rows.map(function (c) {
+          var thumb = (c.type === 'image' && c.status === 'completed' && isSafeImage(c.result_url))
+            ? '<img src="' + esc(c.result_url) + '" alt="" loading="lazy" class="w-12 h-12 rounded-lg object-cover flex-shrink-0 bg-gray-100" />'
+            : '<span class="w-12 h-12 rounded-lg bg-gradient-to-br ' + (TYPE_BG[c.type] || TYPE_BG.texte) + ' flex items-center justify-center flex-shrink-0"><i data-lucide="' + (TYPE_ICON[c.type] || 'type') + '" class="w-5 h-5 text-white" aria-hidden="true"></i></span>';
+          var status = c.status === 'failed' ? '<span class="badge bg-red-50 text-red-700 ml-1">Échec (remboursé)</span>' : (c.status === 'processing' ? '<span class="badge bg-amber-50 text-amber-700 ml-1">En cours</span>' : '');
+          return '<button type="button" data-id="' + esc(c.id) + '" class="text-left p-3 rounded-xl border border-gray-200 hover:border-brand-300 transition flex items-center gap-3">' +
+            thumb +
+            '<span class="min-w-0"><span class="block font-semibold text-gray-900 truncate">' + esc(c.project_name) + '</span>' +
+            '<span class="block text-xs text-gray-500">' + esc(TYPE_LABEL[c.type] || c.type) + ' · ' + App.fmtDate(c.created_at) + status + '</span></span></button>';
+        }).join('');
+        App.icons();
+        box.querySelectorAll('[data-id]').forEach(function (b) {
+          b.addEventListener('click', function () { viewCreation(b.getAttribute('data-id')); });
+        });
+      }
 
-    function escapeHtml(text) {
-      if (!text) return '';
-      var div = document.createElement('div');
-      div.textContent = text;
-      return div.innerHTML;
-    }
+      /* ---------- Détail d'une création ---------- */
+      function viewCreation(id) {
+        var c = creationsById[id];
+        if (!c) return;
+        var overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 z-[80] flex items-center justify-center p-4 bg-black/50 overflow-y-auto';
+        var completed = c.status === 'completed';
+        overlay.innerHTML =
+          '<div role="dialog" aria-modal="true" aria-label="Détail de la création" class="bg-white rounded-2xl w-full max-w-2xl p-6 shadow-xl my-auto">' +
+            '<div class="flex items-start justify-between gap-4 mb-4">' +
+              '<div class="min-w-0"><h3 class="font-bold text-lg text-gray-900 truncate">' + esc(c.project_name) + '</h3>' +
+              '<p class="text-xs text-gray-500">' + esc(TYPE_LABEL[c.type] || c.type) + ' · ' + esc(c.platform || '') + ' · ' + App.fmtDateTime(c.created_at) + '</p></div>' +
+              '<button type="button" data-close class="p-2 rounded-lg hover:bg-gray-100" aria-label="Fermer"><i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i></button>' +
+            '</div>' +
+            (completed ? contentHtml(c) : '<p class="text-gray-500">Cette génération n’a pas abouti. Le crédit a été remboursé.</p>') +
+            '<p class="mt-4 text-sm text-gray-600"><strong>Description :</strong> ' + esc(c.prompt) + '</p>' +
+            '<div class="mt-6 pt-4 border-t border-gray-100 flex flex-wrap gap-2 justify-between">' +
+              '<button type="button" data-act="delete" class="btn-secondary text-red-600"><i data-lucide="trash-2" class="w-4 h-4" aria-hidden="true"></i>Supprimer</button>' +
+              '<div class="flex gap-2">' + (completed ? actionsHtml(c) : '') + '</div>' +
+            '</div>' +
+          '</div>';
+        function close() { document.removeEventListener('keydown', onKey); overlay.remove(); }
+        function onKey(ev) { if (ev.key === 'Escape') close(); }
+        document.addEventListener('keydown', onKey);
+        overlay.addEventListener('click', function (ev) { if (ev.target === overlay || ev.target.closest('[data-close]')) close(); });
+        document.body.appendChild(overlay);
+        bindActions(overlay, c);
+        overlay.querySelector('[data-act="delete"]').addEventListener('click', async function () {
+          var ok = await App.confirm('Supprimer définitivement cette création ?', 'Supprimer', true);
+          if (!ok) return;
+          var d = await sb.from('creations').delete().eq('id', c.id);
+          if (d.error) { App.toast(App.errMsg(d.error), 'error'); return; }
+          close();
+          App.toast('Création supprimée.', 'success');
+          loadHistory();
+        });
+        App.icons();
+      }
 
-    initStudio();
+      loadHistory();
+    })();
   </script>
 </body>
 </html>

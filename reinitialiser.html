@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau mot de passe — MOUSLEIME PUB IA</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 min-h-screen flex items-center justify-center p-6">
+  <main class="w-full max-w-md">
+    <a href="index.html" class="flex items-center gap-2 mb-8 w-fit">
+      <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center"><i data-lucide="sparkles" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+      <span class="font-bold text-lg">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+    </a>
+
+    <div class="card">
+      <h1 class="text-2xl font-bold text-gray-900">Nouveau mot de passe</h1>
+      <p id="wait" class="mt-3 text-gray-600">Vérification du lien en cours…</p>
+      <div id="invalid" class="hidden mt-3">
+        <p class="text-gray-600">Ce lien est invalide ou a expiré. Demandez-en un nouveau depuis la page de connexion (« Mot de passe oublié ? »).</p>
+        <a href="connexion.html" class="btn-primary mt-4">Retour à la connexion</a>
+      </div>
+
+      <form id="reset-form" class="hidden mt-6 space-y-4" novalidate>
+        <div>
+          <label for="password" class="label">Nouveau mot de passe</label>
+          <div class="relative">
+            <input type="password" id="password" required minlength="8" autocomplete="new-password" class="input pr-12" />
+            <button type="button" data-toggle-password="password" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" aria-label="Afficher le mot de passe"><i data-lucide="eye" class="w-5 h-5" aria-hidden="true"></i></button>
+          </div>
+          <p class="mt-1.5 text-xs text-gray-500">8 caractères minimum, avec des lettres et des chiffres.</p>
+        </div>
+        <div>
+          <label for="confirm" class="label">Confirmer le mot de passe</label>
+          <input type="password" id="confirm" required autocomplete="new-password" class="input" />
+        </div>
+        <button type="submit" id="submit-btn" class="btn-primary w-full py-3"><span>Enregistrer</span></button>
+        <div id="error-message" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm" role="alert"></div>
+      </form>
+    </div>
+  </main>
+
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    (function () {
+      var sb = App.sb;
+      var form = document.getElementById('reset-form');
+      var errBox = document.getElementById('error-message');
+      var btn = document.getElementById('submit-btn');
+      var ready = false;
+
+      App.icons();
+      App.bindPasswordToggles();
+
+      function showForm() {
+        ready = true;
+        document.getElementById('wait').classList.add('hidden');
+        form.classList.remove('hidden');
+      }
+      function showInvalid() {
+        document.getElementById('wait').classList.add('hidden');
+        document.getElementById('invalid').classList.remove('hidden');
+      }
+
+      sb.auth.onAuthStateChange(function (event) {
+        if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') showForm();
+      });
+      // Si la session de récupération est déjà établie, ou si le lien est invalide.
+      setTimeout(async function () {
+        if (ready) return;
+        var s = await sb.auth.getSession();
+        if (s.data && s.data.session) showForm(); else showInvalid();
+      }, 1500);
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        errBox.classList.add('hidden');
+        var pw = document.getElementById('password').value;
+        var cf = document.getElementById('confirm').value;
+        function fail(m) { errBox.textContent = m; errBox.classList.remove('hidden'); }
+
+        if (pw.length < 8 || !/[A-Za-z]/.test(pw) || !/[0-9]/.test(pw)) { fail('Le mot de passe doit contenir au moins 8 caractères, avec des lettres et des chiffres.'); return; }
+        if (pw !== cf) { fail('Les deux mots de passe ne correspondent pas.'); return; }
+
+        btn.disabled = true;
+        try {
+          var res = await sb.auth.updateUser({ password: pw });
+          if (res.error) throw res.error;
+          await sb.auth.signOut();
+          window.location.replace('connexion.html?reset=1');
+        } catch (err) {
+          fail(App.errMsg(err));
+          btn.disabled = false;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

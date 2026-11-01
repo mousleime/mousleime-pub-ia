@@ -4,287 +4,165 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inscription — MOUSLEIME PUB IA</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
-            accent: { 400: '#fbbf24', 500: '#f59e0b' }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    .gradient-text {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .auth-bg {
-      background-image: 
-        radial-gradient(circle at 20% 30%, rgba(99, 102, 241, 0.25) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.15) 0%, transparent 50%),
-        linear-gradient(135deg, #1e1b4b 0%, #4338ca 100%);
-    }
-  </style>
+  <meta name="description" content="Créez votre compte gratuit MOUSLEIME PUB IA et recevez 5 crédits pour tester la création de publicités par l'IA." />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
 
   <div class="min-h-screen grid lg:grid-cols-2">
-    
     <div class="hidden lg:flex auth-bg relative overflow-hidden p-12 flex-col justify-between text-white">
-      <div>
-        <a href="index.html" class="flex items-center gap-2">
-          <div class="w-10 h-10 rounded-lg bg-white/10 backdrop-blur flex items-center justify-center border border-white/20">
-            <i data-lucide="sparkles" class="w-5 h-5 text-accent-400"></i>
-          </div>
-          <span class="font-bold text-lg">MOUSLEIME <span class="text-accent-400">PUB IA</span></span>
-        </a>
-      </div>
-      
+      <a href="index.html" class="flex items-center gap-2 w-fit">
+        <span class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center border border-white/20"><i data-lucide="sparkles" class="w-5 h-5 text-accent-400" aria-hidden="true"></i></span>
+        <span class="font-bold text-lg">MOUSLEIME <span class="text-accent-400">PUB IA</span></span>
+      </a>
+
       <div class="space-y-8">
         <div>
-          <h2 class="text-4xl font-bold leading-tight">Rejoignez les entrepreneurs africains qui <span class="gradient-text">révolutionnent leur marketing</span></h2>
-          <p class="mt-4 text-lg text-brand-100">Créez des publicités qui convertissent en quelques clics grâce à l'intelligence artificielle.</p>
+          <h2 class="text-4xl font-bold leading-tight">Créez vos publicités <span class="gradient-text">avec l’intelligence artificielle</span></h2>
+          <p class="mt-4 text-lg text-brand-100">Textes et visuels publicitaires générés en quelques secondes, pensés pour l’Afrique francophone.</p>
         </div>
-        
-        <div class="space-y-4">
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="check" class="w-4 h-4 text-accent-400"></i>
-            </div>
-            <div>
-              <p class="font-semibold">5 générations gratuites</p>
-              <p class="text-sm text-brand-200">Pour tester sans engagement</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="check" class="w-4 h-4 text-accent-400"></i>
-            </div>
-            <div>
-              <p class="font-semibold">Aucune carte bancaire requise</p>
-              <p class="text-sm text-brand-200">Passez à Starter quand vous voulez</p>
-            </div>
-          </div>
-          <div class="flex items-start gap-3">
-            <div class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="check" class="w-4 h-4 text-accent-400"></i>
-            </div>
-            <div>
-              <p class="font-semibold">Paiement Mobile Money</p>
-              <p class="text-sm text-brand-200">MTN, Moov, Celtiis acceptés</p>
-            </div>
-          </div>
-        </div>
+        <ul class="space-y-4">
+          <li class="flex items-start gap-3">
+            <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-4 h-4 text-accent-400" aria-hidden="true"></i></span>
+            <div><p class="font-semibold">5 crédits offerts</p><p class="text-sm text-brand-200">Pour tester sans engagement</p></div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-4 h-4 text-accent-400" aria-hidden="true"></i></span>
+            <div><p class="font-semibold">Aucune carte bancaire requise</p><p class="text-sm text-brand-200">Achetez des crédits seulement si vous en avez besoin</p></div>
+          </li>
+          <li class="flex items-start gap-3">
+            <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-4 h-4 text-accent-400" aria-hidden="true"></i></span>
+            <div><p class="font-semibold">Paiement Mobile Money</p><p class="text-sm text-brand-200">MTN, Moov et Celtiis</p></div>
+          </li>
+        </ul>
       </div>
-      
-      <div class="flex items-center gap-4 text-sm text-brand-200">
-        <div class="flex -space-x-2">
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-pink-400 to-red-500 border-2 border-brand-700"></div>
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 border-2 border-brand-700"></div>
-          <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-teal-500 border-2 border-brand-700"></div>
-        </div>
-        <p>+500 entrepreneurs nous font déjà confiance</p>
-      </div>
+
+      <p class="text-sm text-brand-200">Fait au Bénin 🇧🇯</p>
     </div>
-    
-    <div class="flex items-center justify-center p-6 sm:p-12">
+
+    <main class="flex items-center justify-center p-6 sm:p-12">
       <div class="w-full max-w-md">
-        
-        <a href="index.html" class="lg:hidden flex items-center gap-2 mb-8">
-          <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-            <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-          </div>
+        <a href="index.html" class="lg:hidden flex items-center gap-2 mb-8 w-fit">
+          <span class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center"><i data-lucide="sparkles" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
           <span class="font-bold text-lg">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
         </a>
-        
+
         <div class="mb-8">
           <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Créez votre compte</h1>
           <p class="mt-2 text-gray-600">Déjà inscrit ? <a href="connexion.html" class="font-semibold text-brand-600 hover:text-brand-700">Connectez-vous</a></p>
         </div>
-        
-        <form id="signup-form" class="space-y-4" onsubmit="return false;">
-          
+
+        <form id="signup-form" class="space-y-4" novalidate>
           <div>
-            <label for="name" class="block text-sm font-medium text-gray-700 mb-1.5">Nom complet</label>
-            <input type="text" id="name" name="name" required placeholder="Amadou Boko"
-              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+            <label for="name" class="label">Nom complet</label>
+            <input type="text" id="name" required autocomplete="name" maxlength="120" placeholder="Amadou Boko" class="input" />
           </div>
-          
           <div>
-            <label for="email" class="block text-sm font-medium text-gray-700 mb-1.5">Adresse email</label>
-            <input type="email" id="email" name="email" required placeholder="vous@exemple.com"
-              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
+            <label for="email" class="label">Adresse email</label>
+            <input type="email" id="email" required autocomplete="email" placeholder="vous@exemple.com" class="input" />
           </div>
-          
           <div>
-            <label for="password" class="block text-sm font-medium text-gray-700 mb-1.5">Mot de passe</label>
+            <label for="password" class="label">Mot de passe</label>
             <div class="relative">
-              <input type="password" id="password" name="password" required minlength="6" placeholder="Au moins 6 caractères"
-                class="w-full px-4 py-3 pr-12 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              <button type="button" onclick="togglePassword('password', this)" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                <i data-lucide="eye" class="w-5 h-5"></i>
-              </button>
+              <input type="password" id="password" required minlength="8" autocomplete="new-password" placeholder="Au moins 8 caractères" class="input pr-12" />
+              <button type="button" data-toggle-password="password" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600" aria-label="Afficher le mot de passe"><i data-lucide="eye" class="w-5 h-5" aria-hidden="true"></i></button>
             </div>
-            <p class="mt-1.5 text-xs text-gray-500">Utilisez au moins 6 caractères.</p>
+            <p class="mt-1.5 text-xs text-gray-500">8 caractères minimum, avec des lettres et des chiffres.</p>
           </div>
-          
+
           <div class="flex items-start gap-2">
-            <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500">
+            <input type="checkbox" id="terms" required class="mt-1 w-4 h-4 rounded border-gray-300 text-brand-600 focus:ring-brand-500" />
             <label for="terms" class="text-sm text-gray-600">
-              J'accepte les <a href="#" class="text-brand-600 hover:underline">Conditions d'utilisation</a> et la <a href="#" class="text-brand-600 hover:underline">Politique de confidentialité</a>.
+              J’accepte les <a href="cgu.html" target="_blank" rel="noopener" class="text-brand-600 hover:underline">conditions d’utilisation</a> et la <a href="confidentialite.html" target="_blank" rel="noopener" class="text-brand-600 hover:underline">politique de confidentialité</a>.
             </label>
           </div>
-          
-          <button type="submit" id="submit-btn" class="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition shadow-lg shadow-brand-600/20">
-            <i data-lucide="arrow-right" class="w-5 h-5"></i>
-            Créer mon compte
+
+          <button type="submit" id="submit-btn" class="btn-primary w-full py-3">
+            <i data-lucide="user-plus" class="w-5 h-5" aria-hidden="true"></i><span>Créer mon compte</span>
           </button>
-          
-          <div id="error-message" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm"></div>
-          <div id="success-message" class="hidden p-3 rounded-xl bg-green-50 border border-green-200 text-green-700 text-sm"></div>
+
+          <div id="error-message" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm" role="alert"></div>
+          <div id="success-message" class="hidden p-3 rounded-xl bg-green-50 border border-green-200 text-green-700 text-sm" role="status"></div>
         </form>
-        
-        <p class="mt-6 text-center text-xs text-gray-500">
-          🔒 Vos données sont protégées et hébergées de manière sécurisée.
-        </p>
+
+        <p class="mt-8 text-center text-xs text-gray-500">Vos données sont hébergées de manière sécurisée dans l’Union européenne.</p>
       </div>
-    </div>
+    </main>
   </div>
 
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    console.log(' Script inscription.html démarré');
-    
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        storage: window.localStorage
-      }
-    });
-    
-    console.log(' Client Supabase créé');
-    
-    function togglePassword(id, btn) {
-      var input = document.getElementById(id);
-      var isPassword = input.type === 'password';
-      input.type = isPassword ? 'text' : 'password';
-      btn.innerHTML = isPassword 
-        ? '<i data-lucide="eye-off" class="w-5 h-5"></i>'
-        : '<i data-lucide="eye" class="w-5 h-5"></i>';
-      lucide.createIcons();
-    }
-    
-    // Fonction de soumission du formulaire
-    async function handleSignup(event) {
-      console.log(' Formulaire soumis !');
-      
-      if (event) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
-      
-      var name = document.getElementById('name').value.trim();
-      var email = document.getElementById('email').value.trim();
-      var password = document.getElementById('password').value;
-      var terms = document.getElementById('terms').checked;
-      var submitBtn = document.getElementById('submit-btn');
-      var errorDiv = document.getElementById('error-message');
-      var successDiv = document.getElementById('success-message');
-      
-      console.log('🟢 Données:', { name, email, password, terms });
-      
-      errorDiv.classList.add('hidden');
-      successDiv.classList.add('hidden');
-      
-      if (!name || !email || !password) {
-        errorDiv.textContent = '❌ Veuillez remplir tous les champs';
-        errorDiv.classList.remove('hidden');
-        return false;
-      }
-      
-      if (!terms) {
-        errorDiv.textContent = '❌ Veuillez accepter les conditions';
-        errorDiv.classList.remove('hidden');
-        return false;
-      }
-      
-      submitBtn.disabled = true;
-      submitBtn.innerHTML = 'Création en cours...';
-      
-      try {
-        console.log('🔵 Appel à supabase.auth.signUp...');
-        
-        var result = await sb.auth.signUp({
-          email: email,
-          password: password,
-          options: {
-            data: {
-              full_name: name
+    (function () {
+      var sb = App.sb;
+      var form = document.getElementById('signup-form');
+      var btn = document.getElementById('submit-btn');
+      var errBox = document.getElementById('error-message');
+      var okBox = document.getElementById('success-message');
+
+      App.icons();
+      App.bindPasswordToggles();
+      App.redirectIfLoggedIn();
+
+      function showError(msg) { okBox.classList.add('hidden'); errBox.textContent = msg; errBox.classList.remove('hidden'); }
+      function showOk(msg) { errBox.classList.add('hidden'); okBox.textContent = msg; okBox.classList.remove('hidden'); }
+      function setLoading(on) { btn.disabled = on; btn.querySelector('span').textContent = on ? 'Création du compte…' : 'Créer mon compte'; }
+
+      form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+        errBox.classList.add('hidden'); okBox.classList.add('hidden');
+
+        var name = document.getElementById('name').value.trim();
+        var email = document.getElementById('email').value.trim();
+        var password = document.getElementById('password').value;
+        var terms = document.getElementById('terms').checked;
+
+        if (!name || !email || !password) { showError('Veuillez remplir tous les champs.'); return; }
+        if (password.length < 8 || !/[A-Za-z]/.test(password) || !/[0-9]/.test(password)) {
+          showError('Le mot de passe doit contenir au moins 8 caractères, avec des lettres et des chiffres.'); return;
+        }
+        if (!terms) { showError('Vous devez accepter les conditions d’utilisation pour continuer.'); return; }
+
+        setLoading(true);
+        try {
+          var res = await sb.auth.signUp({
+            email: email,
+            password: password,
+            options: {
+              data: { full_name: name },
+              emailRedirectTo: new URL('connexion.html', window.location.href).href
             }
+          });
+          if (res.error) throw res.error;
+
+          // Supabase renvoie un utilisateur sans identité lorsque l'email existe déjà.
+          if (res.data.user && res.data.user.identities && res.data.user.identities.length === 0) {
+            showError('Un compte existe déjà avec cette adresse email. Essayez de vous connecter.');
+            setLoading(false);
+            return;
           }
-        });
-        
-        console.log('🟢 Résultat signUp:', result);
-        
-        if (result.error) {
-          throw result.error;
+
+          if (res.data.session) {
+            showOk('Compte créé. 5 crédits gratuits vous attendent. Redirection…');
+            setTimeout(function () { window.location.replace('dashboard.html'); }, 900);
+          } else {
+            showOk('Compte créé. Un email de confirmation vient de vous être envoyé : cliquez sur le lien qu’il contient, puis connectez-vous.');
+            form.reset();
+            setLoading(false);
+          }
+        } catch (err) {
+          showError(App.errMsg(err));
+          setLoading(false);
         }
-        
-        if (result.data.user) {
-          console.log('🟢 User créé, ID:', result.data.user.id);
-          
-          await sb.from('profiles').update({ full_name: name }).eq('id', result.data.user.id);
-          console.log(' Profil mis à jour');
-        }
-        
-        successDiv.textContent = '✅ Compte créé avec succès ! 5 crédits gratuits offerts. Redirection...';
-        successDiv.classList.remove('hidden');
-        
-        setTimeout(function() {
-          window.location.href = 'connexion.html';
-        }, 2000);
-        
-      } catch (err) {
-        console.error('❌ Erreur:', err);
-        errorDiv.textContent = '❌ ' + (err.message || 'Une erreur est survenue');
-        errorDiv.classList.remove('hidden');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<i data-lucide="arrow-right" class="w-5 h-5"></i> Créer mon compte';
-        lucide.createIcons();
-      }
-      
-      return false;
-    }
-    
-    // Attacher l'event listener
-    var form = document.getElementById('signup-form');
-    if (form) {
-      console.log('🟢 Formulaire trouvé, attachment de l\'event listener');
-      form.addEventListener('submit', handleSignup);
-      form.onsubmit = handleSignup;
-    } else {
-      console.error('❌ Formulaire non trouvé !');
-    }
-    
-    console.log('✅ Script inscription.html terminé');
+      });
+    })();
   </script>
 </body>
 </html>

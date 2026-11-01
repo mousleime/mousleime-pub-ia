@@ -3,309 +3,202 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Super Admin — MOUSLEIME PUB IA</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
-            accent: { 400: '#fbbf24', 500: '#f59e0b' }
-          }
-        }
-      }
-    }
-  </script>
+  <title>Administration — MOUSLEIME PUB IA</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+  <div id="boot" class="min-h-screen flex items-center justify-center text-gray-500">Chargement…</div>
 
-  <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 sticky top-0 z-20">
-    <div class="flex items-center gap-2">
-      <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-        <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-      </div>
-      <span class="font-bold text-lg">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
-      <span class="ml-4 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold">SUPER ADMIN</span>
-    </div>
-    <div class="flex items-center gap-3">
-      <a href="index.html" class="text-sm font-semibold text-gray-600 hover:text-gray-900">← Retour au site</a>
-      <button onclick="doLogout()" class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm font-semibold">Déconnexion</button>
-    </div>
-  </header>
-
-  <main class="p-6 space-y-6">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="p-5 rounded-2xl bg-white border border-gray-200">
-        <div class="flex items-center gap-2 mb-2">
-          <i data-lucide="users" class="w-5 h-5 text-brand-600"></i>
-          <span class="text-sm text-gray-500">Total Utilisateurs</span>
-        </div>
-        <p class="text-3xl font-bold" id="total-users">—</p>
-      </div>
-      <div class="p-5 rounded-2xl bg-white border border-gray-200">
-        <div class="flex items-center gap-2 mb-2">
-          <i data-lucide="coins" class="w-5 h-5 text-accent-500"></i>
-          <span class="text-sm text-gray-500">Crédits distribués</span>
-        </div>
-        <p class="text-3xl font-bold" id="total-credits">—</p>
-      </div>
-      <div class="p-5 rounded-2xl bg-white border border-gray-200">
-        <div class="flex items-center gap-2 mb-2">
-          <i data-lucide="wallet" class="w-5 h-5 text-green-600"></i>
-          <span class="text-sm text-gray-500">Revenus totaux</span>
-        </div>
-        <p class="text-3xl font-bold" id="total-revenue">0 FCFA</p>
-      </div>
-      <div class="p-5 rounded-2xl bg-white border border-gray-200">
-        <div class="flex items-center gap-2 mb-2">
-          <i data-lucide="megaphone" class="w-5 h-5 text-purple-600"></i>
-          <span class="text-sm text-gray-500">Campagnes actives</span>
-        </div>
-        <p class="text-3xl font-bold" id="active-campaigns">—</p>
-      </div>
+  <main id="page-content" class="hidden p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Administration</h1>
+      <p class="mt-1 text-gray-600">Utilisateurs, achats de crédits, messages et réglages.</p>
     </div>
 
-    <div class="rounded-2xl bg-white border border-gray-200 overflow-hidden">
-      <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-        <h3 class="font-bold text-gray-900 text-lg">Tous les utilisateurs</h3>
-        <button onclick="loadUsers()" class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold">Rafraîchir</button>
-      </div>
+    <section class="grid grid-cols-2 lg:grid-cols-6 gap-4" aria-label="Statistiques">
+      <div class="card"><p class="text-xs text-gray-500">Utilisateurs</p><p class="text-2xl font-bold" id="s-users">—</p></div>
+      <div class="card"><p class="text-xs text-gray-500">Crédits en circulation</p><p class="text-2xl font-bold" id="s-credits">—</p></div>
+      <div class="card"><p class="text-xs text-gray-500">Revenus (FCFA)</p><p class="text-2xl font-bold" id="s-revenue">—</p></div>
+      <div class="card"><p class="text-xs text-gray-500">Campagnes actives</p><p class="text-2xl font-bold" id="s-campaigns">—</p></div>
+      <div class="card"><p class="text-xs text-gray-500">Achats en attente</p><p class="text-2xl font-bold text-amber-600" id="s-pending">—</p></div>
+      <div class="card"><p class="text-xs text-gray-500">Nouveaux messages</p><p class="text-2xl font-bold text-brand-600" id="s-messages">—</p></div>
+    </section>
+
+    <section class="card" aria-labelledby="a1">
+      <h2 id="a1" class="font-bold text-gray-900 mb-4">Achats à valider</h2>
+      <div id="purchases" class="space-y-3"></div>
+    </section>
+
+    <section class="card" aria-labelledby="a2">
+      <h2 id="a2" class="font-bold text-gray-900 mb-4">Utilisateurs</h2>
       <div class="overflow-x-auto">
-        <table class="w-full">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Utilisateur</th>
-              <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Email</th>
-              <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Rôle</th>
-              <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Crédits</th>
-              <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Statut</th>
-              <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
-            </tr>
-          </thead>
-          <tbody class="divide-y divide-gray-100" id="users-table">
-            <tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">Chargement...</td></tr>
-          </tbody>
+        <table class="w-full text-sm">
+          <thead><tr class="text-left text-xs uppercase text-gray-500 border-b border-gray-100">
+            <th class="py-2 pr-4 font-semibold">Utilisateur</th><th class="py-2 pr-4 font-semibold">Rôle</th>
+            <th class="py-2 pr-4 font-semibold">Crédits</th><th class="py-2 pr-4 font-semibold">Statut</th><th class="py-2 font-semibold text-right">Actions</th>
+          </tr></thead>
+          <tbody id="users" class="divide-y divide-gray-50"></tbody>
         </table>
       </div>
-    </div>
+    </section>
+
+    <section class="card" aria-labelledby="a3">
+      <h2 id="a3" class="font-bold text-gray-900 mb-4">Messages de contact</h2>
+      <div id="messages" class="space-y-3"></div>
+    </section>
+
+    <section class="card" aria-labelledby="a4">
+      <h2 id="a4" class="font-bold text-gray-900 mb-1">Instructions de paiement</h2>
+      <p class="text-sm text-gray-500 mb-3">Texte affiché aux clients sur la page Facturation.</p>
+      <textarea id="instructions" rows="3" maxlength="1000" class="input resize-none"></textarea>
+      <div class="flex justify-end mt-3"><button type="button" id="save-instructions" class="btn-primary">Enregistrer</button></div>
+    </section>
   </main>
 
-  <div id="credits-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur">
-    <div class="bg-white rounded-2xl w-full max-w-md p-6">
-      <h3 class="font-bold text-lg mb-4">Ajouter / Retirer des crédits</h3>
-      <input type="hidden" id="modal-user-id">
-      <div class="mb-4">
-        <label class="block text-sm font-medium text-gray-700 mb-2">Nombre de crédits (négatif pour retirer)</label>
-        <input type="number" id="credits-amount" class="w-full px-4 py-2 rounded-lg border border-gray-200 focus:border-brand-500 outline-none">
-      </div>
-      <div class="flex gap-3">
-        <button onclick="closeCreditsModal()" class="flex-1 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 font-semibold">Annuler</button>
-        <button onclick="confirmAddCredits()" class="flex-1 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white font-semibold">Valider</button>
-      </div>
-    </div>
+  <div id="credits-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black/50" role="dialog" aria-modal="true" aria-labelledby="m-title">
+    <form id="credits-form" class="bg-white rounded-2xl w-full max-w-md p-6 space-y-4">
+      <h3 id="m-title" class="font-bold text-lg">Ajuster les crédits</h3>
+      <p id="m-user" class="text-sm text-gray-500"></p>
+      <div><label for="m-delta" class="label">Nombre de crédits (négatif pour retirer)</label><input type="number" id="m-delta" class="input" step="1" required /></div>
+      <div><label for="m-reason" class="label">Motif (facultatif)</label><input type="text" id="m-reason" class="input" maxlength="120" /></div>
+      <div class="flex gap-3 justify-end"><button type="button" id="m-cancel" class="btn-secondary">Annuler</button><button type="submit" class="btn-primary">Valider</button></div>
+    </form>
   </div>
 
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    // Configuration Supabase
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    // Créer le client Supabase
-    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        storage: window.localStorage
-      }
-    });
+    (async function () {
+      var ctx = await App.init({ active: 'admin', adminOnly: true });
+      if (!ctx) return;
+      var sb = App.sb, esc = App.esc, el = function (id) { return document.getElementById(id); };
+      var METHOD = { mtn: 'MTN', moov: 'Moov', celtiis: 'Celtiis' };
+      var adjustUser = null;
 
-    console.log('🔵 admin.html chargé, client Supabase créé');
-
-    // Vérification de l'authentification
-    async function checkAuth() {
-      console.log(' Vérification de l\'authentification...');
-      
-      try {
-        var result = await sb.auth.getUser();
-        console.log('🟢 Résultat getUser:', result);
-        
-        var user = result.data.user;
-        
-        if (!user) {
-          console.log('❌ Pas d\'utilisateur connecté, redirection vers connexion.html');
-          window.location.href = 'connexion.html';
-          return false;
-        }
-
-        console.log('🟢 Utilisateur connecté:', user.email);
-        
-        var profileResult = await sb.from('profiles').select('role').eq('id', user.id).single();
-        console.log('🟢 Résultat profil:', profileResult);
-        
-        var profile = profileResult.data;
-        
-        if (!profile) {
-          console.log('❌ Profil non trouvé, redirection vers dashboard.html');
-          window.location.href = 'dashboard.html';
-          return false;
-        }
-        
-        console.log('🟢 Rôle détecté:', profile.role);
-        
-        if (profile.role !== 'super_admin') {
-          console.log('❌ Rôle non super_admin, redirection vers dashboard.html');
-          window.location.href = 'dashboard.html';
-          return false;
-        }
-        
-        console.log('✅ Accès Super Admin confirmé !');
+      async function run(promise, okMsg) {
+        var r = await promise;
+        if (r.error) { App.toast(App.errMsg(r.error), 'error'); return false; }
+        if (okMsg) App.toast(okMsg, 'success');
         return true;
-        
-      } catch (err) {
-        console.error('❌ Erreur dans checkAuth:', err);
-        window.location.href = 'connexion.html';
-        return false;
       }
-    }
 
-    async function loadUsers() {
-      var table = document.getElementById('users-table');
-      table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">Chargement...</td></tr>';
+      async function loadStats() {
+        var r = await sb.rpc('admin_stats');
+        if (r.error || !r.data) return;
+        var d = r.data;
+        el('s-users').textContent = App.fmt(d.users); el('s-credits').textContent = App.fmt(d.credits_total);
+        el('s-revenue').textContent = App.fmt(d.revenue_fcfa); el('s-campaigns').textContent = App.fmt(d.campaigns_active);
+        el('s-pending').textContent = App.fmt(d.purchases_pending); el('s-messages').textContent = App.fmt(d.messages_new);
+      }
 
-      try {
-        var result = await sb
-          .from('profiles')
-          .select('id, email, full_name, role, is_active, credits(amount, subscription_type)')
-          .order('created_at', { ascending: false });
+      async function loadPurchases() {
+        var r = await sb.from('transactions')
+          .select('id, amount, amount_fcf, payment_method, phone_number, reference, created_at, profiles(email, full_name)')
+          .eq('type', 'purchase').eq('status', 'pending').order('created_at');
+        var rows = r.data || [];
+        el('purchases').innerHTML = rows.length ? rows.map(function (t) {
+          var u = t.profiles || {};
+          return '<div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl border border-gray-200">' +
+            '<div><p class="font-semibold text-gray-900">+' + App.fmt(t.amount) + ' crédits · ' + App.fmt(t.amount_fcf) + ' FCFA · ' + esc(METHOD[t.payment_method] || '') + '</p>' +
+            '<p class="text-xs text-gray-500">' + esc(u.full_name || u.email || '') + ' · ' + esc(u.email || '') + ' · tél. ' + esc(t.phone_number || '—') + ' · ' + esc(t.reference || '') + ' · ' + App.fmtDateTime(t.created_at) + '</p></div>' +
+            '<div class="flex gap-2"><button type="button" data-validate="' + esc(t.id) + '" class="btn-primary py-2">Valider</button>' +
+            '<button type="button" data-reject="' + esc(t.id) + '" class="btn-secondary py-2">Refuser</button></div></div>';
+        }).join('') : '<p class="text-sm text-gray-500">Aucune demande en attente.</p>';
+      }
 
-        console.log('🟢 Résultat loadUsers:', result);
+      async function loadUsers() {
+        var r = await sb.from('profiles').select('id, email, full_name, role, is_active, credits(amount)').order('created_at', { ascending: false });
+        var rows = r.data || [];
+        el('users').innerHTML = rows.map(function (u) {
+          var amount = u.credits && u.credits[0] ? u.credits[0].amount : (u.credits && u.credits.amount) || 0;
+          var self = u.id === ctx.user.id, active = u.is_active !== false;
+          return '<tr><td class="py-3 pr-4"><p class="font-semibold text-gray-900">' + esc(u.full_name || 'Non renseigné') + '</p><p class="text-xs text-gray-500">' + esc(u.email || '') + '</p></td>' +
+            '<td class="py-3 pr-4"><span class="badge ' + (u.role === 'super_admin' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-700') + '">' + esc(u.role) + '</span></td>' +
+            '<td class="py-3 pr-4 font-semibold">' + App.fmt(amount) + '</td>' +
+            '<td class="py-3 pr-4"><span class="badge ' + (active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700') + '">' + (active ? 'Actif' : 'Suspendu') + '</span></td>' +
+            '<td class="py-3 text-right whitespace-nowrap">' +
+            '<button type="button" data-adjust="' + esc(u.id) + '" data-label="' + esc(u.email || '') + '" class="text-sm font-semibold text-brand-600 hover:text-brand-700 mr-3">Crédits</button>' +
+            (self ? '' : '<button type="button" data-toggle="' + esc(u.id) + '" data-active="' + active + '" class="text-sm font-semibold mr-3 ' + (active ? 'text-amber-600' : 'text-green-600') + '">' + (active ? 'Suspendre' : 'Réactiver') + '</button>') +
+            (self || u.role === 'super_admin' ? '' : '<button type="button" data-delete="' + esc(u.id) + '" data-label="' + esc(u.email || '') + '" class="text-sm font-semibold text-red-600 hover:text-red-700">Supprimer</button>') +
+            '</td></tr>';
+        }).join('');
+      }
 
-        if (result.error) {
-          console.error('❌ Erreur:', result.error);
-          table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-red-600">Erreur: ' + result.error.message + '</td></tr>';
-          return;
+      async function loadMessages() {
+        var r = await sb.from('contact_messages').select('id, name, email, subject, message, status, created_at').order('created_at', { ascending: false }).limit(30);
+        var rows = r.data || [];
+        el('messages').innerHTML = rows.length ? rows.map(function (m) {
+          return '<div class="p-4 rounded-xl border ' + (m.status === 'new' ? 'border-brand-200 bg-brand-50/40' : 'border-gray-200') + '">' +
+            '<div class="flex flex-wrap items-start justify-between gap-2"><div><p class="font-semibold text-gray-900">' + esc(m.subject) + '</p>' +
+            '<p class="text-xs text-gray-500">' + esc(m.name) + ' · <a class="text-brand-600 hover:underline" href="mailto:' + esc(m.email) + '">' + esc(m.email) + '</a> · ' + App.fmtDateTime(m.created_at) + '</p></div>' +
+            '<select data-msg="' + esc(m.id) + '" class="input !w-auto !py-1.5 text-sm" aria-label="Statut du message">' +
+            ['new', 'read', 'done'].map(function (s) { return '<option value="' + s + '"' + (m.status === s ? ' selected' : '') + '>' + { new: 'Nouveau', read: 'Lu', done: 'Traité' }[s] + '</option>'; }).join('') + '</select></div>' +
+            '<p class="mt-2 text-sm text-gray-700 whitespace-pre-line">' + esc(m.message) + '</p></div>';
+        }).join('') : '<p class="text-sm text-gray-500">Aucun message.</p>';
+      }
+
+      async function loadInstructions() {
+        var r = await sb.from('app_settings').select('value').eq('key', 'payment_instructions').maybeSingle();
+        el('instructions').value = (r.data && r.data.value) || '';
+      }
+      function refreshAll() { return Promise.all([loadStats(), loadPurchases(), loadUsers(), loadMessages(), loadInstructions()]); }
+
+      el('purchases').addEventListener('click', async function (e) {
+        var v = e.target.closest('[data-validate]'), j = e.target.closest('[data-reject]');
+        if (v) {
+          if (!(await App.confirm('Confirmer la réception du paiement et ajouter les crédits ?', 'Valider'))) return;
+          if (await run(sb.rpc('admin_validate_purchase', { p_tx: v.getAttribute('data-validate') }), 'Crédits ajoutés.')) refreshAll();
+        } else if (j) {
+          if (!(await App.confirm('Refuser cette demande d’achat ?', 'Refuser', true))) return;
+          if (await run(sb.rpc('admin_reject_purchase', { p_tx: j.getAttribute('data-reject') }), 'Demande refusée.')) refreshAll();
         }
+      });
 
-        var users = result.data || [];
-        document.getElementById('total-users').textContent = users.length;
-        
-        var totalCredits = 0;
-        users.forEach(function(u) {
-          if (u.credits && u.credits.length > 0) {
-            totalCredits += u.credits[0].amount || 0;
-          }
-        });
-        document.getElementById('total-credits').textContent = totalCredits.toLocaleString();
-
-        if (users.length === 0) {
-          table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-gray-500">Aucun utilisateur</td></tr>';
-          return;
+      el('users').addEventListener('click', async function (e) {
+        var a = e.target.closest('[data-adjust]'), t = e.target.closest('[data-toggle]'), d = e.target.closest('[data-delete]');
+        if (d) {
+          if (!(await App.confirm('Supprimer définitivement ' + d.getAttribute('data-label') + ' ?\nSon compte, ses crédits, ses créations, ses campagnes et son historique seront effacés. Cette action est irréversible.', 'Supprimer', true))) return;
+          if (await run(sb.rpc('admin_delete_user', { p_user: d.getAttribute('data-delete') }), 'Utilisateur supprimé.')) refreshAll();
+        } else if (a) {
+          adjustUser = a.getAttribute('data-adjust');
+          el('m-user').textContent = a.getAttribute('data-label'); el('m-delta').value = ''; el('m-reason').value = '';
+          el('credits-modal').classList.remove('hidden'); el('credits-modal').classList.add('flex'); el('m-delta').focus();
+        } else if (t) {
+          var active = t.getAttribute('data-active') === 'true';
+          if (!(await App.confirm(active ? 'Suspendre ce compte ?' : 'Réactiver ce compte ?', active ? 'Suspendre' : 'Réactiver', active))) return;
+          if (await run(sb.rpc('admin_set_active', { p_user: t.getAttribute('data-toggle'), p_active: !active }), 'Compte mis à jour.')) refreshAll();
         }
+      });
 
-        var html = '';
-        users.forEach(function(user) {
-          var credits = (user.credits && user.credits[0]) ? user.credits[0].amount : 0;
-          var subscription = (user.credits && user.credits[0]) ? user.credits[0].subscription_type : 'free';
-          var initial = user.full_name ? user.full_name.charAt(0).toUpperCase() : (user.email ? user.email.charAt(0).toUpperCase() : 'U');
-          
-          var roleClass = user.role === 'super_admin' ? 'bg-red-100 text-red-700' : (user.role === 'admin' ? 'bg-purple-100 text-purple-700' : 'bg-gray-100 text-gray-700');
-          var statusClass = user.is_active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700';
-          var statusText = user.is_active ? 'Actif' : 'Suspendu';
-          var iconAction = user.is_active ? 'ban' : 'check-circle';
-          var colorAction = user.is_active ? 'text-red-600' : 'text-green-600';
-          
-          html += '<tr class="hover:bg-gray-50">';
-          html += '<td class="px-6 py-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white font-bold">' + initial + '</div><div><p class="font-semibold text-gray-900">' + (user.full_name || 'Non renseigné') + '</p><p class="text-xs text-gray-500">Formule: ' + subscription + '</p></div></div></td>';
-          html += '<td class="px-6 py-4 text-sm text-gray-700">' + (user.email || '—') + '</td>';
-          html += '<td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-semibold ' + roleClass + '">' + user.role + '</span></td>';
-          html += '<td class="px-6 py-4 font-semibold text-gray-900">' + credits + '</td>';
-          html += '<td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs font-semibold ' + statusClass + '">' + statusText + '</span></td>';
-          html += '<td class="px-6 py-4 text-right"><button onclick="openCreditsModal(\'' + user.id + '\')" class="p-2 rounded-lg hover:bg-gray-100" title="Modifier crédits"><i data-lucide="plus-circle" class="w-4 h-4 text-green-600"></i></button><button onclick="toggleUserStatus(\'' + user.id + '\', ' + user.is_active + ')" class="p-2 rounded-lg hover:bg-gray-100" title="' + statusText + '"><i data-lucide="' + iconAction + '" class="w-4 h-4 ' + colorAction + '"></i></button></td>';
-          html += '</tr>';
-        });
-        
-        table.innerHTML = html;
-        lucide.createIcons();
-        
-      } catch (err) {
-        console.error('❌ Erreur:', err);
-        table.innerHTML = '<tr><td colspan="6" class="px-6 py-8 text-center text-red-600">Erreur: ' + err.message + '</td></tr>';
-      }
-    }
+      function closeModal() { el('credits-modal').classList.add('hidden'); el('credits-modal').classList.remove('flex'); }
+      el('m-cancel').addEventListener('click', closeModal);
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeModal(); });
+      el('credits-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var d = parseInt(el('m-delta').value, 10);
+        if (!d) return App.toast('Saisissez un nombre différent de zéro.', 'error');
+        if (await run(sb.rpc('admin_adjust_credits', { p_user: adjustUser, p_delta: d, p_reason: el('m-reason').value }), 'Crédits ajustés.')) { closeModal(); refreshAll(); }
+      });
 
-    function openCreditsModal(userId) {
-      document.getElementById('modal-user-id').value = userId;
-      document.getElementById('credits-amount').value = '';
-      document.getElementById('credits-modal').classList.remove('hidden');
-      document.getElementById('credits-modal').classList.add('flex');
-    }
+      el('messages').addEventListener('change', async function (e) {
+        var s = e.target.closest('[data-msg]'); if (!s) return;
+        if (await run(sb.from('contact_messages').update({ status: s.value }).eq('id', s.getAttribute('data-msg')))) loadStats();
+      });
 
-    function closeCreditsModal() {
-      document.getElementById('credits-modal').classList.add('hidden');
-      document.getElementById('credits-modal').classList.remove('flex');
-    }
+      el('save-instructions').addEventListener('click', function () {
+        run(sb.rpc('admin_set_setting', { p_key: 'payment_instructions', p_value: el('instructions').value }), 'Instructions enregistrées.');
+      });
 
-    async function confirmAddCredits() {
-      var userId = document.getElementById('modal-user-id').value;
-      var amount = parseInt(document.getElementById('credits-amount').value);
-
-      if (!amount || amount === 0) {
-        alert('Veuillez entrer un nombre valide');
-        return;
-      }
-
-      try {
-        var currentResult = await sb.from('credits').select('amount').eq('user_id', userId).single();
-        var current = currentResult.data ? currentResult.data.amount : 0;
-        var newAmount = current + amount;
-
-        await sb.from('credits').update({ amount: newAmount }).eq('user_id', userId);
-
-        await sb.from('transactions').insert({
-          user_id: userId,
-          type: 'bonus',
-          amount: amount,
-          credits_before: current,
-          credits_after: newAmount,
-          description: amount > 0 ? 'Crédits ajoutés par Super Admin' : 'Crédits retirés par Super Admin',
-          amount_fcf: 0
-        });
-
-        alert((amount > 0 ? '+' : '') + amount + ' crédits appliqués avec succès !');
-        closeCreditsModal();
-        loadUsers();
-      } catch (err) {
-        alert('Erreur: ' + err.message);
-      }
-    }
-
-    async function toggleUserStatus(userId, currentStatus) {
-      var newStatus = !currentStatus;
-      var action = newStatus ? 'activer' : 'suspendre';
-      if (confirm('Voulez-vous vraiment ' + action + ' ce compte ?')) {
-        await sb.from('profiles').update({ is_active: newStatus }).eq('id', userId);
-        loadUsers();
-      }
-    }
-
-    async function doLogout() {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    }
-
-    // Démarrage
-    (async function() {
-      var isAdmin = await checkAuth();
-      if (isAdmin) {
-        loadUsers();
-      }
+      await refreshAll();
+      App.icons();
     })();
   </script>
 </body>

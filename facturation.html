@@ -4,587 +4,180 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Facturation — MOUSLEIME PUB IA</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
-            accent: { 400: '#fbbf24', 500: '#f59e0b' },
-            mtn: '#ffcc00',
-            moov: '#0066cc',
-            celtiis: '#00a651'
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    .pack-card {
-      transition: all 0.3s ease;
-    }
-    .pack-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.2);
-    }
-    .pack-card.popular {
-      border: 2px solid #6366f1;
-      position: relative;
-    }
-    .pack-card.popular::before {
-      content: '⭐ Populaire';
-      position: absolute;
-      top: -12px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #6366f1;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .payment-method {
-      transition: all 0.2s ease;
-    }
-    .payment-method:hover {
-      border-color: #6366f1;
-    }
-    .payment-method.selected {
-      border-color: #6366f1;
-      background: #eef2ff;
-    }
-  </style>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+  <div id="boot" class="min-h-screen flex items-center justify-center text-gray-500">Chargement…</div>
 
-  <div class="flex min-h-screen">
-    
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
-      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
-      </div>
-      
-      <nav class="flex-1 overflow-y-auto p-4 space-y-1">
-        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
-        
-        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-          <span>Tableau de bord</span>
-        </a>
-        
-        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="wand-2" class="w-5 h-5"></i>
-          <span>Studio de création</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
-        </a>
-        
-        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="megaphone" class="w-5 h-5"></i>
-          <span>Campagnes</span>
-        </a>
-        
-        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="line-chart" class="w-5 h-5"></i>
-          <span>Analyses</span>
-        </a>
-        
-        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
-        
-        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
-          <i data-lucide="credit-card" class="w-5 h-5"></i>
-          <span>Facturation</span>
-        </a>
-        
-        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="settings" class="w-5 h-5"></i>
-          <span>Paramètres</span>
-        </a>
-      </nav>
-      
-      <div class="p-4 border-t border-gray-100 space-y-3">
-        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
-            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
-          </div>
-          <p class="text-2xl font-bold"><span id="sidebar-credits">0</span> <span class="text-sm font-normal text-brand-200">/ 100</span></p>
-          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div id="sidebar-credits-bar" class="h-full w-0 bg-accent-400 rounded-full transition-all duration-500"></div>
-          </div>
-          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
-            Acheter des crédits
-          </a>
-        </div>
-        
-        <button onclick="doLogout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
-          <i data-lucide="log-out" class="w-4 h-4"></i>
-          <span>Déconnexion</span>
-        </button>
-      </div>
-    </aside>
-
-    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
-
-    <!-- MAIN CONTENT -->
-    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
-      
-      <!-- Header -->
-      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
-        <div class="flex items-center gap-3">
-          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
-            <i data-lucide="menu" class="w-5 h-5"></i>
-          </button>
-          <h1 class="text-xl font-bold text-gray-900">Facturation</h1>
-        </div>
-        
-        <div class="flex items-center gap-3">
-          <span class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold">
-            <i data-lucide="coins" class="w-4 h-4"></i>
-            <span id="header-credits">0 crédits</span>
-          </span>
-        </div>
-      </header>
-
-      <!-- Contenu principal -->
-      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
-        
-        <!-- En-tête -->
-        <div>
-          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Achetez des crédits 💰</h2>
-          <p class="mt-1 text-gray-600">Rechargez votre compte pour continuer à créer des publicités IA</p>
-        </div>
-
-        <!-- Solde actuel -->
-        <div class="p-6 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-          <div class="flex items-center justify-between">
-            <div>
-              <p class="text-sm text-brand-100 mb-1">Solde actuel</p>
-              <p class="text-4xl font-bold"><span id="current-credits">0</span> crédits</p>
-              <p class="text-sm text-brand-200 mt-2">Équivalent à <span id="credits-value">0</span> FCFA de créations</p>
-            </div>
-            <div class="w-20 h-20 rounded-full bg-white/10 backdrop-blur flex items-center justify-center">
-              <i data-lucide="coins" class="w-10 h-10 text-accent-400"></i>
-            </div>
-          </div>
-        </div>
-
-        <!-- Packs de crédits -->
-        <div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">Choisissez votre pack</h3>
-          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            
-            <!-- Pack 10 crédits -->
-            <div onclick="selectPack(10, 2000)" class="pack-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-              <div class="text-center">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-brand-50 flex items-center justify-center">
-                  <i data-lucide="zap" class="w-8 h-8 text-brand-600"></i>
-                </div>
-                <h4 class="text-2xl font-bold text-gray-900">10</h4>
-                <p class="text-sm text-gray-500 mb-3">crédits</p>
-                <p class="text-3xl font-bold text-brand-600">2 000</p>
-                <p class="text-sm text-gray-500">FCFA</p>
-                <p class="text-xs text-gray-400 mt-2">200 FCFA / crédit</p>
-              </div>
-            </div>
-
-            <!-- Pack 50 crédits -->
-            <div onclick="selectPack(50, 8000)" class="pack-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-              <div class="text-center">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-accent-50 flex items-center justify-center">
-                  <i data-lucide="zap" class="w-8 h-8 text-accent-500"></i>
-                </div>
-                <h4 class="text-2xl font-bold text-gray-900">50</h4>
-                <p class="text-sm text-gray-500 mb-3">crédits</p>
-                <p class="text-3xl font-bold text-brand-600">8 000</p>
-                <p class="text-sm text-gray-500">FCFA</p>
-                <p class="text-xs text-gray-400 mt-2">160 FCFA / crédit</p>
-                <span class="inline-block mt-2 px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-xs font-semibold">-20%</span>
-              </div>
-            </div>
-
-            <!-- Pack 100 crédits (Populaire) -->
-            <div onclick="selectPack(100, 15000)" class="pack-card popular cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-              <div class="text-center">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center">
-                  <i data-lucide="crown" class="w-8 h-8 text-white"></i>
-                </div>
-                <h4 class="text-2xl font-bold text-gray-900">100</h4>
-                <p class="text-sm text-gray-500 mb-3">crédits</p>
-                <p class="text-3xl font-bold text-brand-600">15 000</p>
-                <p class="text-sm text-gray-500">FCFA</p>
-                <p class="text-xs text-gray-400 mt-2">150 FCFA / crédit</p>
-                <span class="inline-block mt-2 px-2 py-0.5 rounded-full bg-brand-100 text-brand-700 text-xs font-semibold">-25%</span>
-              </div>
-            </div>
-
-            <!-- Pack 500 crédits -->
-            <div onclick="selectPack(500, 60000)" class="pack-card cursor-pointer p-6 rounded-2xl border-2 border-gray-200 bg-white hover:border-brand-300">
-              <div class="text-center">
-                <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-50 flex items-center justify-center">
-                  <i data-lucide="rocket" class="w-8 h-8 text-purple-600"></i>
-                </div>
-                <h4 class="text-2xl font-bold text-gray-900">500</h4>
-                <p class="text-sm text-gray-500 mb-3">crédits</p>
-                <p class="text-3xl font-bold text-brand-600">60 000</p>
-                <p class="text-sm text-gray-500">FCFA</p>
-                <p class="text-xs text-gray-400 mt-2">120 FCFA / crédit</p>
-                <span class="inline-block mt-2 px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold">-40%</span>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Sélection du pack -->
-        <div id="payment-section" class="hidden">
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-900 mb-4">Finaliser l'achat</h3>
-            
-            <div class="mb-6 p-4 rounded-xl bg-brand-50 border border-brand-200">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-sm text-gray-600">Pack sélectionné</p>
-                  <p class="text-2xl font-bold text-brand-600"><span id="selected-credits">0</span> crédits</p>
-                </div>
-                <div class="text-right">
-                  <p class="text-sm text-gray-600">Total à payer</p>
-                  <p class="text-2xl font-bold text-gray-900"><span id="selected-price">0</span> FCFA</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- Méthodes de paiement -->
-            <div class="mb-6">
-              <p class="text-sm font-medium text-gray-700 mb-3">Choisissez votre méthode de paiement</p>
-              <div class="grid sm:grid-cols-3 gap-3">
-                
-                <div onclick="selectPayment('mtn')" id="payment-mtn" class="payment-method cursor-pointer p-4 rounded-xl border-2 border-gray-200 bg-white hover:border-brand-300">
-                  <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-lg bg-mtn flex items-center justify-center">
-                      <span class="text-white font-bold text-xs">MTN</span>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">MTN Mobile Money</p>
-                      <p class="text-xs text-gray-500">Paiement instantané</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div onclick="selectPayment('moov')" id="payment-moov" class="payment-method cursor-pointer p-4 rounded-xl border-2 border-gray-200 bg-white hover:border-brand-300">
-                  <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-lg bg-moov flex items-center justify-center">
-                      <span class="text-white font-bold text-xs">Moov</span>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">Moov Money</p>
-                      <p class="text-xs text-gray-500">Paiement instantané</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div onclick="selectPayment('celtiis')" id="payment-celtiis" class="payment-method cursor-pointer p-4 rounded-xl border-2 border-gray-200 bg-white hover:border-brand-300">
-                  <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 rounded-lg bg-celtiis flex items-center justify-center">
-                      <span class="text-white font-bold text-xs">Celtiis</span>
-                    </div>
-                    <div>
-                      <p class="font-semibold text-gray-900">Celtiis Money</p>
-                      <p class="text-xs text-gray-500">Paiement instantané</p>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Numéro de téléphone -->
-            <div class="mb-6">
-              <label class="block text-sm font-medium text-gray-700 mb-2">Numéro de téléphone</label>
-              <input type="tel" id="phone-number" placeholder="+229 XX XX XX XX" 
-                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              <p class="mt-1.5 text-xs text-gray-500">Entrez le numéro associé à votre compte Mobile Money</p>
-            </div>
-
-            <!-- Boutons -->
-            <div class="flex gap-3">
-              <button onclick="cancelPayment()" class="flex-1 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">
-                Annuler
-              </button>
-              <button onclick="processPayment()" id="pay-btn" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition shadow-lg shadow-brand-600/20">
-                <i data-lucide="credit-card" class="w-5 h-5"></i>
-                <span>Payer maintenant</span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <!-- Historique des transactions -->
-        <div class="p-6 rounded-2xl bg-white border border-gray-200">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-              <h3 class="font-bold text-gray-900 text-lg">Historique des transactions</h3>
-              <p class="text-sm text-gray-500 mt-0.5">Vos achats de crédits</p>
-            </div>
-            <button onclick="loadTransactions()" class="px-4 py-2 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold hover:bg-brand-100 transition">
-              <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i>
-              Rafraîchir
-            </button>
-          </div>
-          
-          <div id="transactions-list" class="space-y-3">
-            <div class="text-center py-12 text-gray-500">
-              <i data-lucide="receipt" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i>
-              <p class="font-medium">Aucune transaction pour le moment</p>
-              <p class="text-sm mt-1">Vos achats apparaîtront ici</p>
-            </div>
-          </div>
-        </div>
-
-      </main>
+  <main id="page-content" class="hidden p-4 sm:p-6 lg:p-8 space-y-6 max-w-6xl">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Facturation</h1>
+      <p class="mt-1 text-gray-600">Rechargez votre compte pour continuer à créer des publicités.</p>
     </div>
-  </div>
 
+    <section class="p-6 rounded-2xl bg-gradient-to-br from-brand-600 to-brand-700 text-white flex items-center justify-between" aria-label="Solde">
+      <div>
+        <p class="text-sm text-brand-100">Solde actuel</p>
+        <p class="text-4xl font-bold"><span data-credits>0</span> crédit(s)</p>
+        <p class="text-sm text-brand-200 mt-1">1 génération de texte ou d’image = 1 crédit</p>
+      </div>
+      <span class="hidden sm:flex w-16 h-16 rounded-full bg-white/10 items-center justify-center"><i data-lucide="coins" class="w-8 h-8 text-accent-400" aria-hidden="true"></i></span>
+    </section>
+
+    <section aria-labelledby="packs-title">
+      <h2 id="packs-title" class="text-xl font-bold text-gray-900 mb-4">Choisissez votre pack</h2>
+      <div id="packs" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4"><p class="text-gray-500">Chargement des packs…</p></div>
+    </section>
+
+    <section id="payment-section" class="hidden card" aria-labelledby="pay-title">
+      <h2 id="pay-title" class="text-xl font-bold text-gray-900 mb-4">Finaliser la demande</h2>
+      <div class="mb-6 p-4 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-between">
+        <div><p class="text-sm text-gray-600">Pack sélectionné</p><p class="text-2xl font-bold text-brand-600"><span id="sel-credits">0</span> crédits</p></div>
+        <div class="text-right"><p class="text-sm text-gray-600">Total à payer</p><p class="text-2xl font-bold text-gray-900"><span id="sel-price">0</span> FCFA</p></div>
+      </div>
+
+      <fieldset class="mb-6">
+        <legend class="text-sm font-medium text-gray-700 mb-3">Opérateur Mobile Money</legend>
+        <div class="grid sm:grid-cols-3 gap-3" id="methods">
+          <label class="cursor-pointer"><input type="radio" name="method" value="mtn" class="sr-only peer" /><span class="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 bg-white peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500"><span class="w-10 h-10 rounded-lg bg-mtn flex items-center justify-center font-bold text-xs text-gray-900">MTN</span><span class="font-semibold text-gray-900 text-sm">MTN Mobile Money</span></span></label>
+          <label class="cursor-pointer"><input type="radio" name="method" value="moov" class="sr-only peer" /><span class="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 bg-white peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500"><span class="w-10 h-10 rounded-lg bg-moov flex items-center justify-center font-bold text-xs text-white">Moov</span><span class="font-semibold text-gray-900 text-sm">Moov Money</span></span></label>
+          <label class="cursor-pointer"><input type="radio" name="method" value="celtiis" class="sr-only peer" /><span class="flex items-center gap-3 p-4 rounded-xl border-2 border-gray-200 bg-white peer-checked:border-brand-600 peer-checked:bg-brand-50 peer-focus-visible:ring-2 peer-focus-visible:ring-brand-500"><span class="w-10 h-10 rounded-lg bg-celtiis flex items-center justify-center font-bold text-xs text-white">Celtiis</span><span class="font-semibold text-gray-900 text-sm">Celtiis Cash</span></span></label>
+        </div>
+      </fieldset>
+
+      <div class="mb-4">
+        <label for="phone" class="label">Numéro Mobile Money</label>
+        <input type="tel" id="phone" class="input" placeholder="+229 01 XX XX XX XX" autocomplete="tel" maxlength="20" />
+        <p class="mt-1.5 text-xs text-gray-500">Notre équipe vous contactera à ce numéro pour finaliser le paiement.</p>
+      </div>
+      <p id="instructions" class="mb-6 p-3 rounded-xl bg-blue-50 border border-blue-100 text-sm text-blue-900"></p>
+      <div id="pay-error" class="hidden mb-4 p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm" role="alert"></div>
+
+      <div class="flex gap-3">
+        <button type="button" id="cancel-btn" class="btn-secondary flex-1 py-3">Annuler</button>
+        <button type="button" id="pay-btn" class="btn-primary flex-1 py-3">Envoyer ma demande</button>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="hist-title">
+      <div class="flex items-center justify-between mb-5">
+        <div><h2 id="hist-title" class="font-bold text-gray-900 text-lg">Mes achats</h2><p class="text-sm text-gray-500 mt-0.5">Historique de vos demandes de crédits</p></div>
+        <button type="button" id="refresh-btn" class="btn-secondary py-2"><i data-lucide="refresh-cw" class="w-4 h-4" aria-hidden="true"></i>Actualiser</button>
+      </div>
+      <div id="history" class="space-y-3"></div>
+    </section>
+  </main>
+
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    // Configuration
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        storage: window.localStorage
-      }
-    });
+    (async function () {
+      var ctx = await App.init({ active: 'facturation' });
+      if (!ctx) return;
+      var sb = App.sb, esc = App.esc, el = function (id) { return document.getElementById(id); };
+      var selected = null;
+      var STATUS = {
+        pending: ['En attente', 'bg-amber-100 text-amber-800'],
+        completed: ['Crédits ajoutés', 'bg-green-100 text-green-700'],
+        failed: ['Refusée', 'bg-red-100 text-red-700'],
+        cancelled: ['Annulée', 'bg-gray-100 text-gray-600']
+      };
+      var METHOD = { mtn: ['MTN', 'bg-mtn text-gray-900'], moov: ['Moov', 'bg-moov text-white'], celtiis: ['Celtiis', 'bg-celtiis text-white'] };
 
-    var currentUser = null;
-    var currentCredits = 0;
-    var selectedPackCredits = 0;
-    var selectedPackPrice = 0;
-    var selectedPaymentMethod = null;
+      /* Packs + instructions de paiement */
+      var res = await Promise.all([
+        sb.from('credit_packs').select('credits, price_fcfa').eq('active', true).order('credits'),
+        sb.from('app_settings').select('value').eq('key', 'payment_instructions').maybeSingle()
+      ]);
+      var packs = res[0].data || [];
+      el('instructions').textContent = (res[1].data && res[1].data.value) || 'Notre équipe vous contacte pour finaliser le paiement par Mobile Money.';
+      var popular = packs.length > 2 ? packs[2].credits : null;
 
-    // Toggle sidebar
-    function toggleSidebar() {
-      var sidebar = document.getElementById('sidebar');
-      var overlay = document.getElementById('sidebar-overlay');
-      sidebar.classList.toggle('hidden');
-      sidebar.classList.toggle('fixed');
-      sidebar.classList.toggle('z-40');
-      overlay.classList.toggle('hidden');
-    }
+      el('packs').innerHTML = packs.length ? packs.map(function (p) {
+        var unit = Math.round(p.price_fcfa / p.credits);
+        var pop = p.credits === popular;
+        return '<button type="button" data-pack="' + p.credits + '" class="text-left card hover:border-brand-400 hover:shadow-md transition ' + (pop ? 'border-2 border-brand-500' : '') + '">' +
+          (pop ? '<span class="badge bg-brand-600 text-white mb-2">Populaire</span>' : '') +
+          '<p class="text-3xl font-extrabold text-gray-900">' + App.fmt(p.credits) + '</p><p class="text-sm text-gray-500">crédits</p>' +
+          '<p class="mt-3 text-2xl font-bold text-brand-600">' + App.fmt(p.price_fcfa) + ' <span class="text-sm font-medium text-gray-500">FCFA</span></p>' +
+          '<p class="text-xs text-gray-400 mt-1">' + App.fmt(unit) + ' FCFA / crédit</p></button>';
+      }).join('') : '<p class="text-gray-500">Aucun pack disponible pour le moment.</p>';
 
-    // Déconnexion
-    async function doLogout() {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    }
-
-    // Initialisation
-    async function initFacturation() {
-      console.log('🔵 Initialisation de la facturation...');
-      
-      try {
-        var userResult = await sb.auth.getUser();
-        currentUser = userResult.data.user;
-        
-        if (!currentUser) {
-          window.location.href = 'connexion.html';
-          return;
-        }
-
-        // Récupérer les crédits
-        var creditsResult = await sb.from('credits').select('amount').eq('user_id', currentUser.id).single();
-        currentCredits = creditsResult.data ? creditsResult.data.amount : 0;
-        
-        updateCreditsDisplay();
-        loadTransactions();
-        
-        console.log('✅ Facturation initialisée');
-      } catch (err) {
-        console.error('❌ Erreur initFacturation:', err);
-      }
-    }
-
-    // Mettre à jour l'affichage des crédits
-    function updateCreditsDisplay() {
-      document.getElementById('sidebar-credits').textContent = currentCredits;
-      document.getElementById('header-credits').textContent = currentCredits + ' crédits';
-      document.getElementById('current-credits').textContent = currentCredits;
-      document.getElementById('credits-value').textContent = (currentCredits * 200).toLocaleString();
-      
-      var percentage = Math.min((currentCredits / 100) * 100, 100);
-      document.getElementById('sidebar-credits-bar').style.width = percentage + '%';
-    }
-
-    // Sélection du pack
-    function selectPack(credits, price) {
-      selectedPackCredits = credits;
-      selectedPackPrice = price;
-      
-      document.getElementById('selected-credits').textContent = credits;
-      document.getElementById('selected-price').textContent = price.toLocaleString();
-      document.getElementById('payment-section').classList.remove('hidden');
-      
-      // Scroll vers la section de paiement
-      document.getElementById('payment-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    }
-
-    // Sélection de la méthode de paiement
-    function selectPayment(method) {
-      selectedPaymentMethod = method;
-      
-      // Reset styles
-      document.querySelectorAll('.payment-method').forEach(function(el) {
-        el.classList.remove('selected');
+      el('packs').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-pack]'); if (!b) return;
+        selected = packs.filter(function (p) { return String(p.credits) === b.getAttribute('data-pack'); })[0];
+        el('sel-credits').textContent = App.fmt(selected.credits);
+        el('sel-price').textContent = App.fmt(selected.price_fcfa);
+        el('payment-section').classList.remove('hidden');
+        el('payment-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       });
-      
-      // Active la méthode sélectionnée
-      document.getElementById('payment-' + method).classList.add('selected');
-    }
 
-    // Annuler le paiement
-    function cancelPayment() {
-      document.getElementById('payment-section').classList.add('hidden');
-      selectedPackCredits = 0;
-      selectedPackPrice = 0;
-      selectedPaymentMethod = null;
-      document.getElementById('phone-number').value = '';
-      
-      document.querySelectorAll('.payment-method').forEach(function(el) {
-        el.classList.remove('selected');
+      function resetForm() {
+        selected = null;
+        el('payment-section').classList.add('hidden');
+        el('phone').value = '';
+        document.querySelectorAll('input[name="method"]').forEach(function (r) { r.checked = false; });
+        el('pay-error').classList.add('hidden');
+      }
+      el('cancel-btn').addEventListener('click', resetForm);
+
+      el('pay-btn').addEventListener('click', async function () {
+        var err = el('pay-error'); err.classList.add('hidden');
+        function fail(m) { err.textContent = m; err.classList.remove('hidden'); }
+        var m = document.querySelector('input[name="method"]:checked');
+        var phone = el('phone').value.trim();
+        if (!selected) return fail('Choisissez un pack.');
+        if (!m) return fail('Choisissez votre opérateur Mobile Money.');
+        if (!/^\+?[0-9 ]{8,16}$/.test(phone)) return fail('Numéro de téléphone invalide (8 à 16 chiffres).');
+        el('pay-btn').disabled = true;
+        var r = await sb.rpc('request_credit_purchase', { p_credits: selected.credits, p_method: m.value, p_phone: phone });
+        el('pay-btn').disabled = false;
+        if (r.error) return fail(App.errMsg(r.error));
+        App.toast('Demande envoyée (réf. ' + r.data + '). Nous vous contactons très vite.', 'success');
+        resetForm(); loadHistory();
       });
-    }
 
-    // Traiter le paiement
-    async function processPayment() {
-      var phoneNumber = document.getElementById('phone-number').value.trim();
-      
-      if (!selectedPaymentMethod) {
-        alert('Veuillez choisir une méthode de paiement');
-        return;
-      }
-      
-      if (!phoneNumber) {
-        alert('Veuillez entrer votre numéro de téléphone');
-        return;
-      }
-      
-      var payBtn = document.getElementById('pay-btn');
-      payBtn.disabled = true;
-      payBtn.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> Traitement en cours...';
-      
-      try {
-        // Simuler le traitement du paiement (2 secondes)
-        await new Promise(function(resolve) { setTimeout(resolve, 2000); });
-        
-        // Ajouter les crédits
-        var newCredits = currentCredits + selectedPackCredits;
-        await sb.from('credits').update({ amount: newCredits }).eq('user_id', currentUser.id);
-        currentCredits = newCredits;
-        updateCreditsDisplay();
-        
-        // Enregistrer la transaction
-        await sb.from('transactions').insert({
-          user_id: currentUser.id,
-          type: 'purchase',
-          amount: selectedPackCredits,
-          credits_before: currentCredits - selectedPackCredits,
-          credits_after: newCredits,
-          description: 'Achat de ' + selectedPackCredits + ' crédits via ' + selectedPaymentMethod.toUpperCase(),
-          amount_fcf: selectedPackPrice,
-          phone_number: phoneNumber,
-          payment_method: selectedPaymentMethod,
-          status: 'completed'
-        });
-        
-        alert('✅ Paiement réussi ! ' + selectedPackCredits + ' crédits ont été ajoutés à votre compte.');
-        cancelPayment();
-        loadTransactions();
-        
-      } catch (err) {
-        console.error('❌ Erreur paiement:', err);
-        alert('❌ Une erreur est survenue lors du paiement');
-      } finally {
-        payBtn.disabled = false;
-        payBtn.innerHTML = '<i data-lucide="credit-card" class="w-5 h-5"></i> Payer maintenant';
-        lucide.createIcons();
-      }
-    }
-
-    // Charger les transactions
-    async function loadTransactions() {
-      if (!currentUser) return;
-      
-      try {
-        var result = await sb
-          .from('transactions')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .eq('type', 'purchase')
-          .order('created_at', { ascending: false })
-          .limit(10);
-        
-        var transactions = result.data || [];
-        var container = document.getElementById('transactions-list');
-        
-        if (transactions.length === 0) {
-          container.innerHTML = '<div class="text-center py-12 text-gray-500"><i data-lucide="receipt" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i><p class="font-medium">Aucune transaction pour le moment</p><p class="text-sm mt-1">Vos achats apparaîtront ici</p></div>';
+      async function loadHistory() {
+        var r = await sb.from('transactions')
+          .select('id, amount, amount_fcf, payment_method, status, reference, created_at')
+          .eq('type', 'purchase').order('created_at', { ascending: false }).limit(20);
+        var box = el('history');
+        if (r.error) { box.innerHTML = '<p class="text-red-600 text-sm">Impossible de charger l’historique.</p>'; return; }
+        var rows = r.data || [];
+        if (!rows.length) {
+          box.innerHTML = '<div class="text-center py-10 text-gray-500"><i data-lucide="receipt" class="w-10 h-10 mx-auto mb-3 text-gray-300" aria-hidden="true"></i><p class="font-medium">Aucun achat pour le moment</p></div>';
         } else {
-          var html = '';
-          transactions.forEach(function(transaction) {
-            var methodColors = {
-              'mtn': 'bg-mtn text-white',
-              'moov': 'bg-moov text-white',
-              'celtiis': 'bg-celtiis text-white'
-            };
-            var methodLabels = {
-              'mtn': 'MTN',
-              'moov': 'Moov',
-              'celtiis': 'Celtiis'
-            };
-            
-            html += '<div class="flex items-center justify-between p-4 rounded-xl border border-gray-200 hover:border-brand-300 transition">';
-            html += '<div class="flex items-center gap-3">';
-            html += '<div class="w-10 h-10 rounded-lg ' + methodColors[transaction.payment_method] + ' flex items-center justify-center font-bold text-xs">';
-            html += methodLabels[transaction.payment_method];
-            html += '</div>';
-            html += '<div>';
-            html += '<p class="font-semibold text-gray-900">+' + transaction.amount + ' crédits</p>';
-            html += '<p class="text-xs text-gray-500">' + new Date(transaction.created_at).toLocaleDateString('fr-FR') + ' à ' + new Date(transaction.created_at).toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'}) + '</p>';
-            html += '</div>';
-            html += '</div>';
-            html += '<div class="text-right">';
-            html += '<p class="font-bold text-gray-900">' + transaction.amount_fcf.toLocaleString() + ' FCFA</p>';
-            html += '<p class="text-xs text-green-600 font-semibold">✓ Payé</p>';
-            html += '</div>';
-            html += '</div>';
-          });
-          container.innerHTML = html;
+          box.innerHTML = rows.map(function (t) {
+            var s = STATUS[t.status] || STATUS.pending, mt = METHOD[t.payment_method] || ['?', 'bg-gray-200 text-gray-700'];
+            return '<div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl border border-gray-200">' +
+              '<div class="flex items-center gap-3"><span class="w-10 h-10 rounded-lg ' + mt[1] + ' flex items-center justify-center font-bold text-xs">' + esc(mt[0]) + '</span>' +
+              '<div><p class="font-semibold text-gray-900">+' + App.fmt(t.amount) + ' crédits</p><p class="text-xs text-gray-500">' + esc(t.reference || '') + ' · ' + App.fmtDateTime(t.created_at) + '</p></div></div>' +
+              '<div class="flex items-center gap-3"><div class="text-right"><p class="font-bold text-gray-900">' + App.fmt(t.amount_fcf) + ' FCFA</p><span class="badge ' + s[1] + '">' + s[0] + '</span></div>' +
+              (t.status === 'pending' ? '<button type="button" data-cancel="' + esc(t.id) + '" class="text-xs font-semibold text-red-600 hover:text-red-700">Annuler</button>' : '') + '</div></div>';
+          }).join('');
         }
-        
-        lucide.createIcons();
-      } catch (err) {
-        console.error('❌ Erreur loadTransactions:', err);
+        App.icons();
       }
-    }
+      el('history').addEventListener('click', async function (e) {
+        var b = e.target.closest('[data-cancel]'); if (!b) return;
+        if (!(await App.confirm('Annuler cette demande d’achat ?', 'Annuler la demande', true))) return;
+        var r = await sb.rpc('cancel_purchase_request', { p_id: b.getAttribute('data-cancel') });
+        if (r.error) return App.toast(App.errMsg(r.error), 'error');
+        App.toast('Demande annulée.', 'success'); loadHistory();
+      });
+      el('refresh-btn').addEventListener('click', async function () { await App.refreshCredits(true); loadHistory(); });
 
-    // Démarrer
-    initFacturation();
+      App.setCredits(ctx.credits);
+      loadHistory();
+    })();
   </script>
 </body>
 </html>
