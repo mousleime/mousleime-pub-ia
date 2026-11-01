@@ -4,693 +4,173 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Paramètres — MOUSLEIME PUB IA</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: {
-              50:  '#eef2ff',
-              100: '#e0e7ff',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              900: '#1e1b4b',
-            },
-            accent: {
-              400: '#fbbf24',
-              500: '#f59e0b',
-            }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    html { scroll-behavior: smooth; }
-    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
-    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
-    .modal-backdrop {
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-    }
-  </style>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+  <div id="boot" class="min-h-screen flex items-center justify-center text-gray-500">Chargement…</div>
 
-  <div class="flex min-h-screen">
-    
-    <!-- ============ SIDEBAR ============ -->
-    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
-      
-      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
-      </div>
-      
-      <nav class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-1">
-        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
-        
-        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-          <span>Tableau de bord</span>
-        </a>
-        
-        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="wand-2" class="w-5 h-5"></i>
-          <span>Studio de création</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
-        </a>
-        
-        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="megaphone" class="w-5 h-5"></i>
-          <span>Campagnes</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold">3</span>
-        </a>
-        
-        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="line-chart" class="w-5 h-5"></i>
-          <span>Analyses</span>
-        </a>
-        
-        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
-        
-        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="credit-card" class="w-5 h-5"></i>
-          <span>Facturation</span>
-        </a>
-        
-        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
-          <i data-lucide="settings" class="w-5 h-5"></i>
-          <span>Paramètres</span>
-        </a>
-      </nav>
-      
-      <div class="p-4 border-t border-gray-100 space-y-3">
-        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
-            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
-          </div>
-          <p class="text-2xl font-bold">42 <span class="text-sm font-normal text-brand-200">/ 100</span></p>
-          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div class="h-full w-[42%] bg-accent-400 rounded-full"></div>
-          </div>
-          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
-            Acheter des crédits
-          </a>
-        </div>
-        
-        <a href="index.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
-          <i data-lucide="log-out" class="w-4 h-4"></i>
-          <span>Déconnexion</span>
-        </a>
-      </div>
-    </aside>
-    
-    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
-    
-    <!-- ============ MAIN CONTENT ============ -->
-    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
-      
-      <!-- Top bar -->
-      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
-        <div class="flex items-center gap-3">
-          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
-            <i data-lucide="menu" class="w-5 h-5"></i>
-          </button>
-          <h1 class="text-lg font-bold text-gray-900">Paramètres</h1>
-        </div>
-        
-        <div class="flex items-center gap-2 sm:gap-3">
-          <a href="facturation.html" class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-xs font-semibold">
-            <i data-lucide="coins" class="w-3.5 h-3.5"></i>
-            <span>42</span>
-          </a>
-          
-          <button class="relative p-2 rounded-lg hover:bg-gray-100 transition">
-            <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-          
-          <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
-            <div class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">AB</div>
-            <div class="hidden sm:block">
-              <p class="text-sm font-semibold text-gray-900 leading-tight">Amadou B.</p>
-              <p class="text-xs text-gray-500 leading-tight">Formule Starter</p>
-            </div>
-          </div>
-        </div>
-      </header>
-      
-      <!-- Contenu principal -->
-      <main class="flex-1 p-4 sm:p-6 lg:p-8">
-        
-        <!-- ===== HEADER ===== -->
-        <div class="mb-6">
-          <h2 class="text-2xl sm:text-3xl font-bold text-gray-900">Paramètres ⚙️</h2>
-          <p class="mt-1 text-gray-600">Gérez votre profil, vos connexions et vos préférences.</p>
-        </div>
-        
-        <!-- ===== NAVIGATION PAR ONGLETS ===== -->
-        <div class="flex overflow-x-auto gap-1 mb-6 border-b border-gray-200 scrollbar-thin">
-          <button onclick="showTab('profil')" data-tab="profil" class="tab-btn px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 border-brand-600 text-brand-700">
-            <span class="flex items-center gap-2"><i data-lucide="user" class="w-4 h-4"></i> Profil</span>
-          </button>
-          <button onclick="showTab('connexions')" data-tab="connexions" class="tab-btn px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition">
-            <span class="flex items-center gap-2"><i data-lucide="link" class="w-4 h-4"></i> Connexions</span>
-          </button>
-          <button onclick="showTab('securite')" data-tab="securite" class="tab-btn px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition">
-            <span class="flex items-center gap-2"><i data-lucide="shield" class="w-4 h-4"></i> Sécurité</span>
-          </button>
-          <button onclick="showTab('notifications')" data-tab="notifications" class="tab-btn px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition">
-            <span class="flex items-center gap-2"><i data-lucide="bell" class="w-4 h-4"></i> Notifications</span>
-          </button>
-          <button onclick="showTab('preferences')" data-tab="preferences" class="tab-btn px-4 py-3 text-sm font-semibold whitespace-nowrap border-b-2 border-transparent text-gray-500 hover:text-gray-900 transition">
-            <span class="flex items-center gap-2"><i data-lucide="sliders" class="w-4 h-4"></i> Préférences</span>
-          </button>
-        </div>
-        
-        <!-- ===== ONGLET PROFIL ===== -->
-        <div id="tab-profil" class="tab-content space-y-6">
-          
-          <!-- Avatar + infos -->
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Photo de profil</h3>
-            <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div class="w-20 h-20 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-2xl font-bold">
-                AB
-              </div>
-              <div class="flex-1">
-                <p class="font-semibold text-gray-900">Amadou Boko</p>
-                <p class="text-sm text-gray-500">amadou.boko@exemple.com</p>
-                <div class="flex gap-2 mt-3">
-                  <button class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition">
-                    Changer la photo
-                  </button>
-                  <button class="px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm font-semibold text-gray-700 transition">
-                    Supprimer
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Infos personnelles -->
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Informations personnelles</h3>
-            <form class="space-y-4" onsubmit="event.preventDefault(); alert('✅ Profil mis à jour avec succès !');">
-              <div class="grid sm:grid-cols-2 gap-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Prénom</label>
-                  <input type="text" value="Amadou" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1.5">Nom</label>
-                  <input type="text" value="Boko" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                </div>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Email</label>
-                <input type="email" value="amadou.boko@exemple.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Téléphone (Mobile Money)</label>
-                <div class="flex gap-2">
-                  <select class="px-3 py-3 rounded-xl border border-gray-200 focus:border-brand-500 outline-none bg-white">
-                    <option>+229</option>
-                    <option>+228</option>
-                    <option>+221</option>
-                    <option>+225</option>
-                    <option>+237</option>
-                  </select>
-                  <input type="tel" value="97 45 78 45" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                </div>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nom de l'entreprise</label>
-                <input type="text" value="Boutique Mode Cotonou" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              </div>
-              
-              <div class="flex justify-end">
-                <button type="submit" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
-                  Enregistrer les modifications
-                </button>
-              </div>
-            </form>
-          </div>
-          
-        </div>
-        
-        <!-- ===== ONGLET CONNEXIONS ===== -->
-        <div id="tab-connexions" class="tab-content space-y-6 hidden">
-          
-          <!-- Bandeau info -->
-          <div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex items-start gap-3">
-            <div class="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center flex-shrink-0">
-              <i data-lucide="info" class="w-5 h-5 text-blue-600"></i>
-            </div>
-            <div class="flex-1">
-              <p class="font-semibold text-blue-900">Connexions sécurisées via OAuth</p>
-              <p class="text-sm text-blue-800 mt-0.5">Nous utilisons uniquement les API officielles des plateformes. Vos identifiants ne sont jamais stockés chez nous. Vous pouvez révoquer l'accès à tout moment depuis votre compte sur chaque plateforme.</p>
-            </div>
-          </div>
-          
-          <!-- Plateformes -->
-          <div class="space-y-4">
-            
-            <!-- Facebook -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="facebook" class="w-6 h-6 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-3 mb-2">
-                    <div>
-                      <h4 class="font-bold text-gray-900">Facebook</h4>
-                      <p class="text-sm text-gray-500">Publiez et gérez vos publicités sur Facebook</p>
-                    </div>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold">
-                      <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                      Non connecté
-                    </span>
-                  </div>
-                  <p class="text-xs text-gray-500 mb-3">Nécessite les autorisations : <code class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">ads_management</code>, <code class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">pages_read_engagement</code></p>
-                  <button onclick="connectPlatform('facebook')" class="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition">
-                    Connecter Facebook
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Instagram -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-3 mb-2">
-                    <div>
-                      <h4 class="font-bold text-gray-900">Instagram</h4>
-                      <p class="text-sm text-gray-500">Gérez vos campagnes Instagram et suivez les performances</p>
-                    </div>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold">
-                      <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                      Non connecté
-                    </span>
-                  </div>
-                  <p class="text-xs text-gray-500 mb-3">Nécessite les autorisations : <code class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">instagram_basic</code>, <code class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">instagram_manage_insights</code></p>
-                  <button onclick="connectPlatform('instagram')" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white text-sm font-semibold transition">
-                    Connecter Instagram
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- TikTok -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-gray-900 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="music" class="w-6 h-6 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-3 mb-2">
-                    <div>
-                      <h4 class="font-bold text-gray-900">TikTok</h4>
-                      <p class="text-sm text-gray-500">Diffusez vos vidéos publicitaires sur TikTok</p>
-                    </div>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-50 text-red-700 text-xs font-semibold">
-                      <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>
-                      Non connecté
-                    </span>
-                  </div>
-                  <p class="text-xs text-gray-500 mb-3">Nécessite les autorisations : <code class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">ad_account_management</code>, <code class="px-1.5 py-0.5 rounded bg-gray-100 text-gray-700">reporting.read</code></p>
-                  <button onclick="connectPlatform('tiktok')" class="px-4 py-2 rounded-lg bg-gray-900 hover:bg-black text-white text-sm font-semibold transition">
-                    Connecter TikTok
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-            <!-- Google Ads (bonus) -->
-            <div class="p-6 rounded-2xl bg-white border border-gray-200">
-              <div class="flex items-start gap-4">
-                <div class="w-12 h-12 rounded-xl bg-white border border-gray-200 flex items-center justify-center flex-shrink-0">
-                  <svg class="w-6 h-6" viewBox="0 0 24 24">
-                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                  </svg>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <div class="flex items-start justify-between gap-3 mb-2">
-                    <div>
-                      <h4 class="font-bold text-gray-900">Google Ads</h4>
-                      <p class="text-sm text-gray-500">Créez des campagnes Google Ads (bientôt disponible)</p>
-                    </div>
-                    <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-gray-100 text-gray-600 text-xs font-semibold">
-                      Bientôt
-                    </span>
-                  </div>
-                  <button disabled class="px-4 py-2 rounded-lg bg-gray-100 text-gray-400 text-sm font-semibold cursor-not-allowed">
-                    Indisponible
-                  </button>
-                </div>
-              </div>
-            </div>
-            
-          </div>
-          
-          <!-- Clés API personnalisées (avancé) -->
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-start gap-3 mb-4">
-              <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="key" class="w-5 h-5 text-purple-600"></i>
-              </div>
-              <div class="flex-1">
-                <h3 class="font-bold text-gray-900">Clés API personnalisées</h3>
-                <p class="text-sm text-gray-500 mt-0.5">Optionnel — pour les utilisateurs avancés qui souhaitent utiliser leurs propres clés API</p>
-              </div>
-            </div>
-            
-            <div class="space-y-3">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">OpenAI API Key</label>
-                <input type="password" placeholder="sk-..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition font-mono text-sm">
-                <p class="text-xs text-gray-500 mt-1">Laissez vide pour utiliser nos clés par défaut</p>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Stability AI API Key</label>
-                <input type="password" placeholder="sk-..." class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition font-mono text-sm">
-              </div>
-              
-              <div class="flex justify-end">
-                <button class="px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition">
-                  Enregistrer les clés
-                </button>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        
-        <!-- ===== ONGLET SÉCURITÉ ===== -->
-        <div id="tab-securite" class="tab-content space-y-6 hidden">
-          
-          <!-- Mot de passe -->
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Changer le mot de passe</h3>
-            <form class="space-y-4" onsubmit="event.preventDefault(); alert('✅ Mot de passe modifié avec succès !');">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Mot de passe actuel</label>
-                <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Nouveau mot de passe</label>
-                <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                <p class="text-xs text-gray-500 mt-1">Minimum 8 caractères avec lettres et chiffres</p>
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Confirmer le nouveau mot de passe</label>
-                <input type="password" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              </div>
-              <div class="flex justify-end">
-                <button type="submit" class="px-6 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
-                  Mettre à jour
-                </button>
-              </div>
-            </form>
-          </div>
-          
-          <!-- Authentification à deux facteurs -->
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-start gap-3 mb-4">
-              <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="shield-check" class="w-5 h-5 text-green-600"></i>
-              </div>
-              <div class="flex-1">
-                <h3 class="font-bold text-gray-900">Authentification à deux facteurs (2FA)</h3>
-                <p class="text-sm text-gray-500 mt-0.5">Ajoutez une couche de sécurité supplémentaire à votre compte</p>
-              </div>
-            </div>
-            
-            <div class="p-4 rounded-xl bg-gray-50 border border-gray-200 flex items-center justify-between">
-              <div>
-                <p class="font-semibold text-gray-900 text-sm">Statut : <span class="text-red-600">Désactivé</span></p>
-                <p class="text-xs text-gray-500 mt-0.5">Recommandé pour sécuriser votre compte</p>
-              </div>
-              <button onclick="alert('🔐 Configuration 2FA\n\nVous recevrez un code par SMS à chaque connexion.\n\n(Fonctionnalité à implémenter avec un service comme Twilio)')" class="px-4 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition">
-                Activer la 2FA
-              </button>
-            </div>
-          </div>
-          
-          <!-- Sessions actives -->
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Sessions actives</h3>
-            <div class="space-y-3">
-              <div class="p-4 rounded-xl border border-green-200 bg-green-50 flex items-center gap-3">
-                <i data-lucide="monitor" class="w-5 h-5 text-green-600"></i>
-                <div class="flex-1">
-                  <p class="font-semibold text-gray-900 text-sm">Chrome sur Windows — Cotonou, Bénin</p>
-                  <p class="text-xs text-gray-500">Session actuelle • Dernière activité : maintenant</p>
-                </div>
-                <span class="text-xs font-semibold text-green-700 bg-green-100 px-2 py-1 rounded-full">Actuelle</span>
-              </div>
-              <div class="p-4 rounded-xl border border-gray-200 flex items-center gap-3">
-                <i data-lucide="smartphone" class="w-5 h-5 text-gray-600"></i>
-                <div class="flex-1">
-                  <p class="font-semibold text-gray-900 text-sm">Safari sur iPhone — Cotonou, Bénin</p>
-                  <p class="text-xs text-gray-500">Il y a 2 jours</p>
-                </div>
-                <button class="text-xs font-semibold text-red-600 hover:text-red-700">Déconnecter</button>
-              </div>
-            </div>
-            <button class="mt-4 text-sm font-semibold text-red-600 hover:text-red-700">
-              Déconnecter tous les autres appareils
-            </button>
-          </div>
-          
-        </div>
-        
-        <!-- ===== ONGLET NOTIFICATIONS ===== -->
-        <div id="tab-notifications" class="tab-content space-y-6 hidden">
-          
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Préférences de notification</h3>
-            <div class="space-y-4">
-              
-              <div class="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p class="font-semibold text-gray-900">Performances des campagnes</p>
-                  <p class="text-sm text-gray-500">Recevez un résumé quotidien de vos performances</p>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-500/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
-                </label>
-              </div>
-              
-              <div class="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p class="font-semibold text-gray-900">Crédits faibles</p>
-                  <p class="text-sm text-gray-500">Alerte quand il vous reste moins de 10 crédits</p>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-500/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
-                </label>
-              </div>
-              
-              <div class="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p class="font-semibold text-gray-900">Nouvelles fonctionnalités</p>
-                  <p class="text-sm text-gray-500">Soyez informé des nouvelles fonctionnalités</p>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-500/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
-                </label>
-              </div>
-              
-              <div class="flex items-start justify-between gap-4 pb-4 border-b border-gray-100">
-                <div>
-                  <p class="font-semibold text-gray-900">Offres promotionnelles</p>
-                  <p class="text-sm text-gray-500">Recevez nos offres spéciales et réductions</p>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-500/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
-                </label>
-              </div>
-              
-              <div class="flex items-start justify-between gap-4">
-                <div>
-                  <p class="font-semibold text-gray-900">Recommandations IA</p>
-                  <p class="text-sm text-gray-500">Suggestions personnalisées basées sur vos performances</p>
-                </div>
-                <label class="relative inline-flex items-center cursor-pointer">
-                  <input type="checkbox" checked class="sr-only peer">
-                  <div class="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-500/20 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-600"></div>
-                </label>
-              </div>
-              
-            </div>
-          </div>
-          
-        </div>
-        
-        <!-- ===== ONGLET PRÉFÉRENCES ===== -->
-        <div id="tab-preferences" class="tab-content space-y-6 hidden">
-          
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Préférences régionales</h3>
-            <div class="space-y-4">
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Langue</label>
-                <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                  <option selected>Français 🇫🇷</option>
-                  <option>English 🇬🇧</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Pays</label>
-                <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                  <option selected>Bénin 🇧🇯</option>
-                  <option>Togo 🇹🇬</option>
-                  <option>Sénégal 🇸🇳</option>
-                  <option>Côte d'Ivoire 🇨🇮</option>
-                  <option>Cameroun 🇨🇲</option>
-                  <option>Burkina Faso 🇧🇫</option>
-                  <option>Mali 🇲🇱</option>
-                  <option>Niger 🇳🇪</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Fuseau horaire</label>
-                <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                  <option selected>(GMT+1) Afrique/Porto-Novo</option>
-                  <option>(GMT+0) Afrique/Abidjan</option>
-                  <option>(GMT+0) Afrique/Dakar</option>
-                </select>
-              </div>
-              
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1.5">Devise d'affichage</label>
-                <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-                  <option selected>FCFA (Franc CFA)</option>
-                  <option>EUR (Euro)</option>
-                  <option>USD (Dollar US)</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          
-          <!-- Zone de danger -->
-          <div class="p-6 rounded-2xl bg-white border-2 border-red-200">
-            <div class="flex items-start gap-3 mb-4">
-              <div class="w-10 h-10 rounded-lg bg-red-50 flex items-center justify-center flex-shrink-0">
-                <i data-lucide="alert-triangle" class="w-5 h-5 text-red-600"></i>
-              </div>
-              <div>
-                <h3 class="font-bold text-red-900">Zone de danger</h3>
-                <p class="text-sm text-red-700 mt-0.5">Ces actions sont irréversibles. Soyez prudent.</p>
-              </div>
-            </div>
-            
-            <div class="space-y-3">
-              <div class="flex items-center justify-between p-4 rounded-xl bg-red-50 border border-red-100">
-                <div>
-                  <p class="font-semibold text-red-900 text-sm">Exporter mes données</p>
-                  <p class="text-xs text-red-700">Téléchargez toutes vos données au format JSON</p>
-                </div>
-                <button class="px-4 py-2 rounded-lg bg-white hover:bg-red-50 border border-red-200 text-red-700 text-sm font-semibold transition">
-                  Exporter
-                </button>
-              </div>
-              
-              <div class="flex items-center justify-between p-4 rounded-xl bg-red-50 border border-red-100">
-                <div>
-                  <p class="font-semibold text-red-900 text-sm">Supprimer mon compte</p>
-                  <p class="text-xs text-red-700">Supprimer définitivement votre compte et toutes vos données</p>
-                </div>
-                <button onclick="if(confirm('⚠️ Êtes-vous sûr de vouloir supprimer votre compte ?\n\nCette action est IRRÉVERSIBLE.\nToutes vos données seront perdues.')) alert('📧 Un email de confirmation vous a été envoyé.')" class="px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 text-white text-sm font-semibold transition">
-                  Supprimer
-                </button>
-              </div>
-            </div>
-          </div>
-          
-        </div>
-        
-      </main>
+  <main id="page-content" class="hidden p-4 sm:p-6 lg:p-8 space-y-6 max-w-3xl">
+    <div>
+      <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Paramètres</h1>
+      <p class="mt-1 text-gray-600">Gérez votre profil, votre sécurité et vos données.</p>
     </div>
-  </div>
 
+    <section class="card" aria-labelledby="p-title">
+      <h2 id="p-title" class="font-bold text-gray-900 mb-4">Informations personnelles</h2>
+      <form id="profile-form" class="space-y-4" novalidate>
+        <div>
+          <label for="full_name" class="label">Nom complet</label>
+          <input type="text" id="full_name" class="input" maxlength="120" autocomplete="name" />
+        </div>
+        <div>
+          <label for="email" class="label">Email</label>
+          <input type="email" id="email" class="input bg-gray-50 text-gray-500" disabled />
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4">
+          <div>
+            <label for="phone" class="label">Téléphone (Mobile Money)</label>
+            <input type="tel" id="phone" class="input" maxlength="20" autocomplete="tel" placeholder="+229 01 XX XX XX XX" />
+          </div>
+          <div>
+            <label for="company_name" class="label">Entreprise</label>
+            <input type="text" id="company_name" class="input" maxlength="120" autocomplete="organization" />
+          </div>
+        </div>
+        <div id="profile-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm" role="alert"></div>
+        <div class="flex justify-end"><button type="submit" id="profile-btn" class="btn-primary">Enregistrer</button></div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="s-title">
+      <h2 id="s-title" class="font-bold text-gray-900 mb-4">Mot de passe</h2>
+      <form id="password-form" class="space-y-4" novalidate>
+        <div>
+          <label for="current" class="label">Mot de passe actuel</label>
+          <input type="password" id="current" class="input" autocomplete="current-password" />
+        </div>
+        <div>
+          <label for="new1" class="label">Nouveau mot de passe</label>
+          <input type="password" id="new1" class="input" autocomplete="new-password" />
+          <p class="mt-1 text-xs text-gray-500">8 caractères minimum, avec lettres et chiffres.</p>
+        </div>
+        <div>
+          <label for="new2" class="label">Confirmer le nouveau mot de passe</label>
+          <input type="password" id="new2" class="input" autocomplete="new-password" />
+        </div>
+        <div id="password-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm" role="alert"></div>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <button type="button" id="signout-others" class="text-sm font-semibold text-red-600 hover:text-red-700">Déconnecter mes autres appareils</button>
+          <button type="submit" id="password-btn" class="btn-primary">Mettre à jour</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card" aria-labelledby="c-title">
+      <h2 id="c-title" class="font-bold text-gray-900">Connexions aux plateformes</h2>
+      <p class="text-sm text-gray-500 mt-1">La connexion directe à Facebook, Instagram, TikTok et Google Ads n’est pas encore disponible. En attendant, vous publiez vos contenus vous-même et saisissez vos résultats dans la page Campagnes.</p>
+      <span class="badge bg-gray-100 text-gray-600 mt-3">Bientôt</span>
+    </section>
+
+    <section class="p-6 rounded-2xl bg-white border-2 border-red-200" aria-labelledby="d-title">
+      <h2 id="d-title" class="font-bold text-red-900">Mes données</h2>
+      <div class="mt-4 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-red-50 border border-red-100">
+          <div><p class="font-semibold text-red-900 text-sm">Exporter mes données</p><p class="text-xs text-red-700">Téléchargez votre profil, vos créations, campagnes et transactions (JSON).</p></div>
+          <button type="button" id="export-btn" class="btn-secondary py-2">Exporter</button>
+        </div>
+        <div class="flex flex-wrap items-center justify-between gap-3 p-4 rounded-xl bg-red-50 border border-red-100">
+          <div><p class="font-semibold text-red-900 text-sm">Supprimer mon compte</p><p class="text-xs text-red-700">Envoie une demande de suppression définitive à notre équipe.</p></div>
+          <button type="button" id="delete-btn" class="btn-danger py-2">Demander la suppression</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const overlay = document.getElementById('sidebar-overlay');
-      sidebar.classList.toggle('hidden');
-      sidebar.classList.toggle('fixed');
-      sidebar.classList.toggle('z-40');
-      overlay.classList.toggle('hidden');
-    }
-    
-    function showTab(tabName) {
-      // Cacher tous les contenus d'onglets
-      document.querySelectorAll('.tab-content').forEach(el => {
-        el.classList.add('hidden');
+    (async function () {
+      var ctx = await App.init({ active: 'parametres' });
+      if (!ctx) return;
+      var sb = App.sb, el = function (id) { return document.getElementById(id); };
+      var p = ctx.profile;
+      el('full_name').value = p.full_name || ''; el('email').value = p.email || ctx.user.email || '';
+      el('phone').value = p.phone || ''; el('company_name').value = p.company_name || '';
+
+      function show(id, msg) { var b = el(id); b.textContent = msg; b.classList.remove('hidden'); }
+      function hide(id) { el(id).classList.add('hidden'); }
+
+      el('profile-form').addEventListener('submit', async function (e) {
+        e.preventDefault(); hide('profile-error');
+        var phone = el('phone').value.trim();
+        if (phone && !/^\+?[0-9 ]{8,16}$/.test(phone)) return show('profile-error', 'Numéro de téléphone invalide.');
+        el('profile-btn').disabled = true;
+        var r = await sb.from('profiles').update({
+          full_name: el('full_name').value.trim() || null, phone: phone || null, company_name: el('company_name').value.trim() || null
+        }).eq('id', ctx.user.id);
+        el('profile-btn').disabled = false;
+        if (r.error) return show('profile-error', App.errMsg(r.error));
+        App.toast('Profil mis à jour.', 'success');
       });
-      // Réinitialiser tous les boutons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('border-brand-600', 'text-brand-700');
-        btn.classList.add('border-transparent', 'text-gray-500');
+
+      el('password-form').addEventListener('submit', async function (e) {
+        e.preventDefault(); hide('password-error');
+        var cur = el('current').value, n1 = el('new1').value, n2 = el('new2').value;
+        if (!cur) return show('password-error', 'Saisissez votre mot de passe actuel.');
+        if (n1.length < 8 || !/[A-Za-z]/.test(n1) || !/[0-9]/.test(n1)) return show('password-error', 'Le nouveau mot de passe doit faire 8 caractères minimum, avec lettres et chiffres.');
+        if (n1 !== n2) return show('password-error', 'Les deux mots de passe ne correspondent pas.');
+        el('password-btn').disabled = true;
+        var chk = await sb.auth.signInWithPassword({ email: p.email || ctx.user.email, password: cur });
+        if (chk.error) { el('password-btn').disabled = false; return show('password-error', 'Mot de passe actuel incorrect.'); }
+        var r = await sb.auth.updateUser({ password: n1 });
+        el('password-btn').disabled = false;
+        if (r.error) return show('password-error', App.errMsg(r.error));
+        el('password-form').reset();
+        App.toast('Mot de passe modifié.', 'success');
       });
-      // Afficher l'onglet sélectionné
-      document.getElementById('tab-' + tabName).classList.remove('hidden');
-      // Activer le bouton
-      const activeBtn = document.querySelector('[data-tab="' + tabName + '"]');
-      activeBtn.classList.remove('border-transparent', 'text-gray-500');
-      activeBtn.classList.add('border-brand-600', 'text-brand-700');
-      lucide.createIcons();
-    }
-    
-    function connectPlatform(platform) {
-      const names = {
-        facebook: 'Facebook',
-        instagram: 'Instagram',
-        tiktok: 'TikTok'
-      };
-      
-      if (confirm(`🔗 Connexion à ${names[platform]}\n\nVous allez être redirigé vers ${names[platform]} pour autoriser MOUSLEIME PUB IA à accéder à votre compte.\n\nVos identifiants ne seront JAMAIS stockés chez nous.\n\nContinuer ?`)) {
-        alert(`✅ Redirection vers ${names[platform]}...\n\n(Dans une vraie application, vous seriez redirigé vers l'URL OAuth officielle de ${names[platform]})`);
-      }
-    }
+
+      el('signout-others').addEventListener('click', async function () {
+        if (!(await App.confirm('Déconnecter tous vos autres appareils ?', 'Déconnecter', true))) return;
+        var r = await sb.auth.signOut({ scope: 'others' });
+        if (r.error) return App.toast(App.errMsg(r.error), 'error');
+        App.toast('Les autres appareils ont été déconnectés.', 'success');
+      });
+
+      el('export-btn').addEventListener('click', async function () {
+        el('export-btn').disabled = true;
+        var q = await Promise.all([
+          sb.from('profiles').select('email, full_name, phone, company_name, created_at').eq('id', ctx.user.id).maybeSingle(),
+          sb.from('creations').select('type, prompt, project_name, platform, status, result_url, created_at').order('created_at'),
+          sb.from('campaigns').select('*').order('created_at'),
+          sb.from('transactions').select('type, amount, amount_fcf, payment_method, status, reference, description, created_at').order('created_at')
+        ]);
+        el('export-btn').disabled = false;
+        if (q.some(function (x) { return x.error; })) return App.toast('Export impossible pour le moment.', 'error');
+        var data = { exporte_le: new Date().toISOString(), profil: q[0].data, creations: q[1].data, campagnes: q[2].data, transactions: q[3].data };
+        var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+        a.download = 'mes-donnees-mousleime-pub-ia.json'; document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+      });
+
+      el('delete-btn').addEventListener('click', async function () {
+        if (!(await App.confirm('Demander la suppression définitive de votre compte et de vos données ?\nNotre équipe traitera votre demande et vous contactera.', 'Envoyer la demande', true))) return;
+        var r = await sb.from('contact_messages').insert({
+          name: p.full_name || p.email || 'Utilisateur', email: p.email || ctx.user.email,
+          subject: 'Demande de suppression de compte', message: 'Demande de suppression du compte ' + (p.email || ctx.user.id) + ' (id ' + ctx.user.id + ').'
+        });
+        if (r.error) return App.toast(App.errMsg(r.error), 'error');
+        App.toast('Demande envoyée. Nous vous recontactons.', 'success');
+      });
+    })();
   </script>
 </body>
 </html>

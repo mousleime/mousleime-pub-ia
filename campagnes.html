@@ -4,589 +4,276 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Campagnes — MOUSLEIME PUB IA</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
-            accent: { 400: '#fbbf24', 500: '#f59e0b' }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    .campaign-card { transition: all 0.3s ease; }
-    .campaign-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
-    .status-badge { animation: fadeIn 0.3s ease; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
-    .modal-backdrop { animation: fadeIn 0.2s ease; }
-  </style>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+  <div id="boot" class="min-h-screen flex items-center justify-center text-gray-500">Chargement…</div>
 
-  <div class="flex min-h-screen">
-    
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
-      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+  <main id="page-content" class="hidden p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-bold text-gray-900">Campagnes</h1>
+        <p class="mt-1 text-gray-600">Organisez vos campagnes et suivez leurs résultats.</p>
       </div>
-      
-      <nav class="flex-1 overflow-y-auto p-4 space-y-1">
-        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
-        
-        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-          <span>Tableau de bord</span>
-        </a>
-        
-        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="wand-2" class="w-5 h-5"></i>
-          <span>Studio de création</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
-        </a>
-        
-        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
-          <i data-lucide="megaphone" class="w-5 h-5"></i>
-          <span>Campagnes</span>
-          <span id="sidebar-campaigns-count" class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold">0</span>
-        </a>
-        
-        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="line-chart" class="w-5 h-5"></i>
-          <span>Analyses</span>
-        </a>
-        
-        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
-        
-        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="credit-card" class="w-5 h-5"></i>
-          <span>Facturation</span>
-        </a>
-        
-        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="settings" class="w-5 h-5"></i>
-          <span>Paramètres</span>
-        </a>
-      </nav>
-      
-      <div class="p-4 border-t border-gray-100 space-y-3">
-        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
-            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
-          </div>
-          <p class="text-2xl font-bold"><span id="sidebar-credits">0</span> <span class="text-sm font-normal text-brand-200">/ 100</span></p>
-          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div id="sidebar-credits-bar" class="h-full w-0 bg-accent-400 rounded-full transition-all duration-500"></div>
-          </div>
-          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
-            Acheter des crédits
-          </a>
-        </div>
-        
-        <button onclick="doLogout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
-          <i data-lucide="log-out" class="w-4 h-4"></i>
-          <span>Déconnexion</span>
-        </button>
-      </div>
-    </aside>
-
-    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
-
-    <!-- MAIN CONTENT -->
-    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
-      
-      <!-- Header -->
-      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
-        <div class="flex items-center gap-3">
-          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
-            <i data-lucide="menu" class="w-5 h-5"></i>
-          </button>
-          <h1 class="text-xl font-bold text-gray-900">Mes Campagnes</h1>
-        </div>
-        
-        <div class="flex items-center gap-3">
-          <span class="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-sm font-semibold">
-            <i data-lucide="coins" class="w-4 h-4"></i>
-            <span id="header-credits">0 crédits</span>
-          </span>
-          <button onclick="openCreateModal()" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold transition">
-            <i data-lucide="plus" class="w-4 h-4"></i>
-            <span class="hidden sm:inline">Nouvelle campagne</span>
-          </button>
-        </div>
-      </header>
-
-      <!-- Contenu principal -->
-      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
-        
-        <!-- Stats globales -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center gap-2 mb-2">
-              <div class="w-10 h-10 rounded-lg bg-brand-50 flex items-center justify-center">
-                <i data-lucide="megaphone" class="w-5 h-5 text-brand-600"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-total">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">Total campagnes</p>
-          </div>
-          
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center gap-2 mb-2">
-              <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
-                <i data-lucide="play-circle" class="w-5 h-5 text-green-600"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-active">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">Actives</p>
-          </div>
-          
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center gap-2 mb-2">
-              <div class="w-10 h-10 rounded-lg bg-accent-50 flex items-center justify-center">
-                <i data-lucide="mouse-pointer-click" class="w-5 h-5 text-accent-500"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-clicks">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">Clics totaux</p>
-          </div>
-          
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center gap-2 mb-2">
-              <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
-                <i data-lucide="wallet" class="w-5 h-5 text-purple-600"></i>
-              </div>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-budget">0 FCFA</p>
-            <p class="text-sm text-gray-500 mt-0.5">Budget total</p>
-          </div>
-        </div>
-
-        <!-- Filtres -->
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <div class="flex items-center gap-2 flex-wrap">
-            <button onclick="filterCampaigns('all')" data-filter="all" class="filter-btn px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold transition">Toutes</button>
-            <button onclick="filterCampaigns('active')" data-filter="active" class="filter-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">Actives</button>
-            <button onclick="filterCampaigns('paused')" data-filter="paused" class="filter-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">En pause</button>
-            <button onclick="filterCampaigns('ended')" data-filter="ended" class="filter-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">Terminées</button>
-            <button onclick="filterCampaigns('draft')" data-filter="draft" class="filter-btn px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">Brouillons</button>
-          </div>
-          
-          <button onclick="loadCampaigns()" class="px-4 py-2 rounded-lg bg-white border border-gray-200 text-gray-700 text-sm font-semibold hover:bg-gray-50 transition">
-            <i data-lucide="refresh-cw" class="w-4 h-4 inline mr-1"></i>
-            Rafraîchir
-          </button>
-        </div>
-
-        <!-- Liste des campagnes -->
-        <div id="campaigns-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <div class="col-span-full text-center py-16 text-gray-500">
-            <i data-lucide="megaphone" class="w-16 h-16 mx-auto mb-4 text-gray-300"></i>
-            <p class="text-lg font-medium">Aucune campagne pour le moment</p>
-            <p class="text-sm mt-1">Créez votre première campagne publicitaire</p>
-            <button onclick="openCreateModal()" class="mt-4 px-6 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition">
-              Créer une campagne
-            </button>
-          </div>
-        </div>
-
-      </main>
+      <button type="button" id="new-btn" class="btn-primary py-3 px-5"><i data-lucide="plus" class="w-5 h-5" aria-hidden="true"></i>Nouvelle campagne</button>
     </div>
-  </div>
 
-  <!-- Modal de création -->
-  <div id="create-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/50 backdrop-blur modal-backdrop">
-    <div class="bg-white rounded-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-      <div class="p-6 border-b border-gray-100 flex items-center justify-between">
-        <h3 class="text-xl font-bold text-gray-900">Nouvelle campagne</h3>
-        <button onclick="closeCreateModal()" class="p-2 rounded-lg hover:bg-gray-100">
-          <i data-lucide="x" class="w-5 h-5"></i>
-        </button>
+    <div class="p-4 rounded-xl bg-brand-50 border border-brand-100 text-sm text-brand-900 flex items-start gap-3">
+      <i data-lucide="info" class="w-5 h-5 flex-shrink-0 mt-0.5" aria-hidden="true"></i>
+      <p>La connexion automatique à Facebook, Instagram et TikTok n’est pas encore disponible. Vous diffusez vos publicités sur ces plateformes, puis vous <strong>saisissez ici les résultats</strong> (dépenses, vues, clics, conversions) pour les suivre et les analyser.</p>
+    </div>
+
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Statistiques">
+      <div class="card"><p class="text-sm text-gray-500">Campagnes</p><p class="text-2xl font-bold text-gray-900" id="stat-total">0</p></div>
+      <div class="card"><p class="text-sm text-gray-500">Actives</p><p class="text-2xl font-bold text-green-600" id="stat-active">0</p></div>
+      <div class="card"><p class="text-sm text-gray-500">Clics</p><p class="text-2xl font-bold text-gray-900" id="stat-clicks">0</p></div>
+      <div class="card"><p class="text-sm text-gray-500">Budget total</p><p class="text-2xl font-bold text-gray-900" id="stat-budget">0 FCFA</p></div>
+    </section>
+
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Filtrer par statut" id="filters">
+      <button type="button" data-filter="all" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Toutes</button>
+      <button type="button" data-filter="active" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Actives</button>
+      <button type="button" data-filter="paused" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">En pause</button>
+      <button type="button" data-filter="draft" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Brouillons</button>
+      <button type="button" data-filter="ended" class="filter-btn px-4 py-2 rounded-lg text-sm font-semibold">Terminées</button>
+    </div>
+
+    <div id="campaigns-list" class="grid md:grid-cols-2 xl:grid-cols-3 gap-5"></div>
+  </main>
+
+  <!-- Création / modification -->
+  <div id="edit-modal" class="fixed inset-0 z-[80] hidden items-center justify-center p-4 bg-black/50 overflow-y-auto">
+    <div role="dialog" aria-modal="true" aria-labelledby="edit-title" class="bg-white rounded-2xl w-full max-w-lg p-6 shadow-xl my-auto">
+      <div class="flex items-center justify-between mb-5">
+        <h2 id="edit-title" class="text-xl font-bold text-gray-900">Nouvelle campagne</h2>
+        <button type="button" data-close class="p-2 rounded-lg hover:bg-gray-100" aria-label="Fermer"><i data-lucide="x" class="w-5 h-5" aria-hidden="true"></i></button>
       </div>
-      
-      <form id="create-form" class="p-6 space-y-4" onsubmit="return false;">
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Nom de la campagne *</label>
-          <input type="text" id="campaign-name" required placeholder="Ex: Promo Collection Été"
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-        </div>
-        
-        <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-          <textarea id="campaign-description" rows="3" placeholder="Décrivez l'objectif de votre campagne..."
-            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition resize-none"></textarea>
-        </div>
-        
+      <form id="edit-form" class="space-y-4" novalidate>
+        <input type="hidden" id="f-id" />
+        <div><label for="f-name" class="label">Nom de la campagne *</label><input id="f-name" type="text" required maxlength="120" class="input" placeholder="Ex. : Promo fin d’année" /></div>
+        <div><label for="f-desc" class="label">Description</label><textarea id="f-desc" rows="2" maxlength="500" class="input resize-none" placeholder="Objectif de la campagne…"></textarea></div>
         <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Plateforme *</label>
-            <select id="campaign-platform" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              <option value="facebook">Facebook</option>
-              <option value="instagram">Instagram</option>
-              <option value="tiktok">TikTok</option>
-              <option value="google">Google Ads</option>
-              <option value="multi">Multi-plateforme</option>
-            </select>
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Statut</label>
-            <select id="campaign-status" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-              <option value="draft">Brouillon</option>
-              <option value="active">Active</option>
-              <option value="paused">En pause</option>
-            </select>
-          </div>
+          <div><label for="f-platform" class="label">Plateforme *</label>
+            <select id="f-platform" class="input">
+              <option value="facebook">Facebook</option><option value="instagram">Instagram</option>
+              <option value="tiktok">TikTok</option><option value="google">Google Ads</option><option value="multi">Multi-plateforme</option>
+            </select></div>
+          <div><label for="f-status" class="label">Statut</label>
+            <select id="f-status" class="input">
+              <option value="draft">Brouillon</option><option value="active">Active</option>
+              <option value="paused">En pause</option><option value="ended">Terminée</option>
+            </select></div>
         </div>
-        
         <div class="grid grid-cols-2 gap-4">
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Budget (FCFA)</label>
-            <input type="number" id="campaign-budget" min="0" placeholder="50000"
-              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-          </div>
-          
-          <div>
-            <label class="block text-sm font-medium text-gray-700 mb-2">Date de fin</label>
-            <input type="date" id="campaign-end-date"
-              class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20 outline-none transition">
-          </div>
+          <div><label for="f-budget" class="label">Budget (FCFA)</label><input id="f-budget" type="number" min="0" max="100000000" step="1" class="input" placeholder="50000" /></div>
+          <div><label for="f-end" class="label">Date de fin</label><input id="f-end" type="date" class="input" /></div>
         </div>
-        
-        <div class="flex gap-3 pt-4">
-          <button type="button" onclick="closeCreateModal()" class="flex-1 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 font-semibold text-gray-700 transition">
-            Annuler
-          </button>
-          <button type="submit" class="flex-1 flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition">
-            <i data-lucide="plus" class="w-5 h-5"></i>
-            Créer
-          </button>
+        <fieldset class="rounded-xl border border-gray-200 p-4">
+          <legend class="px-2 text-sm font-semibold text-gray-700">Résultats (saisis manuellement)</legend>
+          <div class="grid grid-cols-2 gap-4">
+            <div><label for="f-spent" class="label">Dépensé (FCFA)</label><input id="f-spent" type="number" min="0" step="1" class="input" value="0" /></div>
+            <div><label for="f-impressions" class="label">Vues</label><input id="f-impressions" type="number" min="0" step="1" class="input" value="0" /></div>
+            <div><label for="f-clicks" class="label">Clics</label><input id="f-clicks" type="number" min="0" step="1" class="input" value="0" /></div>
+            <div><label for="f-conversions" class="label">Conversions</label><input id="f-conversions" type="number" min="0" step="1" class="input" value="0" /></div>
+          </div>
+        </fieldset>
+        <div id="form-error" class="hidden p-3 rounded-xl bg-red-50 border border-red-200 text-red-700 text-sm" role="alert"></div>
+        <div class="flex gap-3 pt-2">
+          <button type="button" data-close class="btn-secondary flex-1 py-3">Annuler</button>
+          <button type="submit" id="save-btn" class="btn-primary flex-1 py-3">Enregistrer</button>
         </div>
       </form>
     </div>
   </div>
 
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: { persistSession: true, autoRefreshToken: true, storage: window.localStorage }
-    });
+    (async function () {
+      var ctx = await App.init({ active: 'campagnes' });
+      if (!ctx) return;
+      var sb = App.sb, esc = App.esc, el = function (id) { return document.getElementById(id); };
 
-    var currentUser = null;
-    var currentCredits = 0;
-    var currentFilter = 'all';
-    var allCampaigns = [];
+      var all = [];
+      var filter = 'all';
 
-    function toggleSidebar() {
-      var sidebar = document.getElementById('sidebar');
-      var overlay = document.getElementById('sidebar-overlay');
-      sidebar.classList.toggle('hidden');
-      sidebar.classList.toggle('fixed');
-      sidebar.classList.toggle('z-40');
-      overlay.classList.toggle('hidden');
-    }
+      var PLATFORMS = {
+        facebook: { icon: 'facebook', color: 'bg-blue-600', label: 'Facebook' },
+        instagram: { icon: 'instagram', color: 'bg-pink-600', label: 'Instagram' },
+        tiktok: { icon: 'music', color: 'bg-gray-900', label: 'TikTok' },
+        google: { icon: 'search', color: 'bg-red-600', label: 'Google Ads' },
+        multi: { icon: 'layers', color: 'bg-brand-600', label: 'Multi-plateforme' }
+      };
+      var STATUS = {
+        active: { label: 'Active', cls: 'bg-green-100 text-green-700' },
+        paused: { label: 'En pause', cls: 'bg-yellow-100 text-yellow-700' },
+        ended: { label: 'Terminée', cls: 'bg-gray-100 text-gray-700' },
+        draft: { label: 'Brouillon', cls: 'bg-blue-100 text-blue-700' }
+      };
 
-    async function doLogout() {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    }
+      async function load() {
+        var r = await sb.from('campaigns').select('*').order('created_at', { ascending: false });
+        if (r.error) { App.toast('Impossible de charger vos campagnes.', 'error'); return; }
+        all = r.data || [];
+        render();
+      }
 
-    async function initCampagnes() {
-      try {
-        var userResult = await sb.auth.getUser();
-        currentUser = userResult.data.user;
-        
-        if (!currentUser) {
-          window.location.href = 'connexion.html';
+      function stats() {
+        el('stat-total').textContent = App.fmt(all.length);
+        el('stat-active').textContent = App.fmt(all.filter(function (c) { return c.status === 'active'; }).length);
+        el('stat-clicks').textContent = App.fmt(all.reduce(function (s, c) { return s + (c.clicks || 0); }, 0));
+        el('stat-budget').textContent = App.fmt(all.reduce(function (s, c) { return s + (c.budget || 0); }, 0)) + ' FCFA';
+      }
+
+      function paintFilters() {
+        document.querySelectorAll('.filter-btn').forEach(function (b) {
+          var on = b.getAttribute('data-filter') === filter;
+          b.className = 'filter-btn px-4 py-2 rounded-lg text-sm font-semibold ' + (on ? 'bg-brand-600 text-white' : 'bg-white text-gray-700 border border-gray-200 hover:bg-gray-50');
+          b.setAttribute('aria-pressed', on ? 'true' : 'false');
+        });
+      }
+
+      function render() {
+        stats(); paintFilters();
+        var list = filter === 'all' ? all : all.filter(function (c) { return c.status === filter; });
+        var box = el('campaigns-list');
+        if (!list.length) {
+          box.innerHTML = '<div class="col-span-full text-center py-16 text-gray-500"><i data-lucide="megaphone" class="w-14 h-14 mx-auto mb-4 text-gray-300" aria-hidden="true"></i>' +
+            '<p class="text-lg font-medium">' + (all.length ? 'Aucune campagne dans cette catégorie' : 'Vous n’avez pas encore de campagne') + '</p>' +
+            '<button type="button" data-new class="btn-primary mt-4">Créer une campagne</button></div>';
+          box.querySelector('[data-new]').addEventListener('click', function () { openModal(); });
+          App.icons();
           return;
         }
-
-        var creditsResult = await sb.from('credits').select('amount').eq('user_id', currentUser.id).single();
-        currentCredits = creditsResult.data ? creditsResult.data.amount : 0;
-        
-        updateCreditsDisplay();
-        await loadCampaigns();
-        
-        console.log('✅ Page campagnes initialisée');
-      } catch (err) {
-        console.error('❌ Erreur initCampagnes:', err);
+        box.innerHTML = list.map(function (c) {
+          var p = PLATFORMS[c.platform] || PLATFORMS.multi;
+          var s = STATUS[c.status] || STATUS.draft;
+          var pct = c.budget > 0 ? Math.min(Math.round((c.spent || 0) / c.budget * 100), 100) : 0;
+          var ctr = c.impressions > 0 ? ((c.clicks || 0) / c.impressions * 100).toFixed(2) + ' %' : '—';
+          var toggle = c.status === 'active'
+            ? '<button type="button" data-act="paused" class="btn-secondary flex-1 py-2"><i data-lucide="pause" class="w-4 h-4" aria-hidden="true"></i>Pause</button>'
+            : (c.status === 'paused' || c.status === 'draft'
+              ? '<button type="button" data-act="active" class="btn-primary flex-1 py-2 bg-green-600 hover:bg-green-700"><i data-lucide="play" class="w-4 h-4" aria-hidden="true"></i>Activer</button>' : '');
+          return '<article class="card flex flex-col" data-id="' + esc(c.id) + '">' +
+            '<div class="flex items-start justify-between gap-3 mb-3">' +
+              '<div class="flex items-center gap-3 min-w-0"><span class="w-10 h-10 rounded-lg ' + p.color + ' flex items-center justify-center flex-shrink-0"><i data-lucide="' + p.icon + '" class="w-5 h-5 text-white" aria-hidden="true"></i></span>' +
+              '<div class="min-w-0"><h3 class="font-bold text-gray-900 truncate">' + esc(c.name) + '</h3><p class="text-xs text-gray-500">' + esc(p.label) + '</p></div></div>' +
+              '<span class="badge ' + s.cls + '">' + s.label + '</span></div>' +
+            (c.description ? '<p class="text-sm text-gray-600 mb-3 line-clamp-2">' + esc(c.description) + '</p>' : '') +
+            '<div class="mb-4"><div class="flex justify-between text-sm mb-1"><span class="text-gray-500">Budget utilisé</span><span class="font-semibold text-gray-900">' + App.fmt(c.spent) + ' / ' + App.fmt(c.budget) + ' FCFA</span></div>' +
+              '<div class="h-2 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-brand-500 to-accent-500 rounded-full" style="width:' + pct + '%"></div></div></div>' +
+            '<div class="grid grid-cols-4 gap-2 pt-4 border-t border-gray-100 text-center">' +
+              '<div><p class="font-bold text-gray-900">' + App.fmt(c.impressions) + '</p><p class="text-xs text-gray-500">Vues</p></div>' +
+              '<div><p class="font-bold text-gray-900">' + App.fmt(c.clicks) + '</p><p class="text-xs text-gray-500">Clics</p></div>' +
+              '<div><p class="font-bold text-gray-900">' + App.fmt(c.conversions) + '</p><p class="text-xs text-gray-500">Conv.</p></div>' +
+              '<div><p class="font-bold text-gray-900">' + ctr + '</p><p class="text-xs text-gray-500">CTR</p></div></div>' +
+            '<div class="flex gap-2 mt-4 pt-4 border-t border-gray-100 mt-auto">' + toggle +
+              '<button type="button" data-act="edit" class="btn-secondary py-2" aria-label="Modifier"><i data-lucide="pencil" class="w-4 h-4" aria-hidden="true"></i></button>' +
+              '<button type="button" data-act="delete" class="btn-secondary py-2 text-red-600" aria-label="Supprimer"><i data-lucide="trash-2" class="w-4 h-4" aria-hidden="true"></i></button>' +
+            '</div></article>';
+        }).join('');
+        App.icons();
       }
-    }
 
-    function updateCreditsDisplay() {
-      document.getElementById('sidebar-credits').textContent = currentCredits;
-      document.getElementById('header-credits').textContent = currentCredits + ' crédits';
-      var percentage = Math.min((currentCredits / 100) * 100, 100);
-      document.getElementById('sidebar-credits-bar').style.width = percentage + '%';
-    }
-
-    async function loadCampaigns() {
-      if (!currentUser) return;
-      
-      try {
-        var result = await sb
-          .from('campaigns')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .order('created_at', { ascending: false });
-        
-        allCampaigns = result.data || [];
-        renderCampaigns();
-        updateStats();
-        
-        document.getElementById('sidebar-campaigns-count').textContent = allCampaigns.length;
-        
-      } catch (err) {
-        console.error('❌ Erreur loadCampaigns:', err);
-      }
-    }
-
-    function updateStats() {
-      var total = allCampaigns.length;
-      var active = allCampaigns.filter(c => c.status === 'active').length;
-      var totalClicks = allCampaigns.reduce((sum, c) => sum + (c.clicks || 0), 0);
-      var totalBudget = allCampaigns.reduce((sum, c) => sum + (c.budget || 0), 0);
-      
-      document.getElementById('stat-total').textContent = total;
-      document.getElementById('stat-active').textContent = active;
-      document.getElementById('stat-clicks').textContent = totalClicks.toLocaleString();
-      document.getElementById('stat-budget').textContent = totalBudget.toLocaleString() + ' FCFA';
-    }
-
-    function filterCampaigns(filter) {
-      currentFilter = filter;
-      
-      document.querySelectorAll('.filter-btn').forEach(function(btn) {
-        btn.classList.remove('bg-brand-600', 'text-white');
-        btn.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-200');
-      });
-      
-      var activeBtn = document.querySelector('[data-filter="' + filter + '"]');
-      activeBtn.classList.remove('bg-white', 'text-gray-700', 'border', 'border-gray-200');
-      activeBtn.classList.add('bg-brand-600', 'text-white');
-      
-      renderCampaigns();
-    }
-
-    function renderCampaigns() {
-      var container = document.getElementById('campaigns-list');
-      var filtered = currentFilter === 'all' ? allCampaigns : allCampaigns.filter(c => c.status === currentFilter);
-      
-      if (filtered.length === 0) {
-        container.innerHTML = '<div class="col-span-full text-center py-16 text-gray-500"><i data-lucide="megaphone" class="w-16 h-16 mx-auto mb-4 text-gray-300"></i><p class="text-lg font-medium">Aucune campagne ' + (currentFilter !== 'all' ? 'dans cette catégorie' : '') + '</p><button onclick="openCreateModal()" class="mt-4 px-6 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700 transition">Créer une campagne</button></div>';
-        lucide.createIcons();
-        return;
-      }
-      
-      var html = '';
-      filtered.forEach(function(campaign) {
-        var platformIcons = {
-          'facebook': { icon: 'facebook', color: 'bg-blue-600', label: 'Facebook' },
-          'instagram': { icon: 'instagram', color: 'bg-pink-600', label: 'Instagram' },
-          'tiktok': { icon: 'music', color: 'bg-gray-900', label: 'TikTok' },
-          'google': { icon: 'search', color: 'bg-red-600', label: 'Google' },
-          'multi': { icon: 'layers', color: 'bg-brand-600', label: 'Multi' }
-        };
-        
-        var statusConfig = {
-          'active': { label: 'Active', class: 'bg-green-100 text-green-700', dot: 'bg-green-500' },
-          'paused': { label: 'En pause', class: 'bg-yellow-100 text-yellow-700', dot: 'bg-yellow-500' },
-          'ended': { label: 'Terminée', class: 'bg-gray-100 text-gray-700', dot: 'bg-gray-500' },
-          'draft': { label: 'Brouillon', class: 'bg-blue-100 text-blue-700', dot: 'bg-blue-500' }
-        };
-        
-        var platform = platformIcons[campaign.platform] || platformIcons.multi;
-        var status = statusConfig[campaign.status] || statusConfig.draft;
-        var budgetPercent = campaign.budget > 0 ? Math.min((campaign.spent / campaign.budget) * 100, 100) : 0;
-        
-        html += '<div class="campaign-card p-5 rounded-2xl bg-white border border-gray-200">';
-        html += '<div class="flex items-start justify-between mb-4">';
-        html += '<div class="flex items-center gap-3">';
-        html += '<div class="w-10 h-10 rounded-lg ' + platform.color + ' flex items-center justify-center">';
-        html += '<i data-lucide="' + platform.icon + '" class="w-5 h-5 text-white"></i>';
-        html += '</div>';
-        html += '<div>';
-        html += '<h4 class="font-bold text-gray-900 truncate max-w-[180px]">' + escapeHtml(campaign.name) + '</h4>';
-        html += '<p class="text-xs text-gray-500">' + platform.label + '</p>';
-        html += '</div>';
-        html += '</div>';
-        html += '<span class="status-badge inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ' + status.class + '">';
-        html += '<span class="w-1.5 h-1.5 rounded-full ' + status.dot + '"></span>';
-        html += status.label;
-        html += '</span>';
-        html += '</div>';
-        
-        if (campaign.description) {
-          html += '<p class="text-sm text-gray-600 mb-4 line-clamp-2">' + escapeHtml(campaign.description) + '</p>';
+      /* Actions sur les cartes (délégation) */
+      el('campaigns-list').addEventListener('click', async function (e) {
+        var btn = e.target.closest('[data-act]');
+        if (!btn) return;
+        var id = btn.closest('[data-id]').getAttribute('data-id');
+        var c = all.find(function (x) { return x.id === id; });
+        if (!c) return;
+        var act = btn.getAttribute('data-act');
+        if (act === 'edit') return openModal(c);
+        if (act === 'delete') {
+          var ok = await App.confirm('Supprimer la campagne « ' + c.name + ' » ? Cette action est définitive.', 'Supprimer', true);
+          if (!ok) return;
+          var d = await sb.from('campaigns').delete().eq('id', id);
+          if (d.error) return App.toast(App.errMsg(d.error), 'error');
+          all = all.filter(function (x) { return x.id !== id; });
+          render(); App.toast('Campagne supprimée.', 'success');
+          return;
         }
-        
-        html += '<div class="space-y-3 mb-4">';
-        html += '<div class="flex justify-between text-sm">';
-        html += '<span class="text-gray-500">Budget utilisé</span>';
-        html += '<span class="font-semibold text-gray-900">' + (campaign.spent || 0).toLocaleString() + ' / ' + (campaign.budget || 0).toLocaleString() + ' FCFA</span>';
-        html += '</div>';
-        html += '<div class="h-2 bg-gray-100 rounded-full overflow-hidden">';
-        html += '<div class="h-full bg-gradient-to-r from-brand-500 to-accent-500 rounded-full" style="width: ' + budgetPercent + '%"></div>';
-        html += '</div>';
-        html += '</div>';
-        
-        html += '<div class="grid grid-cols-3 gap-2 pt-4 border-t border-gray-100">';
-        html += '<div class="text-center">';
-        html += '<p class="text-lg font-bold text-gray-900">' + (campaign.impressions || 0).toLocaleString() + '</p>';
-        html += '<p class="text-xs text-gray-500">Vues</p>';
-        html += '</div>';
-        html += '<div class="text-center">';
-        html += '<p class="text-lg font-bold text-gray-900">' + (campaign.clicks || 0).toLocaleString() + '</p>';
-        html += '<p class="text-xs text-gray-500">Clics</p>';
-        html += '</div>';
-        html += '<div class="text-center">';
-        html += '<p class="text-lg font-bold text-gray-900">' + (campaign.conversions || 0) + '</p>';
-        html += '<p class="text-xs text-gray-500">Conv.</p>';
-        html += '</div>';
-        html += '</div>';
-        
-        html += '<div class="flex gap-2 mt-4 pt-4 border-t border-gray-100">';
-        if (campaign.status === 'active') {
-          html += '<button onclick="changeStatus(\'' + campaign.id + '\', \'paused\')" class="flex-1 px-3 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 text-sm font-semibold text-gray-700 transition">';
-          html += '<i data-lucide="pause" class="w-4 h-4 inline mr-1"></i>Pause';
-          html += '</button>';
-        } else if (campaign.status === 'paused' || campaign.status === 'draft') {
-          html += '<button onclick="changeStatus(\'' + campaign.id + '\', \'active\')" class="flex-1 px-3 py-2 rounded-lg bg-green-600 hover:bg-green-700 text-white text-sm font-semibold transition">';
-          html += '<i data-lucide="play" class="w-4 h-4 inline mr-1"></i>Activer';
-          html += '</button>';
-        }
-        html += '<button onclick="deleteCampaign(\'' + campaign.id + '\')" class="px-3 py-2 rounded-lg border border-gray-200 hover:bg-red-50 text-red-600 transition">';
-        html += '<i data-lucide="trash-2" class="w-4 h-4"></i>';
-        html += '</button>';
-        html += '</div>';
-        
-        html += '</div>';
+        var u = await sb.from('campaigns').update({ status: act }).eq('id', id);
+        if (u.error) return App.toast(App.errMsg(u.error), 'error');
+        c.status = act; render();
       });
-      
-      container.innerHTML = html;
-      lucide.createIcons();
-    }
 
-    function escapeHtml(text) {
-      if (!text) return '';
-      return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-    }
+      el('filters').addEventListener('click', function (e) {
+        var b = e.target.closest('[data-filter]');
+        if (!b) return;
+        filter = b.getAttribute('data-filter'); render();
+      });
 
-    function openCreateModal() {
-      document.getElementById('create-modal').classList.remove('hidden');
-      document.getElementById('create-modal').classList.add('flex');
-      document.getElementById('create-form').reset();
-    }
-
-    function closeCreateModal() {
-      document.getElementById('create-modal').classList.add('hidden');
-      document.getElementById('create-modal').classList.remove('flex');
-    }
-
-    document.getElementById('create-form').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      
-      var name = document.getElementById('campaign-name').value.trim();
-      var description = document.getElementById('campaign-description').value.trim();
-      var platform = document.getElementById('campaign-platform').value;
-      var status = document.getElementById('campaign-status').value;
-      var budget = parseInt(document.getElementById('campaign-budget').value) || 0;
-      var endDate = document.getElementById('campaign-end-date').value;
-      
-      if (!name) {
-        alert('Veuillez entrer un nom de campagne');
-        return;
+      /* Modale */
+      var modal = el('edit-modal');
+      function openModal(c) {
+        el('edit-form').reset();
+        el('form-error').classList.add('hidden');
+        el('f-id').value = c ? c.id : '';
+        el('edit-title').textContent = c ? 'Modifier la campagne' : 'Nouvelle campagne';
+        if (c) {
+          el('f-name').value = c.name; el('f-desc').value = c.description || '';
+          el('f-platform').value = c.platform; el('f-status').value = c.status;
+          el('f-budget').value = c.budget || 0; el('f-end').value = c.end_date || '';
+          el('f-spent').value = c.spent || 0; el('f-impressions').value = c.impressions || 0;
+          el('f-clicks').value = c.clicks || 0; el('f-conversions').value = c.conversions || 0;
+        }
+        modal.classList.remove('hidden'); modal.classList.add('flex');
+        el('f-name').focus();
       }
-      
-      try {
-        var result = await sb.from('campaigns').insert({
-          user_id: currentUser.id,
+      function closeModal() { modal.classList.add('hidden'); modal.classList.remove('flex'); }
+      modal.addEventListener('click', function (e) { if (e.target === modal || e.target.closest('[data-close]')) closeModal(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
+      el('new-btn').addEventListener('click', function () { openModal(); });
+
+      function intVal(id) { var v = parseInt(el(id).value, 10); return isNaN(v) ? 0 : v; }
+
+      el('edit-form').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        var err = el('form-error'); err.classList.add('hidden');
+        var name = el('f-name').value.trim();
+        var fields = {
           name: name,
-          description: description,
-          platform: platform,
-          status: status,
-          budget: budget,
-          spent: 0,
-          clicks: 0,
-          impressions: 0,
-          conversions: 0,
-          start_date: new Date().toISOString().split('T')[0],
-          end_date: endDate || null
-        }).select().single();
-        
-        if (result.error) throw result.error;
-        
-        allCampaigns.unshift(result.data);
-        renderCampaigns();
-        updateStats();
-        document.getElementById('sidebar-campaigns-count').textContent = allCampaigns.length;
-        
-        closeCreateModal();
-        alert('✅ Campagne créée avec succès !');
-        
-      } catch (err) {
-        console.error('❌ Erreur création:', err);
-        alert('❌ Erreur lors de la création : ' + err.message);
-      }
-    });
+          description: el('f-desc').value.trim() || null,
+          platform: el('f-platform').value,
+          status: el('f-status').value,
+          budget: intVal('f-budget'), spent: intVal('f-spent'),
+          impressions: intVal('f-impressions'), clicks: intVal('f-clicks'), conversions: intVal('f-conversions'),
+          end_date: el('f-end').value || null
+        };
+        function fail(m) { err.textContent = m; err.classList.remove('hidden'); }
+        if (!name) return fail('Le nom de la campagne est obligatoire.');
+        if (['budget', 'spent', 'impressions', 'clicks', 'conversions'].some(function (k) { return fields[k] < 0 || fields[k] > 2000000000; })) return fail('Les valeurs numériques doivent être positives.');
+        if (fields.clicks > fields.impressions && fields.impressions > 0) return fail('Le nombre de clics ne peut pas dépasser le nombre de vues.');
 
-    async function changeStatus(campaignId, newStatus) {
-      try {
-        var result = await sb.from('campaigns').update({ status: newStatus }).eq('id', campaignId).select().single();
-        if (result.error) throw result.error;
-        
-        var index = allCampaigns.findIndex(c => c.id === campaignId);
-        if (index !== -1) {
-          allCampaigns[index].status = newStatus;
+        var id = el('f-id').value;
+        el('save-btn').disabled = true;
+        var r;
+        if (id) {
+          r = await sb.from('campaigns').update(fields).eq('id', id).select().single();
+        } else {
+          fields.user_id = ctx.user.id;
+          fields.start_date = new Date().toISOString().slice(0, 10);
+          r = await sb.from('campaigns').insert(fields).select().single();
         }
-        
-        renderCampaigns();
-        updateStats();
-        
-      } catch (err) {
-        console.error('❌ Erreur changement statut:', err);
-        alert('Erreur : ' + err.message);
-      }
-    }
+        el('save-btn').disabled = false;
+        if (r.error) return fail(App.errMsg(r.error));
+        if (id) all = all.map(function (x) { return x.id === id ? r.data : x; }); else all.unshift(r.data);
+        closeModal(); render();
+        App.toast(id ? 'Campagne mise à jour.' : 'Campagne créée.', 'success');
+      });
 
-    async function deleteCampaign(campaignId) {
-      if (!confirm('Voulez-vous vraiment supprimer cette campagne ?')) return;
-      
-      try {
-        var result = await sb.from('campaigns').delete().eq('id', campaignId);
-        if (result.error) throw result.error;
-        
-        allCampaigns = allCampaigns.filter(c => c.id !== campaignId);
-        renderCampaigns();
-        updateStats();
-        document.getElementById('sidebar-campaigns-count').textContent = allCampaigns.length;
-        
-      } catch (err) {
-        console.error('❌ Erreur suppression:', err);
-        alert('Erreur : ' + err.message);
-      }
-    }
-
-    initCampagnes();
+      await load();
+      if (new URLSearchParams(window.location.search).get('new') === '1') openModal();
+    })();
   </script>
 </body>
 </html>

@@ -4,513 +4,217 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tableau de bord — MOUSLEIME PUB IA</title>
-  
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/dist/umd/supabase.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-  
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'sans-serif'] },
-          colors: {
-            brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#1e1b4b' },
-            accent: { 400: '#fbbf24', 500: '#f59e0b' }
-          }
-        }
-      }
-    }
-  </script>
-  
-  <style>
-    html { scroll-behavior: smooth; }
-    .gradient-text {
-      background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #f59e0b 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .scrollbar-thin::-webkit-scrollbar { width: 6px; }
-    .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-    .scrollbar-thin::-webkit-scrollbar-thumb { background: #e5e7eb; border-radius: 3px; }
-    .scrollbar-thin::-webkit-scrollbar-thumb:hover { background: #d1d5db; }
-  </style>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#4f46e5" />
+  <link rel="icon" type="image/svg+xml" href="assets/img/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/styles.css" />
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 min-h-screen">
+  <div id="boot" class="min-h-screen flex items-center justify-center text-gray-500">Chargement…</div>
 
-  <div class="flex min-h-screen">
-    
-    <!-- ============ SIDEBAR (desktop) ============ -->
-    <aside id="sidebar" class="hidden lg:flex lg:flex-col w-64 bg-white border-r border-gray-200 fixed inset-y-0 left-0 z-40">
-      
-      <div class="h-16 flex items-center gap-2 px-6 border-b border-gray-100">
-        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-brand-600 to-accent-500 flex items-center justify-center">
-          <i data-lucide="sparkles" class="w-5 h-5 text-white"></i>
-        </div>
-        <span class="font-bold text-gray-900">MOUSLEIME <span class="text-brand-600">PUB IA</span></span>
+  <main id="page-content" class="hidden p-4 sm:p-6 lg:p-8 space-y-6 max-w-7xl">
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div>
+        <h1 id="welcome-title" class="text-2xl sm:text-3xl font-bold text-gray-900">Bonjour</h1>
+        <p class="mt-1 text-gray-600">Prêt à créer votre prochaine publicité ?</p>
       </div>
-      
-      <nav class="flex-1 overflow-y-auto scrollbar-thin p-4 space-y-1">
-        <p class="px-3 pt-2 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Principal</p>
-        
-        <a href="dashboard.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-brand-50 text-brand-700 font-medium">
-          <i data-lucide="layout-dashboard" class="w-5 h-5"></i>
-          <span>Tableau de bord</span>
-        </a>
-        
-        <a href="studio.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="wand-2" class="w-5 h-5"></i>
-          <span>Studio de création</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-accent-500 text-white font-bold">IA</span>
-        </a>
-        
-        <a href="campagnes.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="megaphone" class="w-5 h-5"></i>
-          <span>Campagnes</span>
-          <span class="ml-auto px-2 py-0.5 text-xs rounded-full bg-gray-100 text-gray-600 font-semibold" id="campaigns-count">0</span>
-        </a>
-        
-        <a href="analyses.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="line-chart" class="w-5 h-5"></i>
-          <span>Analyses</span>
-        </a>
-        
-        <p class="px-3 pt-6 pb-1 text-xs font-semibold text-gray-400 uppercase tracking-wider">Compte</p>
-        
-        <a href="facturation.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="credit-card" class="w-5 h-5"></i>
-          <span>Facturation</span>
-        </a>
-        
-        <a href="parametres.html" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium transition">
-          <i data-lucide="settings" class="w-5 h-5"></i>
-          <span>Paramètres</span>
-        </a>
-      </nav>
-      
-      <div class="p-4 border-t border-gray-100 space-y-3">
-        <div class="p-4 rounded-xl bg-gradient-to-br from-brand-600 to-brand-700 text-white">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-xs font-medium text-brand-100">Crédits restants</span>
-            <i data-lucide="coins" class="w-4 h-4 text-accent-400"></i>
-          </div>
-          <p class="text-2xl font-bold"><span id="credits-display">0</span> <span class="text-sm font-normal text-brand-200">/ 100</span></p>
-          <div class="mt-2 h-1.5 bg-white/20 rounded-full overflow-hidden">
-            <div id="credits-bar" class="h-full w-0 bg-accent-400 rounded-full transition-all duration-500"></div>
-          </div>
-          <a href="facturation.html" class="mt-3 block text-center py-2 rounded-lg bg-white text-brand-700 text-xs font-semibold hover:bg-gray-100 transition">
-            Acheter des crédits
-          </a>
-        </div>
-        
-        <button onclick="doLogout()" class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-500 hover:bg-gray-50 hover:text-gray-900 text-sm transition">
-          <i data-lucide="log-out" class="w-4 h-4"></i>
-          <span>Déconnexion</span>
-        </button>
-      </div>
-    </aside>
-    
-    <div id="sidebar-overlay" class="lg:hidden fixed inset-0 bg-black/50 z-30 hidden" onclick="toggleSidebar()"></div>
-    
-    <div class="flex-1 lg:ml-64 flex flex-col min-w-0">
-      
-      <header class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 sm:px-6 sticky top-0 z-20">
-        <div class="flex items-center gap-3">
-          <button onclick="toggleSidebar()" class="lg:hidden p-2 -ml-2 rounded-lg hover:bg-gray-100">
-            <i data-lucide="menu" class="w-5 h-5"></i>
-          </button>
-          
-          <div class="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-50 border border-gray-200 w-64">
-            <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
-            <input type="text" placeholder="Rechercher..." class="bg-transparent outline-none text-sm flex-1 placeholder:text-gray-400">
-          </div>
-        </div>
-        
-        <div class="flex items-center gap-2 sm:gap-3">
-          <a href="facturation.html" class="lg:hidden flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-50 text-brand-700 text-xs font-semibold">
-            <i data-lucide="coins" class="w-3.5 h-3.5"></i>
-            <span id="credits-mobile">0</span>
-          </a>
-          
-          <button class="relative p-2 rounded-lg hover:bg-gray-100 transition">
-            <i data-lucide="bell" class="w-5 h-5 text-gray-600"></i>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
-          </button>
-          
-          <div class="flex items-center gap-2 pl-2 border-l border-gray-200">
-            <div id="user-avatar" class="w-8 h-8 rounded-full bg-gradient-to-br from-brand-500 to-accent-500 flex items-center justify-center text-white text-sm font-bold">
-              ?
-            </div>
-            <div class="hidden sm:block">
-              <p id="user-name" class="text-sm font-semibold text-gray-900 leading-tight">Chargement...</p>
-              <p id="user-plan" class="text-xs text-gray-500 leading-tight">Formule Free</p>
-            </div>
-          </div>
-        </div>
-      </header>
-      
-      <main class="flex-1 p-4 sm:p-6 lg:p-8 space-y-6">
-        
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 id="welcome-title" class="text-2xl sm:text-3xl font-bold text-gray-900">Bonjour 👋</h1>
-            <p class="mt-1 text-gray-600">Prêt à créer votre prochaine publicité qui convertit ?</p>
-          </div>
-          <a href="studio.html" class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-semibold transition shadow-lg shadow-brand-600/20">
-            <i data-lucide="sparkles" class="w-5 h-5"></i>
-            Nouvelle création IA
-          </a>
-        </div>
-        
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-10 h-10 rounded-lg bg-brand-50 flex items-center justify-center">
-                <i data-lucide="image" class="w-5 h-5 text-brand-600"></i>
-              </div>
-              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+12%</span>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-creations">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">Créations ce mois</p>
-          </div>
-          
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-10 h-10 rounded-lg bg-accent-500/10 flex items-center justify-center">
-                <i data-lucide="megaphone" class="w-5 h-5 text-accent-500"></i>
-              </div>
-              <span class="text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">Stable</span>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-campaigns">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">Campagnes actives</p>
-          </div>
-          
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center">
-                <i data-lucide="mouse-pointer-click" class="w-5 h-5 text-green-600"></i>
-              </div>
-              <span class="text-xs font-semibold text-green-600 bg-green-50 px-2 py-0.5 rounded-full">+28%</span>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-clicks">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">Clics totaux</p>
-          </div>
-          
-          <div class="p-5 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-3">
-              <div class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
-                <i data-lucide="wallet" class="w-5 h-5 text-purple-600"></i>
-              </div>
-              <span class="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">-5%</span>
-            </div>
-            <p class="text-2xl font-bold text-gray-900" id="stat-spent">0</p>
-            <p class="text-sm text-gray-500 mt-0.5">FCFA dépensés</p>
-          </div>
-        </div>
-        
-        <div class="grid lg:grid-cols-3 gap-6">
-          
-          <div class="lg:col-span-2 p-6 rounded-2xl bg-white border border-gray-200">
-            <div class="flex items-center justify-between mb-6">
-              <div>
-                <h3 class="font-bold text-gray-900">Performances des campagnes</h3>
-                <p class="text-sm text-gray-500 mt-0.5">7 derniers jours</p>
-              </div>
-              <div class="flex gap-1 p-1 rounded-lg bg-gray-100">
-                <button class="px-3 py-1 text-xs font-semibold rounded-md bg-white text-gray-900 shadow-sm">7j</button>
-                <button class="px-3 py-1 text-xs font-semibold rounded-md text-gray-500 hover:text-gray-900">30j</button>
-                <button class="px-3 py-1 text-xs font-semibold rounded-md text-gray-500 hover:text-gray-900">90j</button>
-              </div>
-            </div>
-            <div class="h-64">
-              <canvas id="perfChart"></canvas>
-            </div>
-          </div>
-          
-          <div class="p-6 rounded-2xl bg-white border border-gray-200">
-            <h3 class="font-bold text-gray-900 mb-4">Actions rapides</h3>
-            <div class="space-y-2">
-              <a href="studio.html?type=image" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="image" class="w-5 h-5 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-gray-900 text-sm">Générer une image</p>
-                  <p class="text-xs text-gray-500">Visuel publicitaire IA</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400 group-hover:text-gray-600"></i>
-              </a>
-              
-              <a href="studio.html?type=video" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="video" class="w-5 h-5 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-gray-900 text-sm">Créer une vidéo</p>
-                  <p class="text-xs text-gray-500">Avec voix off & sous-titres</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400 group-hover:text-gray-600"></i>
-              </a>
-              
-              <a href="studio.html?type=texte" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="type" class="w-5 h-5 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-gray-900 text-sm">Rédiger un texte</p>
-                  <p class="text-xs text-gray-500">Copywriting publicitaire</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400 group-hover:text-gray-600"></i>
-              </a>
-              
-              <a href="campagnes.html?new=1" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition group">
-                <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-400 to-orange-500 flex items-center justify-center flex-shrink-0">
-                  <i data-lucide="rocket" class="w-5 h-5 text-white"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                  <p class="font-semibold text-gray-900 text-sm">Lancer une campagne</p>
-                  <p class="text-xs text-gray-500">Facebook, Instagram, TikTok</p>
-                </div>
-                <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400 group-hover:text-gray-600"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="p-6 rounded-2xl bg-white border border-gray-200">
-          <div class="flex items-center justify-between mb-6">
-            <div>
-              <h3 class="font-bold text-gray-900">Créations récentes</h3>
-              <p class="text-sm text-gray-500 mt-0.5">Vos dernières générations IA</p>
-            </div>
-            <a href="studio.html" class="text-sm font-semibold text-brand-600 hover:text-brand-700">Voir tout →</a>
-          </div>
-          
-          <div id="recent-creations" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            <div class="col-span-full text-center py-12 text-gray-500">
-              <i data-lucide="sparkles" class="w-12 h-12 mx-auto mb-3 text-gray-300"></i>
-              <p class="font-medium">Aucune création pour le moment</p>
-              <p class="text-sm mt-1">Commencez par créer votre première publicité IA !</p>
-              <a href="studio.html" class="inline-block mt-4 px-4 py-2 rounded-lg bg-brand-600 text-white text-sm font-semibold hover:bg-brand-700">
-                Créer maintenant
-              </a>
-            </div>
-          </div>
-        </div>
-        
-        <div class="p-6 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 text-white relative overflow-hidden">
-          <div class="absolute top-0 right-0 w-64 h-64 bg-accent-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-          
-          <div class="relative flex flex-col md:flex-row md:items-center gap-6">
-            <div class="flex-shrink-0">
-              <div class="w-14 h-14 rounded-2xl bg-white/10 backdrop-blur border border-white/20 flex items-center justify-center">
-                <i data-lucide="sparkles" class="w-7 h-7 text-accent-400"></i>
-              </div>
-            </div>
-            
-            <div class="flex-1">
-              <div class="flex items-center gap-2 mb-1">
-                <span class="text-xs font-bold uppercase tracking-wider text-accent-400">Recommandation IA</span>
-              </div>
-              <h3 class="text-lg font-bold">Commencez par créer votre première publicité</h3>
-              <p class="mt-1 text-sm text-brand-100">Utilisez vos 5 crédits gratuits pour tester notre IA et créer des publicités qui convertissent.</p>
-            </div>
-            
-            <a href="studio.html" class="flex-shrink-0 inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-white hover:bg-gray-100 text-brand-700 font-semibold transition">
-              Commencer <i data-lucide="arrow-right" class="w-4 h-4"></i>
-            </a>
-          </div>
-        </div>
-        
-      </main>
+      <a href="studio.html" class="btn-primary py-3 px-5"><i data-lucide="sparkles" class="w-5 h-5" aria-hidden="true"></i>Nouvelle création IA</a>
     </div>
-  </div>
 
+    <div id="low-credits" class="hidden p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-sm flex flex-wrap items-center justify-between gap-3" role="status">
+      <span>Il vous reste <strong data-credits>0</strong> crédit(s). Rechargez votre compte pour continuer à générer des publicités.</span>
+      <a href="facturation.html" class="btn-primary py-2">Acheter des crédits</a>
+    </div>
+
+    <!-- Statistiques -->
+    <section class="grid grid-cols-2 lg:grid-cols-4 gap-4" aria-label="Statistiques">
+      <div class="card">
+        <span class="w-10 h-10 rounded-lg bg-brand-50 flex items-center justify-center mb-3"><i data-lucide="image" class="w-5 h-5 text-brand-600" aria-hidden="true"></i></span>
+        <p class="text-2xl font-bold text-gray-900" id="stat-creations">—</p>
+        <p class="text-sm text-gray-500 mt-0.5">Créations ce mois-ci</p>
+      </div>
+      <div class="card">
+        <span class="w-10 h-10 rounded-lg bg-amber-50 flex items-center justify-center mb-3"><i data-lucide="megaphone" class="w-5 h-5 text-accent-500" aria-hidden="true"></i></span>
+        <p class="text-2xl font-bold text-gray-900" id="stat-campaigns">—</p>
+        <p class="text-sm text-gray-500 mt-0.5">Campagnes actives</p>
+      </div>
+      <div class="card">
+        <span class="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center mb-3"><i data-lucide="mouse-pointer-click" class="w-5 h-5 text-green-600" aria-hidden="true"></i></span>
+        <p class="text-2xl font-bold text-gray-900" id="stat-clicks">—</p>
+        <p class="text-sm text-gray-500 mt-0.5">Clics enregistrés</p>
+      </div>
+      <div class="card">
+        <span class="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center mb-3"><i data-lucide="wallet" class="w-5 h-5 text-purple-600" aria-hidden="true"></i></span>
+        <p class="text-2xl font-bold text-gray-900" id="stat-spent">—</p>
+        <p class="text-sm text-gray-500 mt-0.5">FCFA dépensés (campagnes)</p>
+      </div>
+    </section>
+
+    <div class="grid lg:grid-cols-3 gap-6">
+      <section class="lg:col-span-2 card" aria-labelledby="chart-title">
+        <h2 id="chart-title" class="font-bold text-gray-900">Résultats par campagne</h2>
+        <p class="text-sm text-gray-500 mt-0.5 mb-4">Clics et conversions enregistrés dans vos campagnes</p>
+        <div class="h-64 relative">
+          <canvas id="perfChart" role="img" aria-label="Graphique des clics et conversions par campagne"></canvas>
+          <div id="chart-empty" class="hidden absolute inset-0 flex flex-col items-center justify-center text-center text-gray-500">
+            <i data-lucide="bar-chart-3" class="w-10 h-10 mb-2 text-gray-300" aria-hidden="true"></i>
+            <p class="font-medium">Aucune donnée à afficher</p>
+            <p class="text-sm mt-1">Créez une campagne et saisissez ses résultats.</p>
+            <a href="campagnes.html?new=1" class="mt-3 btn-primary py-2">Créer une campagne</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="card" aria-labelledby="actions-title">
+        <h2 id="actions-title" class="font-bold text-gray-900 mb-4">Actions rapides</h2>
+        <div class="space-y-1">
+          <a href="studio.html?type=image" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition">
+            <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center flex-shrink-0"><i data-lucide="image" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+            <span class="flex-1 min-w-0"><span class="block font-semibold text-gray-900 text-sm">Générer une image</span><span class="block text-xs text-gray-500">Visuel publicitaire IA</span></span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400" aria-hidden="true"></i>
+          </a>
+          <a href="studio.html?type=texte" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition">
+            <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center flex-shrink-0"><i data-lucide="type" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+            <span class="flex-1 min-w-0"><span class="block font-semibold text-gray-900 text-sm">Rédiger un texte</span><span class="block text-xs text-gray-500">Copywriting publicitaire</span></span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400" aria-hidden="true"></i>
+          </a>
+          <a href="campagnes.html?new=1" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition">
+            <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-400 to-orange-500 flex items-center justify-center flex-shrink-0"><i data-lucide="rocket" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+            <span class="flex-1 min-w-0"><span class="block font-semibold text-gray-900 text-sm">Nouvelle campagne</span><span class="block text-xs text-gray-500">Organisez et suivez vos pubs</span></span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400" aria-hidden="true"></i>
+          </a>
+          <a href="facturation.html" class="flex items-center gap-3 p-3 rounded-xl hover:bg-gray-50 transition">
+            <span class="w-10 h-10 rounded-lg bg-gradient-to-br from-brand-500 to-purple-600 flex items-center justify-center flex-shrink-0"><i data-lucide="coins" class="w-5 h-5 text-white" aria-hidden="true"></i></span>
+            <span class="flex-1 min-w-0"><span class="block font-semibold text-gray-900 text-sm">Acheter des crédits</span><span class="block text-xs text-gray-500">Paiement Mobile Money</span></span>
+            <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400" aria-hidden="true"></i>
+          </a>
+        </div>
+      </section>
+    </div>
+
+    <!-- Premiers pas -->
+    <section id="onboarding" class="hidden p-6 rounded-2xl bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 text-white" aria-labelledby="onb-title">
+      <h2 id="onb-title" class="text-lg font-bold">Premiers pas</h2>
+      <p class="text-sm text-brand-100 mt-1">Trois étapes pour bien démarrer avec vos crédits gratuits.</p>
+      <ul class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+        <li id="step-creation" class="flex items-center gap-2 p-3 rounded-xl bg-white/10"><i data-lucide="circle" class="w-5 h-5 flex-shrink-0" aria-hidden="true"></i><a href="studio.html">Générer votre première création</a></li>
+        <li id="step-campaign" class="flex items-center gap-2 p-3 rounded-xl bg-white/10"><i data-lucide="circle" class="w-5 h-5 flex-shrink-0" aria-hidden="true"></i><a href="campagnes.html?new=1">Créer une campagne</a></li>
+        <li id="step-analyses" class="flex items-center gap-2 p-3 rounded-xl bg-white/10"><i data-lucide="circle" class="w-5 h-5 flex-shrink-0" aria-hidden="true"></i><a href="analyses.html">Consulter vos analyses</a></li>
+      </ul>
+    </section>
+
+    <!-- Créations récentes -->
+    <section class="card" aria-labelledby="recent-title">
+      <div class="flex items-center justify-between mb-5">
+        <div>
+          <h2 id="recent-title" class="font-bold text-gray-900">Créations récentes</h2>
+          <p class="text-sm text-gray-500 mt-0.5">Vos dernières générations IA</p>
+        </div>
+        <a href="studio.html" class="text-sm font-semibold text-brand-600 hover:text-brand-700">Voir tout →</a>
+      </div>
+      <div id="recent-creations" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
+    </section>
+  </main>
+
+  <script src="assets/vendor/supabase.js"></script>
+  <script src="assets/vendor/lucide.min.js"></script>
+  <script src="assets/vendor/chart.umd.min.js"></script>
+  <script src="config.js"></script>
+  <script src="assets/js/app.js"></script>
   <script>
-    lucide.createIcons();
-    
-    // Configuration Supabase
-    var SUPABASE_URL = 'https://thdcbdcevwjvfwiwnabb.supabase.co';
-    var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZGNiZGNldndqdmZ3aXduYWJiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMyODA2MDMsImV4cCI6MjEwODg1NjYwM30.A5lNxHviZ5kw47J_Ds1_mWcAvrRNJvWgaI6qESPf77U';
-    
-    var sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-      auth: {
-        persistSession: true,
-        autoRefreshToken: true,
-        storage: window.localStorage
-      }
-    });
+    (async function () {
+      var ctx = await App.init({ active: 'dashboard' });
+      if (!ctx) return;
+      var sb = App.sb, esc = App.esc, el = function (id) { return document.getElementById(id); };
 
-    console.log('🔵 Dashboard chargé');
+      var name = ctx.profile.full_name || (ctx.profile.email || '').split('@')[0] || '';
+      el('welcome-title').textContent = 'Bonjour ' + name.split(' ')[0];
+      if (ctx.credits <= 2) el('low-credits').classList.remove('hidden');
+      App.setCredits(ctx.credits);
 
-    // Toggle sidebar
-    function toggleSidebar() {
-      var sidebar = document.getElementById('sidebar');
-      var overlay = document.getElementById('sidebar-overlay');
-      sidebar.classList.toggle('hidden');
-      sidebar.classList.toggle('fixed');
-      sidebar.classList.toggle('z-40');
-      overlay.classList.toggle('hidden');
-    }
+      var monthStart = new Date(); monthStart.setDate(1); monthStart.setHours(0, 0, 0, 0);
 
-    // Déconnexion
-    async function doLogout() {
-      await sb.auth.signOut();
-      window.location.href = 'index.html';
-    }
+      var res = await Promise.all([
+        sb.from('creations').select('id', { count: 'exact', head: true }).eq('status', 'completed').gte('created_at', monthStart.toISOString()),
+        sb.from('creations').select('id', { count: 'exact', head: true }).eq('status', 'completed'),
+        sb.from('campaigns').select('id, name, status, clicks, conversions, spent').order('created_at', { ascending: false }),
+        sb.from('creations').select('id, type, project_name, result_url, created_at').eq('status', 'completed').order('created_at', { ascending: false }).limit(4)
+      ]);
 
-    // Initialisation : charger les données utilisateur
-    async function initDashboard() {
-      console.log('🔵 Chargement du dashboard...');
-      
-      try {
-        // 1. Récupérer l'utilisateur connecté
-        var userResult = await sb.auth.getUser();
-        var user = userResult.data.user;
-        
-        console.log(' Utilisateur:', user);
-        
-        if (!user) {
-          console.log('❌ Pas connecté, redirection');
-          window.location.href = 'connexion.html';
-          return;
+      var monthCount = res[0].count || 0;
+      var totalCreations = res[1].count || 0;
+      var campaigns = res[2].data || [];
+      var recent = res[3].data || [];
+
+      el('stat-creations').textContent = App.fmt(monthCount);
+      el('stat-campaigns').textContent = App.fmt(campaigns.filter(function (c) { return c.status === 'active'; }).length);
+      el('stat-clicks').textContent = App.fmt(campaigns.reduce(function (s, c) { return s + (c.clicks || 0); }, 0));
+      el('stat-spent').textContent = App.fmt(campaigns.reduce(function (s, c) { return s + (c.spent || 0); }, 0));
+
+      /* Graphique par campagne */
+      var top = campaigns.slice().sort(function (a, b) { return (b.clicks || 0) - (a.clicks || 0); }).slice(0, 6);
+      var hasData = top.some(function (c) { return (c.clicks || 0) > 0 || (c.conversions || 0) > 0; });
+      if (!hasData) {
+        el('chart-empty').classList.remove('hidden');
+        if (campaigns.length) {
+          el('chart-empty').querySelector('p.font-medium').textContent = 'Aucun résultat saisi pour le moment';
+          el('chart-empty').querySelector('a').textContent = 'Saisir des résultats';
+          el('chart-empty').querySelector('a').setAttribute('href', 'campagnes.html');
         }
-        
-        // 2. Récupérer le profil
-        var profileResult = await sb.from('profiles').select('*').eq('id', user.id).single();
-        var profile = profileResult.data;
-        
-        console.log('🟢 Profil:', profile);
-        
-        if (!profile) {
-          console.log('❌ Profil non trouvé');
-          window.location.href = 'connexion.html';
-          return;
-        }
-        
-        // 3. Récupérer les crédits
-        var creditsResult = await sb.from('credits').select('amount, subscription_type').eq('user_id', user.id).single();
-        var credits = creditsResult.data ? creditsResult.data.amount : 0;
-        var plan = creditsResult.data ? creditsResult.data.subscription_type : 'free';
-        
-        console.log('🟢 Crédits:', credits, 'Plan:', plan);
-        
-        // 4. Mettre à jour l'interface avec les vraies données
-        var displayName = profile.full_name || user.email.split('@')[0];
-        var firstName = displayName.split(' ')[0];
-        
-        document.getElementById('welcome-title').textContent = 'Bonjour ' + firstName + ' ';
-        document.getElementById('user-name').textContent = displayName;
-        document.getElementById('user-plan').textContent = 'Formule ' + plan.charAt(0).toUpperCase() + plan.slice(1);
-        document.getElementById('credits-display').textContent = credits;
-        document.getElementById('credits-mobile').textContent = credits;
-        
-        // Barre de progression des crédits
-        var percentage = Math.min((credits / 100) * 100, 100);
-        document.getElementById('credits-bar').style.width = percentage + '%';
-        
-        // Avatar avec initiale
-        var initial = displayName.charAt(0).toUpperCase();
-        document.getElementById('user-avatar').textContent = initial;
-        
-        // Stats (pour l'instant on garde les valeurs par défaut, on les connectera plus tard)
-        document.getElementById('stat-creations').textContent = '0';
-        document.getElementById('stat-campaigns').textContent = '0';
-        document.getElementById('stat-clicks').textContent = '0';
-        document.getElementById('stat-spent').textContent = '0';
-        
-        console.log('✅ Dashboard initialisé avec succès');
-        
-      } catch (err) {
-        console.error('❌ Erreur initDashboard:', err);
+      } else {
+        new Chart(el('perfChart').getContext('2d'), {
+          type: 'bar',
+          data: {
+            labels: top.map(function (c) { return c.name.length > 16 ? c.name.slice(0, 15) + '…' : c.name; }),
+            datasets: [
+              { label: 'Clics', data: top.map(function (c) { return c.clicks || 0; }), backgroundColor: '#6366f1', borderRadius: 6 },
+              { label: 'Conversions', data: top.map(function (c) { return c.conversions || 0; }), backgroundColor: '#f59e0b', borderRadius: 6 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { position: 'bottom', labels: { usePointStyle: true, pointStyle: 'circle', padding: 18 } } },
+            scales: { x: { grid: { display: false } }, y: { beginAtZero: true, grid: { color: '#f3f4f6' }, ticks: { precision: 0 } } }
+          }
+        });
       }
-    }
 
-    // Graphique Chart.js (données de démo pour l'instant)
-    var ctx = document.getElementById('perfChart').getContext('2d');
-    var gradient = ctx.createLinearGradient(0, 0, 0, 250);
-    gradient.addColorStop(0, 'rgba(99, 102, 241, 0.3)');
-    gradient.addColorStop(1, 'rgba(99, 102, 241, 0)');
-    
-    var gradient2 = ctx.createLinearGradient(0, 0, 0, 250);
-    gradient2.addColorStop(0, 'rgba(245, 158, 11, 0.2)');
-    gradient2.addColorStop(1, 'rgba(245, 158, 11, 0)');
-    
-    new Chart(ctx, {
-      type: 'line',
-      data: {
-        labels: ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'],
-        datasets: [
-          {
-            label: 'Clics',
-            data: [0, 0, 0, 0, 0, 0, 0],
-            borderColor: '#6366f1',
-            backgroundColor: gradient,
-            fill: true,
-            tension: 0.4,
-            borderWidth: 2.5,
-            pointBackgroundColor: '#6366f1',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-          },
-          {
-            label: 'Conversions',
-            data: [0, 0, 0, 0, 0, 0, 0],
-            borderColor: '#f59e0b',
-            backgroundColor: gradient2,
-            fill: true,
-            tension: 0.4,
-            borderWidth: 2.5,
-            pointBackgroundColor: '#f59e0b',
-            pointBorderColor: '#fff',
-            pointBorderWidth: 2,
-            pointRadius: 0,
-            pointHoverRadius: 6,
-          }
-        ]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        interaction: { mode: 'index', intersect: false },
-        plugins: {
-          legend: {
-            position: 'bottom',
-            labels: { usePointStyle: true, pointStyle: 'circle', padding: 20, font: { size: 12, weight: '500' } }
-          },
-          tooltip: {
-            backgroundColor: '#1e1b4b',
-            padding: 12,
-            titleFont: { size: 13, weight: '600' },
-            bodyFont: { size: 12 },
-            cornerRadius: 8,
-            displayColors: true,
-            boxPadding: 4,
-          }
-        },
-        scales: {
-          x: {
-            grid: { display: false },
-            ticks: { color: '#9ca3af', font: { size: 12 } }
-          },
-          y: {
-            grid: { color: '#f3f4f6' },
-            ticks: { color: '#9ca3af', font: { size: 12 } },
-            beginAtZero: true
-          }
-        }
+      /* Créations récentes */
+      var box = el('recent-creations');
+      if (!recent.length) {
+        box.innerHTML = '<div class="col-span-full text-center py-10 text-gray-500"><i data-lucide="sparkles" class="w-10 h-10 mx-auto mb-3 text-gray-300" aria-hidden="true"></i><p class="font-medium">Aucune création pour le moment</p><a href="studio.html" class="btn-primary mt-4">Créer maintenant</a></div>';
+      } else {
+        box.innerHTML = recent.map(function (c) {
+          var isImg = c.type === 'image' && typeof c.result_url === 'string' && c.result_url.indexOf('https://image.pollinations.ai/') === 0;
+          var visual = isImg
+            ? '<img src="' + esc(c.result_url) + '" alt="" loading="lazy" class="w-full aspect-square object-cover rounded-lg bg-gray-100" />'
+            : '<div class="w-full aspect-square rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center"><i data-lucide="type" class="w-8 h-8 text-white" aria-hidden="true"></i></div>';
+          return '<a href="studio.html" class="block group">' + visual +
+            '<p class="mt-2 text-sm font-semibold text-gray-900 truncate group-hover:text-brand-600">' + esc(c.project_name) + '</p>' +
+            '<p class="text-xs text-gray-500">' + App.fmtDate(c.created_at) + '</p></a>';
+        }).join('');
       }
-    });
 
-    // Démarrer
-    initDashboard();
+      /* Premiers pas */
+      var analysesSeen = false;
+      try { analysesSeen = localStorage.getItem('seen_analyses') === '1'; } catch (e) { /* stockage indisponible */ }
+      function markStep(id, done) {
+        var li = el(id);
+        var icon = li.querySelector('i');
+        icon.setAttribute('data-lucide', done ? 'check-circle-2' : 'circle');
+        if (done) { li.classList.add('opacity-80'); li.querySelector('a').classList.add('line-through'); }
+      }
+      if (totalCreations === 0 || campaigns.length === 0) {
+        el('onboarding').classList.remove('hidden');
+        markStep('step-creation', totalCreations > 0);
+        markStep('step-campaign', campaigns.length > 0);
+        markStep('step-analyses', analysesSeen);
+      }
+      App.icons();
+    })();
   </script>
 </body>
 </html>

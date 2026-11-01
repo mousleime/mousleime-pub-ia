@@ -1,0 +1,13 @@
+{
+  "name": "mousleime-pub-ia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Plateforme IA publicitaire pour l'Afrique francophone",
+  "scripts": {
+    "build:css": "tailwindcss -c tailwind.config.js -i src/input.css -o assets/css/styles.css --minify",
+    "watch:css": "tailwindcss -c tailwind.config.js -i src/input.css -o assets/css/styles.css --watch"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.19"
+  }
+}

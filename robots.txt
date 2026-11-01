@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /dashboard.html
+Disallow: /studio.html
+Disallow: /campagnes.html
+Disallow: /analyses.html
+Disallow: /facturation.html
+Disallow: /parametres.html
