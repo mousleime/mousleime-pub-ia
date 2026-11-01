@@ -227,7 +227,7 @@
             var start = await sb.rpc('start_creation', { p_type: 'image', p_prompt: prompt, p_project: project, p_platform: platform });
             if (start.error) throw start.error;
             creationId = start.data;
-            await App.refreshCredits();
+            await App.refreshCredits(true);
 
             var size = el('image-format').value.split('x');
             var style = el('image-style').value;
@@ -239,7 +239,7 @@
             } catch (loadErr) {
               await sb.rpc('fail_creation', { p_id: creationId });
               creationId = null;
-              await App.refreshCredits();
+              await App.refreshCredits(true);
               throw new Error('generation_failed');
             }
             var done = await sb.rpc('complete_creation', { p_id: creationId, p_result: url });
@@ -247,12 +247,12 @@
             creationId = null;
             current = { id: start.data, type: 'image', prompt: prompt, project_name: project, platform: platform, result_url: url, created_at: new Date().toISOString() };
           }
-          await App.refreshCredits();
+          await App.refreshCredits(true);
           showResult();
           loadHistory();
         } catch (err) {
           App.toast(App.errMsg(err), 'error');
-          App.refreshCredits();
+          App.refreshCredits(true);
         } finally {
           setBusy(false);
         }
@@ -344,7 +344,7 @@
         var stale = rows.filter(function (c) { return c.status === 'processing' && Date.now() - new Date(c.created_at).getTime() > 5 * 60 * 1000; });
         if (stale.length) {
           await Promise.all(stale.map(function (c) { return sb.rpc('fail_creation', { p_id: c.id }); }));
-          App.refreshCredits();
+          App.refreshCredits(true);
           stale.forEach(function (c) { c.status = 'failed'; });
         }
 

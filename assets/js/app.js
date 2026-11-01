@@ -37,6 +37,7 @@
     ['creation_not_found', 'Création introuvable.'],
     ['forbidden', 'Action non autorisée.'],
     ['cannot_change_self', 'Vous ne pouvez pas modifier votre propre compte.'],
+    ['cannot_delete_admin', 'Un compte administrateur ne peut pas être supprimé.'],
     ['invalid_adjustment', 'Ajustement invalide (le solde ne peut pas devenir négatif).'],
     ['Invalid login credentials', 'Email ou mot de passe incorrect.'],
     ['Email not confirmed', 'Veuillez confirmer votre adresse email avant de vous connecter (vérifiez votre boîte de réception).'],
@@ -118,10 +119,21 @@
       el.classList.toggle('to-brand-700', n > 2);
     });
   }
-  async function refreshCredits() {
+  async function refreshCredits(silent) {
+    if (!state.user) return state.credits;
+    var before = state.credits;
     var r = await sb.from('credits').select('amount').eq('user_id', state.user.id).maybeSingle();
-    setCredits(r.data ? r.data.amount : 0);
+    if (r.error) return state.credits;
+    var now = r.data ? r.data.amount : 0;
+    setCredits(now);
+    if (!silent && now > before) toast('Vos crédits ont été mis à jour : +' + fmt(now - before) + ' (solde : ' + fmt(now) + ').', 'success');
     return state.credits;
+  }
+  /* Le solde peut changer côté serveur (achat validé, ajustement admin) : on le relit régulièrement. */
+  function watchCredits() {
+    setInterval(function () { if (!document.hidden) refreshCredits(); }, 30000);
+    document.addEventListener('visibilitychange', function () { if (!document.hidden) refreshCredits(); });
+    window.addEventListener('focus', function () { refreshCredits(); });
   }
 
   /* ---------- Authentification ---------- */
@@ -262,6 +274,7 @@
     }
 
     buildShell(opts.active);
+    watchCredits();
     return state;
   }
 

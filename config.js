@@ -9,8 +9,8 @@ window.APP_CONFIG = {
   // Informations légales affichées sur les pages « Mentions légales » et « Contact ».
   // Renseignez-les : un champ vide est simplement masqué sur le site.
   LEGAL: {
-    publisher: '',      // Nom de l'éditeur (personne ou société)
-    status: '',         // Ex. « Entreprise individuelle », « SARL »
+    publisher: 'MOUSSA Souléimane',      // Nom de l'éditeur (personne ou société)
+    status: 'Personne physique (exploitation à titre individuel)',         // Ex. « Entreprise individuelle », « SARL »
     registration: '',   // Ex. IFU / RCCM
     address: '',        // Adresse postale
     email: 'moussasouleimane@gmail.com',          // Email de contact public

@@ -126,7 +126,8 @@
             '<td class="py-3 pr-4"><span class="badge ' + (active ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700') + '">' + (active ? 'Actif' : 'Suspendu') + '</span></td>' +
             '<td class="py-3 text-right whitespace-nowrap">' +
             '<button type="button" data-adjust="' + esc(u.id) + '" data-label="' + esc(u.email || '') + '" class="text-sm font-semibold text-brand-600 hover:text-brand-700 mr-3">Crédits</button>' +
-            (self ? '' : '<button type="button" data-toggle="' + esc(u.id) + '" data-active="' + active + '" class="text-sm font-semibold ' + (active ? 'text-red-600' : 'text-green-600') + '">' + (active ? 'Suspendre' : 'Réactiver') + '</button>') +
+            (self ? '' : '<button type="button" data-toggle="' + esc(u.id) + '" data-active="' + active + '" class="text-sm font-semibold mr-3 ' + (active ? 'text-amber-600' : 'text-green-600') + '">' + (active ? 'Suspendre' : 'Réactiver') + '</button>') +
+            (self || u.role === 'super_admin' ? '' : '<button type="button" data-delete="' + esc(u.id) + '" data-label="' + esc(u.email || '') + '" class="text-sm font-semibold text-red-600 hover:text-red-700">Supprimer</button>') +
             '</td></tr>';
         }).join('');
       }
@@ -162,8 +163,11 @@
       });
 
       el('users').addEventListener('click', async function (e) {
-        var a = e.target.closest('[data-adjust]'), t = e.target.closest('[data-toggle]');
-        if (a) {
+        var a = e.target.closest('[data-adjust]'), t = e.target.closest('[data-toggle]'), d = e.target.closest('[data-delete]');
+        if (d) {
+          if (!(await App.confirm('Supprimer définitivement ' + d.getAttribute('data-label') + ' ?\nSon compte, ses crédits, ses créations, ses campagnes et son historique seront effacés. Cette action est irréversible.', 'Supprimer', true))) return;
+          if (await run(sb.rpc('admin_delete_user', { p_user: d.getAttribute('data-delete') }), 'Utilisateur supprimé.')) refreshAll();
+        } else if (a) {
           adjustUser = a.getAttribute('data-adjust');
           el('m-user').textContent = a.getAttribute('data-label'); el('m-delta').value = ''; el('m-reason').value = '';
           el('credits-modal').classList.remove('hidden'); el('credits-modal').classList.add('flex'); el('m-delta').focus();

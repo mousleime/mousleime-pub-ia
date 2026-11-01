@@ -173,7 +173,7 @@
         if (r.error) return App.toast(App.errMsg(r.error), 'error');
         App.toast('Demande annulée.', 'success'); loadHistory();
       });
-      el('refresh-btn').addEventListener('click', async function () { await App.refreshCredits(); loadHistory(); });
+      el('refresh-btn').addEventListener('click', async function () { await App.refreshCredits(true); loadHistory(); });
 
       App.setCredits(ctx.credits);
       loadHistory();
